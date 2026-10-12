@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101a3a">
+<meta name="description" content="今日の琵琶ちゃぷおすすめ動画ガチャ。単発・10連で動画をランダムに引こう！">
+<title>今日の琵琶ちゃぷおすすめ動画ガチャ</title>
+<audio id="bgm" src="maou_bgm_cyber41.mp3" loop></audio>
+<button id="bgmButton">BGMを再生</button>
+<style>
+:root{
+  --navy:#101a3a; --navy2:#172754; --lime:#c6ff38; --lime2:#8dff00;
+  --white:#f4f7ff; --muted:#aab7d7; --pink:#ff42d0; --cyan:#43f4ff;
+  --panel:rgba(23,39,84,.88); --line:rgba(198,255,56,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; color:var(--white);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(141,255,0,.14),transparent 30%),
+    radial-gradient(ellipse at 85% 25%,rgba(67,244,255,.12),transparent 28%),
+    linear-gradient(145deg,#080e24 0%,var(--navy) 48%,#111b42 100%);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;z-index:-1;
+  background-image:linear-gradient(rgba(198,255,56,.15) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(198,255,56,.15) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 28px));margin:0 auto}
+header{padding:30px 0 18px;text-align:center}
+.eyebrow{font-size:.78rem;font-weight:900;letter-spacing:.22em;color:var(--lime);text-transform:uppercase}
+h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var(--lime);
+ text-shadow:0 0 10px #a5ff005c,0 0 28px #a5ff0045;letter-spacing:-.045em}
+.subtitle{color:var(--muted);margin:0 auto;max-width:620px;line-height:1.7}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:7px 12px;border:1px solid var(--line);
+ border-radius:999px;background:#101a3abf;color:#dce7ff;font-size:.82rem}
+.status-dot{width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+.machine{position:relative;margin:16px auto 28px;padding:clamp(18px,4vw,34px);max-width:900px;
+ border:1px solid rgba(198,255,56,.55);border-radius:26px;
+ background:linear-gradient(135deg,rgba(25,43,91,.94),rgba(9,16,41,.96));
+ box-shadow:0 0 0 5px #c6ff380b,0 0 35px #9cff0017,inset 0 0 35px #6f9cff0b;overflow:hidden}
+.machine:before{content:"";position:absolute;top:-100px;right:-70px;width:230px;height:230px;border-radius:50%;
+ background:var(--lime);filter:blur(110px);opacity:.13;pointer-events:none}
+.machine-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.machine-label{font-size:.8rem;font-weight:900;letter-spacing:.16em;color:var(--muted)}
+.counter{font-size:.78rem;color:var(--lime);border:1px solid var(--line);padding:6px 10px;border-radius:8px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gacha-btn{position:relative;min-height:84px;border:0;border-radius:16px;padding:16px;color:#101a3a;font-weight:1000;
+ background:linear-gradient(135deg,#d7ff70,var(--lime2));box-shadow:0 5px 0 #548a00,0 0 25px #b8ff3840;
+ transition:transform .12s,filter .12s;overflow:hidden}
+.gacha-btn:after{content:"";position:absolute;top:-60%;left:-35%;width:22%;height:220%;background:#ffffff90;transform:rotate(25deg);transition:left .5s}
+.gacha-btn:hover:after{left:125%}
+.gacha-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.gacha-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #548a00}
+.gacha-btn:disabled{opacity:.55;cursor:wait;filter:grayscale(.3);transform:none}
+.gacha-btn .big{display:block;font-size:1.3rem}
+.gacha-btn .small{display:block;font-size:.78rem;font-weight:750;margin-top:4px;opacity:.78}
+.secondary-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:17px}
+.small-btn{border:1px solid #9fb2e7a1;background:#101a3abf;color:var(--white);padding:9px 13px;border-radius:10px;font-weight:750;font-size:.84rem}
+.small-btn:hover{border-color:var(--lime);color:var(--lime)}
+.notice{font-size:.82rem;color:var(--muted);line-height:1.6;text-align:center;margin:17px 0 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:32px 0 14px}
+.section-head h2{font-size:1.35rem;margin:0}
+.section-head p{color:var(--muted);font-size:.82rem;margin:5px 0 0}
+.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.video-card{min-width:0;position:relative;border:1px solid #7184b84a;border-radius:16px;overflow:hidden;background:var(--panel);
+ box-shadow:0 8px 25px #0002;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both}
+.video-card:nth-child(2n){animation-delay:.07s}
+.thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
+.thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.video-card:hover .thumb{transform:scale(1.035)}
+.card-number{position:absolute;left:10px;top:10px;padding:5px 8px;border-radius:7px;background:var(--lime);color:#101a3a;font-size:.75rem;font-weight:1000}
+.open-video{position:absolute;inset:0;display:grid;place-items:center;background:#080e2460;color:white;text-decoration:none;opacity:0;transition:opacity .2s}
+.open-video span{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#c6ff38ed;color:#101a3a;font-size:1.5rem;box-shadow:0 0 30px #c6ff38a1}
+.video-card:hover .open-video,.open-video:focus-visible{opacity:1}
+.card-body{padding:13px}
+.video-title{font-size:.96rem;font-weight:850;line-height:1.5;margin:0 0 12px;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.card-actions a,.card-actions button{border-radius:9px;padding:8px 10px;font-size:.78rem;font-weight:800;text-decoration:none}
+.watch{background:var(--lime);color:#101a3a;border:0}
+.favorite{background:transparent;color:#dce6ff;border:1px solid #8293c7}
+.favorite.is-fav{color:var(--lime);border-color:var(--lime);background:#c6ff3812}
+.empty{padding:34px 18px;text-align:center;border:1px dashed #7184b866;border-radius:16px;color:var(--muted);line-height:1.7;grid-column:1/-1}
+.panel{border:1px solid #7184b84a;border-radius:16px;background:#101a3a9c;padding:17px;margin-top:20px}
+.panel h3{margin:0 0 12px;font-size:1rem}
+.list{display:grid;gap:8px}
+.list-row{display:flex;align-items:center;gap:10px;min-width:0;padding:9px;border-radius:10px;background:#ffffff06}
+.list-row img{width:76px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#080d20;flex-shrink:0}
+.list-row .list-title{font-size:.82rem;font-weight:750;overflow-wrap:anywhere;flex:1}
+.list-row a{color:var(--lime);font-size:.8rem;white-space:nowrap}
+.two-panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.csv-help{font-size:.85rem;color:var(--muted);line-height:1.7}
+.csv-help code{color:var(--lime);overflow-wrap:anywhere}
+.file-input{display:block;width:100%;margin:10px 0;color:var(--muted);font-size:.85rem}
+footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;
+ padding:12px 17px;background:var(--lime);color:#101a3a;font-weight:900;border-radius:12px;box-shadow:0 0 30px #c6ff3850;transition:.25s;max-width:calc(100% - 28px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.overlay{position:fixed;inset:0;z-index:30;display:none;place-items:center;background:#05091beF;overflow:hidden}
+.overlay.show{display:grid}
+.overlay:before,.overlay:after{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg,transparent 0 9deg,#c6ff3818 9.2deg 10deg,transparent 10.2deg 18deg);animation:spin 9s linear infinite}
+.overlay:after{background:radial-gradient(circle,transparent 0 16%,#ff42d015 17% 18%,transparent 19% 30%,#43f4ff14 31% 32%,transparent 33%);animation:spin 5s linear infinite reverse}
+.overlay-inner{position:relative;z-index:1;text-align:center;padding:24px;max-width:90vw}
+.overlay-kicker{font-size:.8rem;letter-spacing:.24em;color:var(--lime);font-weight:1000}
+.overlay-title{font-size:clamp(2.3rem,10vw,5rem);font-weight:1000;color:white;text-shadow:0 0 8px var(--lime),0 0 32px var(--pink),0 0 55px var(--cyan);animation:pulse .35s infinite alternate}
+.overlay-sub{color:#dbe5ff;font-weight:800}
+.overlay-bar{width:min(300px,75vw);height:9px;border:1px solid var(--lime);border-radius:999px;margin:22px auto;overflow:hidden}
+.overlay-bar span{display:block;width:30%;height:100%;background:var(--lime);box-shadow:0 0 20px var(--lime);animation:loading .85s ease-in-out infinite alternate}
+.confetti{position:fixed;top:-20px;width:9px;height:18px;z-index:40;pointer-events:none;animation:fall var(--dur,1.6s) linear forwards;box-shadow:0 0 10px currentColor}
+@keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96);filter:brightness(2)}to{opacity:1;transform:none;filter:brightness(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{to{transform:scale(1.04);filter:hue-rotate(35deg)}}
+@keyframes loading{to{width:100%;transform:translateX(0)}}
+@keyframes fall{to{transform:translate(var(--drift,20px),110vh) rotate(800deg);opacity:.1}}
+@media(min-width:760px){.results{grid-template-columns:repeat(3,minmax(0,1fr))}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr))}.results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}.results.ten .card-actions a,.results.ten .card-actions button{padding:7px 8px}}
+@media(max-width:560px){
+ header{padding-top:23px}.buttons{grid-template-columns:1fr;gap:12px}.gacha-btn{min-height:72px}
+ .results{grid-template-columns:1fr}.two-panels{grid-template-columns:1fr}
+ .section-head{align-items:start;flex-direction:column}.results.ten{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}
+ .results.ten .card-actions{gap:5px}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.72rem;padding:7px}
+ .list-row img{width:64px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
+  <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
+  <div class="status"><span class="status-dot"></span><span id="poolStatus">動画リストを読み込み中…</span></div>
+</header>
+
+<main class="wrap">
+  <section class="machine" aria-label="ガチャマシン">
+    <div class="machine-top">
+      <div class="machine-label">🧠 BIWACHAP GACHA MACHINE 🧠</div>
+      <div class="counter" id="totalCounter">登録動画：-- 本</div>
+    </div>
+    <div class="buttons">
+      <button class="gacha-btn" id="singleBtn" disabled>
+        <span class="big">🎰 単発ガチャ</span><span class="small">1回引く / ONE PULL</span>
+      </button>
+      <button class="gacha-btn" id="tenBtn" disabled>
+        <span class="big">💥 10連ガチャ</span><span class="small">10回まとめて引く / TEN PULL</span>
+      </button>
+    </div>
+    <div class="secondary-actions">
+      <button class="small-btn" id="shareResultBtn" disabled>📣 結果を共有</button>
+      <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を作成</button>
+      <button class="small-btn" id="clearHistoryBtn">履歴を消去</button>
+    </div>
+    <p class="notice">※毎回ランダム抽選。10連では同じ動画が複数回出ることもあります。<br>結果はこのブラウザ内に保存されます。</p>
+  </section>
+
+  <section id="resultSection" aria-live="polite">
+    <div class="section-head"><div><h2 id="resultHeading">🎁 ガチャ結果</h2><p id="resultCaption">ボタンを押して運命の動画を引こう。</p></div></div>
+    <div class="results" id="resultsGrid">
+      <div class="empty">まだ動画が引かれていません。<br>単発または10連ガチャを回してね！</div>
+    </div>
+  </section>
+
+  <section class="two-panels">
+    <div class="panel">
+      <h3>⭐ お気に入り</h3>
+      <div id="favoritesList" class="list"><p class="csv-help">お気に入りに登録した動画がここに表示されます。</p></div>
+    </div>
+    <div class="panel">
+      <h3>🕘 最近のガチャ履歴（最大20件）</h3>
+      <div id="historyList" class="list"><p class="csv-help">ガチャを回すと履歴がここに表示されます。</p></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h3>🧰 動画リストの読み込み</h3>
+    <p class="csv-help">
+      公開時は <code>videos.csv</code> をこのHTMLと同じ場所に置くと自動で読み込みます。<br>
+      CSVの列は <code>title,url,genre</code>。ジャンルは現在使用しませんが、指定の形式に合わせて列を残しています。genre欄は空欄でもOKです。<br>
+      GitHub Pages上のCSVを更新した場合、ページを再読み込みしてください。
+    </p>
+    <label class="csv-help" for="csvFile">手元のCSVを試し読みする（任意）</label>
+    <input class="file-input" type="file" id="csvFile" accept=".csv,text/csv">
+    <div class="csv-help" id="loadMessage">動画リストの読み込み状況がここに表示されます。</div>
+  </section>
+</main>
+
+<footer class="wrap">
+  個人用ファンメイド企画 / 動画の権利は各権利者に帰属します。<br>
+  サムネイルはYouTubeから読み込みます。動画が削除・非公開の場合、サムネイルやリンクが表示できないことがあります。
+</footer>
+
+<div class="overlay" id="gachaOverlay" aria-hidden="true">
+  <div class="overlay-inner">
+    <div class="overlay-kicker">⚡ LIMIT BREAK ⚡</div>
+    <div class="overlay-title" id="overlayTitle">GACHA!!</div>
+    <div class="overlay-sub" id="overlaySub">運命の一本を召喚中…</div>
+    <div class="overlay-bar"><span></span></div>
+    <div class="overlay-sub">PLEASE WAIT, DOPAGAKI...</div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+  const STORAGE = {
+    favorites: "biwachapGachaFavorites_v1",
+    history: "biwachapGachaHistory_v1"
+  };
+  const $ = (id) => document.getElementById(id);
+  let videos = [];
+  let latestResults = [];
+  let busy = false;
+  let toastTimer = null;
+
+  function readStorage(key, fallback) {
+    try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; }
+    catch (_) { return fallback; }
+  }
+  function writeStorage(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (_) { showToast("ブラウザ保存ができませんでした。ストレージ設定を確認してください。"); }
+  }
+  function cleanText(value) { return String(value ?? "").trim(); }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[ch]));
+  }
+  function parseCSV(text) {
+    // CSV標準のダブルクォート、カンマ、改行に対応する簡易パーサー
+    const rows = [];
+    let row = [], field = "", quoted = false;
+    text = text.replace(/^\uFEFF/, "");
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i], next = text[i + 1];
+      if (quoted) {
+        if (ch === '"' && next === '"') { field += '"'; i++; }
+        else if (ch === '"') quoted = false;
+        else field += ch;
+      } else {
+        if (ch === '"' && field.length === 0) quoted = true;
+        else if (ch === ",") { row.push(field); field = ""; }
+        else if (ch === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+        else if (ch !== "\r") field += ch;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    if (!rows.length) return [];
+    const headers = rows.shift().map(x => cleanText(x).toLowerCase());
+    const titleIndex = headers.indexOf("title");
+    const urlIndex = headers.indexOf("url");
+    const genreIndex = headers.indexOf("genre");
+    if (titleIndex < 0 || urlIndex < 0) throw new Error("CSVの1行目に title,url の列が必要です。");
+    return rows.map(r => {
+      const title = cleanText(r[titleIndex]);
+      const url = cleanText(r[urlIndex]);
+      const genre = genreIndex >= 0 ? cleanText(r[genreIndex]) : "";
+      const id = getYouTubeId(url);
+      if (!title || !id) return null;
+      return { title, url: "https://www.youtube.com/watch?v=" + id, genre, id };
+    }).filter(Boolean);
+  }
+  function getYouTubeId(url) {
+    try {
+      const u = new URL(url);
+      let id = "";
+      if (u.hostname === "youtu.be" || u.hostname.endsWith(".youtu.be")) id = u.pathname.split("/").filter(Boolean)[0] || "";
+      else if (u.hostname.includes("youtube.com") || u.hostname.includes("youtube-nocookie.com")) {
+        if (u.pathname === "/watch") id = u.searchParams.get("v") || "";
+        else if (/^\/(embed|shorts|live)\/[^/]+/.test(u.pathname)) id = u.pathname.split("/")[2] || "";
+      }
+      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+    } catch (_) { return ""; }
+  }
+  function thumbUrl(video) { return `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`; }
+  function showToast(message) {
+    const el = $("toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+  }
+  function getFavorites() { return readStorage(STORAGE.favorites, []); }
+  function getHistory() { return readStorage(STORAGE.history, []); }
+  function isFavorite(id) { return getFavorites().some(v => v.id === id); }
+
+  function renderCard(video, index, favoriteContext = false) {
+    const fav = isFavorite(video.id);
+    const card = document.createElement("article");
+    card.className = "video-card";
+    card.innerHTML = `
+      <div class="thumb-wrap">
+        <img class="thumb" src="${thumbUrl(video)}" alt="${escapeHtml(video.title)} のサムネイル" loading="lazy">
+        <a class="open-video" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(video.title)}をYouTubeで開く"><span>▶</span></a>
+      </div>
+      <div class="card-body">
+        <p class="video-title">${escapeHtml(video.title)}</p>
+        <div class="card-actions">
+          <a class="watch" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">▶ YouTubeで見る</a>
+          <button class="favorite ${fav ? "is-fav" : ""}" type="button" aria-pressed="${fav}">${fav ? "★ 登録済み" : "☆ お気に入り"}</button>
+        </div>
+      </div>`;
+    const img = card.querySelector("img");
+    img.addEventListener("error", () => {
+      img.src = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
+      img.onerror = () => { img.style.visibility = "hidden"; };
+    }, { once: true });
+    card.querySelector(".favorite").addEventListener("click", () => toggleFavorite(video));
+    return card;
+  }
+  function renderResults(results, mode) {
+    const grid = $("resultsGrid");
+    grid.innerHTML = "";
+    grid.classList.toggle("ten", mode === 10);
+    if (!results.length) {
+      grid.innerHTML = '<div class="empty">動画がありません。CSVを確認してください。</div>';
+      return;
+    }
+    results.forEach((video, index) => grid.appendChild(renderCard(video, index)));
+    $("resultHeading").textContent = mode === 10 ? "💥 10連ガチャ結果！" : "🎁 単発ガチャ結果！";
+    $("resultCaption").textContent = mode === 10
+      ? "10本召喚完了！ 気になる動画をチェック！"
+      : "召喚成功！ 今日の一本はこちら。";
+    $("shareResultBtn").disabled = false;
+    $("shareImageBtn").disabled = false;
+  }
+  function renderFavorites() {
+    const el = $("favoritesList"), favorites = getFavorites();
+    el.innerHTML = "";
+    if (!favorites.length) { el.innerHTML = '<p class="csv-help">お気に入りに登録した動画がここに表示されます。</p>'; return; }
+    favorites.forEach(v => {
+      const row = document.createElement("div");
+      row.className = "list-row";
+      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a>`;
+      el.appendChild(row);
+    });
+  }
+  function renderHistory() {
+    const el = $("historyList"), history = getHistory().slice(0,20);
+    el.innerHTML = "";
+    if (!history.length) { el.innerHTML = '<p class="csv-help">ガチャを回すと履歴がここに表示されます。</p>'; return; }
+    history.forEach(v => {
+      const row = document.createElement("div");
+      row.className = "list-row";
+      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a>`;
+      el.appendChild(row);
+    });
+  }
+  function toggleFavorite(video) {
+    let favorites = getFavorites();
+    if (favorites.some(v => v.id === video.id)) {
+      favorites = favorites.filter(v => v.id !== video.id);
+      showToast("お気に入りから削除しました");
+    } else {
+      favorites.unshift({ title: video.title, url: video.url, id: video.id });
+      showToast("⭐ お気に入りに登録しました！");
+    }
+    writeStorage(STORAGE.favorites, favorites);
+    renderFavorites();
+    if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1);
+  }
+  function addHistory(results) {
+    const history = results.map(v => ({title:v.title,url:v.url,id:v.id,at:Date.now()})).concat(getHistory()).slice(0,20);
+    writeStorage(STORAGE.history, history);
+    renderHistory();
+  }
+  function confettiBurst(amount = 65) {
+    const colors = ["#c6ff38","#ff42d0","#43f4ff","#ffffff","#8dff00"];
+    for (let i = 0; i < amount; i++) {
+      const el = document.createElement("i");
+      el.className = "confetti";
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.color = colors[Math.floor(Math.random() * colors.length)];
+      el.style.background = el.style.color;
+      el.style.setProperty("--dur", (1.1 + Math.random() * 1.8) + "s");
+      el.style.setProperty("--drift", ((Math.random() - .5) * 260) + "px");
+      el.style.transform = `rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3200);
+    }
+  }
+  function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+  async function pull(count) {
+    if (busy || !videos.length) return;
+    busy = true;
+    $("singleBtn").disabled = $("tenBtn").disabled = true;
+    $("shareResultBtn").disabled = true;
+    $("shareImageBtn").disabled = true;
+    const overlay = $("gachaOverlay");
+    $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
+    $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
+    overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden","false");
+    // 結果を選ぶのは毎回独立したランダム抽選。重複を許可する。
+    const picked = Array.from({length:count}, () => videos[Math.floor(Math.random() * videos.length)]);
+    await wait(count === 10 ? 1750 : 1250);
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden","true");
+    latestResults = picked;
+    renderResults(picked, count);
+    addHistory(picked);
+    confettiBurst(count === 10 ? 100 : 58);
+    $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
+    busy = false;
+    $("singleBtn").disabled = $("tenBtn").disabled = false;
+    $("shareResultBtn").disabled = false;
+    $("shareImageBtn").disabled = false;
+    showToast(count === 10 ? "💥 10本召喚！結果をチェック！" : "✨ 動画を召喚しました！");
+  }
+
+  function getSiteUrl() {
+    // GitHub PagesのURLを自動取得。file://で開いた場合はURL共有を省略する。
+    return location.protocol === "http:" || location.protocol === "https:" ? location.href.split("#")[0] : "";
+  }
+  async function shareResults() {
+    if (!latestResults.length) return;
+    const site = getSiteUrl();
+    const lines = latestResults.map((v,i) => `${latestResults.length === 10 ? `${i+1}. ` : ""}${v.title}\n${v.url}`);
+    const text = `今日の琵琶ちゃぷおすすめ動画ガチャで${latestResults.length === 10 ? "10連" : "単発"}を引いた！\n\n${lines.join("\n\n")}${site ? `\n\nガチャはこちら：${site}` : ""}`;
+    // 共有APIが使える端末では、まずテキストとURLを共有する。
+    if (navigator.share) {
+      try {
+        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ", text, url:site || undefined});
+        return;
+      } catch (err) {
+        if (err && err.name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("共有用テキストをコピーしました！");
+    } catch (_) {
+      window.prompt("このテキストをコピーして共有してください", text);
+    }
+  }
+
+  // SNS用の「結果画像」を作成。YouTubeサムネイルを取得できない環境でもタイトルカード画像を生成。
+  async function makeShareImage() {
+    if (!latestResults.length) return;
+    const ten = latestResults.length === 10;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200; canvas.height = ten ? 1200 : 900;
+    const ctx = canvas.getContext("2d");
+    const grad = ctx.createLinearGradient(0,0,1200,canvas.height);
+    grad.addColorStop(0,"#101a3a"); grad.addColorStop(1,"#172754");
+    ctx.fillStyle = grad; ctx.fillRect(0,0,1200,canvas.height);
+    // ネオン背景
+    ctx.strokeStyle = "rgba(198,255,56,.13)"; ctx.lineWidth = 2;
+    for (let x=0;x<1200;x+=42){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
+    for (let y=0;y<canvas.height;y+=42){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1200,y);ctx.stroke();}
+    ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="900 28px sans-serif";
+    ctx.fillText("BIWACHAP VIDEO GACHA",600,54);
+    ctx.font="900 42px sans-serif";ctx.fillStyle="#ffffff";
+    ctx.fillText(ten ? "10連ガチャ 結果!!" : "単発ガチャ 結果!!",600,108);
+    const cols = ten ? 2 : 1, rows = Math.ceil(latestResults.length/cols);
+    const marginX = ten ? 54 : 110, gapX = 22, top = 145, bottom = 95;
+    const cardW = (1200 - marginX*2 - gapX*(cols-1))/cols;
+    const cardH = (canvas.height - top - bottom - 22*(rows-1))/rows;
+    for (let i=0;i<latestResults.length;i++){
+      const v=latestResults[i], col=i%cols, row=Math.floor(i/cols);
+      const x=marginX+col*(cardW+gapX), y=top+row*(cardH+22);
+      ctx.fillStyle="#0a122d";ctx.fillRect(x,y,cardW,cardH);
+      ctx.strokeStyle="#c6ff38";ctx.lineWidth=3;ctx.strokeRect(x,y,cardW,cardH);
+      // サムネイルを取得できる場合は画像に含め、できない場合はネオンのプレースホルダーにする。
+      let imageLoaded=false;
+      try {
+        const img = new Image();
+        img.crossOrigin="anonymous";
+        await new Promise((resolve,reject)=>{
+          img.onload=()=>{imageLoaded=true;resolve();};
+          img.onerror=reject;
+          img.src=thumbUrl(v);
+          setTimeout(reject,1800);
+        });
+        const imageH = ten ? cardH*.58 : cardH*.66;
+        ctx.drawImage(img,x+5,y+5,cardW-10,imageH-5);
+      } catch (_) {}
+      const titleTop = y + (imageLoaded ? (ten ? cardH*.68 : cardH*.73) : 24);
+      ctx.fillStyle="#c6ff38";ctx.font="900 21px sans-serif";ctx.textAlign="left";
+      ctx.fillText(String(i+1).padStart(2,"0"),x+15,y+(imageLoaded ? cardH*.58+22 : 25));
+      ctx.fillStyle="#ffffff";ctx.font=`700 ${ten ? 20 : 30}px sans-serif`;
+      const maxLines = ten ? 2 : 3, maxWidth=cardW-30, words=[...v.title];
+      let line="", lineNo=0, yText=titleTop;
+      for(const char of words){
+        const test=line+char;
+        if(ctx.measureText(test).width>maxWidth && line){
+          ctx.fillText(line,x+15,yText);
+          line=char;lineNo++;yText+=ten?28:38;
+          if(lineNo>=maxLines){line="";break;}
+        }else line=test;
+      }
+      if(line && lineNo<maxLines)ctx.fillText(line,x+15,yText);
+    }
+    ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="800 20px sans-serif";
+    ctx.fillText("今日の琵琶ちゃぷおすすめ動画ガチャ",600,canvas.height-42);
+    return new Promise(resolve=>canvas.toBlob(blob=>resolve(blob),"image/png"));
+  }
+  async function shareImage() {
+    try {
+      const blob = await makeShareImage();
+      if (!blob) throw new Error("画像を作れませんでした");
+      const file = new File([blob],"biwachap-gacha-result.png",{type:"image/png"});
+      if (navigator.canShare && navigator.canShare({files:[file]}) && navigator.share) {
+        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ",text:"ガチャ結果！",files:[file]});
+      } else {
+        const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="biwachap-gacha-result.png";a.click();
+        setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+        showToast("結果画像を保存しました。画像をSNSに添付してね！");
+      }
+    } catch (_) { showToast("結果画像を作成できませんでした。通常の共有ボタンを使ってください。"); }
+  }
+
+  async function loadCSVText(text, label) {
+    try {
+      const parsed = parseCSV(text);
+      if (!parsed.length) throw new Error("有効な動画が見つかりません。titleとYouTube URLを確認してください。");
+      videos = parsed;
+      $("poolStatus").textContent = `動画 ${videos.length} 本 READY`;
+      $("totalCounter").textContent = `登録動画：${videos.length} 本`;
+      $("singleBtn").disabled = $("tenBtn").disabled = false;
+      $("loadMessage").textContent = `${label}から${videos.length}本を読み込みました。`;
+      if (parsed.length < 10) $("loadMessage").textContent += " ※10本未満のため、10連で同じ動画が重複する場合があります。";
+    } catch (err) {
+      $("poolStatus").textContent = "動画リストの確認が必要";
+      $("loadMessage").textContent = err.message;
+      $("singleBtn").disabled = $("tenBtn").disabled = true;
+    }
+  }
+  async function init() {
+    renderFavorites(); renderHistory();
+    $("singleBtn").addEventListener("click",()=>pull(1));
+    $("tenBtn").addEventListener("click",()=>pull(10));
+    $("shareResultBtn").addEventListener("click",shareResults);
+    $("shareImageBtn").addEventListener("click",shareImage);
+    $("clearHistoryBtn").addEventListener("click",()=>{
+      if (confirm("ガチャ履歴をすべて消去しますか？")) {
+        writeStorage(STORAGE.history,[]); renderHistory(); showToast("履歴を消去しました");
+      }
+    });
+    $("csvFile").addEventListener("change", async event => {
+      const file=event.target.files && event.target.files[0];
+      if (!file) return;
+      await loadCSVText(await file.text(),file.name);
+    });
+    try {
+      const response = await fetch("./videos.csv", {cache:"no-store"});
+      if (!response.ok) throw new Error("videos.csvが見つかりません");
+      await loadCSVText(await response.text(),"videos.csv");
+    } catch (_) {
+      $("poolStatus").textContent = "CSVを読み込んでください";
+      $("loadMessage").textContent = "自動読み込みできませんでした。GitHub Pagesではindex.htmlと同じ場所にvideos.csvを置いてください。PCで直接開いている場合は、下のファイル選択からCSVを読み込めます。";
+      $("singleBtn").disabled = $("tenBtn").disabled = true;
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>
