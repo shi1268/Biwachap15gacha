@@ -85,6 +85,13 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .audio-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
   .audio-tools label{color:var(--muted);font-size:.82rem}
   .video-card .thumb-wrap{z-index:0}
+  .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
+  .genre-challenge{border-color:#ffb2e8;box-shadow:inset 0 0 0 1px #ff42d022}
+  .genre-challenge .genre-tag{color:#ffb2e8;background:#ff42d01c}
+  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
+  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -326,14 +333,19 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 
   function renderCard(video, index, favoriteContext = false) {
     const fav = isFavorite(video.id);
+    const unviewed = isUnviewed(video.id);
+    const rarity = video.rarity || "";
+    const genre = video.genreType || "";
+    const genreNames = {challenge:"🎉 企画動画", game:"🎮 ゲーム動画", talk:"💬 お話動画"};
     const card = document.createElement("article");
-    card.className = "video-card";
+    card.className = "video-card" + (genre ? " genre-" + genre : "");
     card.innerHTML = `
       <div class="thumb-wrap">
         <img class="thumb" src="${thumbUrl(video)}" alt="${escapeHtml(video.title)} のサムネイル" loading="lazy">
         <a class="open-video" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(video.title)}をYouTubeで開く"><span>▶</span></a>
       </div>
       <div class="card-body">
+        ${genre ? `<div class="genre-tag">${genreNames[genre]}</div>` : ""}
         ${rarity ? `<div class="rarity-label">${escapeHtml(RARITY_TEXT[rarity] || rarity)}</div>` : ""}
         <p class="video-title">${escapeHtml(video.title)}</p>
         <div class="card-actions">
@@ -585,22 +597,34 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     } catch (_) { showToast("結果画像を作成できませんでした。通常の共有ボタンを使ってください。"); }
   }
 
+  function genreTypeFromFilename(label) {
+    const name = String(label || "").toLowerCase();
+    if (name.includes("challenge_videos")) return "challenge";
+    if (name.includes("game_videos")) return "game";
+    if (name.includes("talk_videos")) return "talk";
+    return "";
+  }
   async function loadCSVText(text, label) {
     try {
       const parsed = parseCSV(text);
       if (!parsed.length) throw new Error("有効な動画が見つかりません。titleとYouTube URLを確認してください。");
+      const genreType = genreTypeFromFilename(label);
+      const genreLabel = {challenge:"企画動画", game:"ゲーム動画", talk:"お話動画"}[genreType];
       const known = new Set(videos.map(v=>v.id));
-      let added=0; for(const v of parsed){if(!known.has(v.id)){videos.push(v);known.add(v.id);added++;}}
+      let added=0; for(const v of parsed){
+        if(!known.has(v.id)) { videos.push({...v, genreType: genreType || v.genreType || ""}); known.add(v.id); added++; }
+      }
       $("poolStatus").textContent = `動画 ${videos.length} 本 READY`;
       $("totalCounter").textContent = `登録動画：${videos.length} 本`;
-      $("singleBtn").disabled = $("tenBtn").disabled = false;
-      $("loadMessage").textContent = `${label}から${added}本を追加しました（重複除外）。登録合計 ${videos.length} 本。`;
+      $("singleBtn").disabled = $("tenBtn").disabled = videos.length === 0;
+      const category = genreLabel ? `［${genreLabel}］` : "";
+      $("loadMessage").textContent = `${label}${category}から${added}本を追加しました（重複除外）。登録合計 ${videos.length} 本。`;
       renderDailyRecommendation();
       if (videos.length < 10) $("loadMessage").textContent += " ※10本未満のため、10連で同じ動画が重複する場合があります。";
+      return added;
     } catch (err) {
-      $("poolStatus").textContent = "動画リストの確認が必要";
-      $("loadMessage").textContent = err.message;
-      $("singleBtn").disabled = $("tenBtn").disabled = true;
+      $("loadMessage").textContent = `${label}: ${err.message}`;
+      return 0;
     }
   }
   async function init() {
@@ -618,14 +642,25 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       for(const file of files) await loadCSVText(await file.text(),file.name);
       event.target.value="";
     });
-    try {
-      const response = await fetch("./videos.csv", {cache:"no-store"});
-      if (!response.ok) throw new Error("videos.csvが見つかりません");
-      await loadCSVText(await response.text(),"videos.csv");
-    } catch (_) {
+    const csvFiles = [
+      {name:"challenge_videos.csv", genre:"challenge"},
+      {name:"game_videos.csv", genre:"game"},
+      {name:"talk_videos.csv", genre:"talk"}
+    ];
+    const outcomes = await Promise.all(csvFiles.map(async file => {
+      try {
+        const response = await fetch("./" + file.name, {cache:"no-store"});
+        if (!response.ok) throw new Error("見つかりません");
+        const added = await loadCSVText(await response.text(), file.name);
+        return `${file.name}: ${added}本追加`;
+      } catch (_) { return `${file.name}: 未読込`; }
+    }));
+    if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
-      $("loadMessage").textContent = "自動読み込みできませんでした。GitHub Pagesではindex.htmlと同じ場所にvideos.csvを置いてください。PCで直接開いている場合は、下のファイル選択からCSVを読み込めます。";
+      $("loadMessage").textContent = "自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。PCで直接開いている場合は、下のファイル選択から3ファイルを選べます。";
       $("singleBtn").disabled = $("tenBtn").disabled = true;
+    } else {
+      $("loadMessage").textContent = outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。`;
     }
   }
   init();
