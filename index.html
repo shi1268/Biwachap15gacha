@@ -564,5 +564,25 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   init();
 })();
 </script>
+  <script>
+  const bgm = document.getElementById("bgm");
+  const bgmButton = document.getElementById("bgmButton");
+
+  bgm.volume = 0.3;
+
+  bgmButton.addEventListener("click", async () => {
+    if (bgm.paused) {
+      try {
+        await bgm.play();
+        bgmButton.textContent = "BGMを停止";
+      } catch (error) {
+        console.error("BGMを再生できませんでした:", error);
+      }
+    } else {
+      bgm.pause();
+      bgmButton.textContent = "BGMを再生";
+    }
+  });
+</script>
 </body>
 </html>
