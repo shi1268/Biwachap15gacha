@@ -33,6 +33,9 @@ button,input{font:inherit}
 button{cursor:pointer}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
 .wrap{width:min(1120px,calc(100% - 28px));margin:0 auto}
+.audio-widget{position:fixed;z-index:25;right:14px;top:12px;display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:#101a3aee;box-shadow:0 6px 22px #0005}
+.audio-widget label{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:5px}.audio-widget input{width:76px}
+@media(max-width:560px){.audio-widget{position:relative;top:auto;right:auto;margin:0 0 10px auto;width:max-content;max-width:100%;padding:5px 7px}.audio-widget input{width:58px}}
 header{padding:30px 0 18px;text-align:center}
 .eyebrow{font-size:.78rem;font-weight:900;letter-spacing:.22em;color:var(--lime);text-transform:uppercase}
 h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var(--lime);
@@ -68,7 +71,7 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:32px 0 14px}
 .section-head h2{font-size:1.35rem;margin:0}
 .section-head p{color:var(--muted);font-size:.82rem;margin:5px 0 0}
-.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.results{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:760px;margin:0 auto}
 .video-card{min-width:0;position:relative;border:1px solid #7184b84a;border-radius:16px;overflow:hidden;background:var(--panel);
  box-shadow:0 8px 25px #0002;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both}
 .video-card:nth-child(2n){animation-delay:.07s}
@@ -88,10 +91,10 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
   .genre-challenge{border-color:#ffb2e8;box-shadow:inset 0 0 0 1px #ff42d022}
   .genre-challenge .genre-tag{color:#ffb2e8;background:#ff42d01c}
-  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
-  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
-  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
-  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-game{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-game .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-talk{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-talk .genre-tag{color:#8be9ff;background:#43f4ff16}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -138,7 +141,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 @keyframes pulse{to{transform:scale(1.04);filter:hue-rotate(35deg)}}
 @keyframes loading{to{width:100%;transform:translateX(0)}}
 @keyframes fall{to{transform:translate(var(--drift,20px),110vh) rotate(800deg);opacity:.1}}
-@media(min-width:760px){.results{grid-template-columns:repeat(3,minmax(0,1fr))}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr))}.results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}.results.ten .card-actions a,.results.ten .card-actions button{padding:7px 8px}}
+@media(min-width:760px){.results{grid-template-columns:minmax(0,1fr)}.results.ten{grid-template-columns:minmax(0,1fr)}.results.ten .video-card{display:grid;grid-template-columns:minmax(240px,42%) 1fr}.results.ten .thumb-wrap{height:100%;aspect-ratio:auto}.results.ten .card-body{padding:16px}.results.ten .video-title{font-size:.95rem}}
 @media(max-width:560px){
  header{padding-top:23px}.buttons{grid-template-columns:1fr;gap:12px}.gacha-btn{min-height:72px}
  .results{grid-template-columns:1fr}.two-panels{grid-template-columns:1fr}
@@ -152,6 +155,14 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 </head>
 <body>
 <header class="wrap">
+  <div class="audio-widget" aria-label="BGMコントロール">
+  <button class="small-btn" id="bgmToggle">▶ BGM</button>
+  <label title="BGM音量">音量 <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
+  <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / ガチャSE=se-pull.mp3 / レアSE=se-ur.mp3 -->
+  <audio id="bgm" src="bgm.mp3" loop preload="none"></audio>
+  <audio id="pullSE" src="se-pull.mp3" preload="none"></audio>
+  <audio id="urSE" src="se-ur.mp3" preload="none"></audio>
+</div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
   <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
   <div class="status"><span class="status-dot"></span><span id="poolStatus">動画リストを読み込み中…</span></div>
@@ -176,7 +187,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       </button>
     </div>
     <div class="secondary-actions">
-      <button class="small-btn" id="shareResultBtn" disabled>📣 結果を共有</button>
+      <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
       <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を作成</button>
     </div>
     <p class="notice">※毎回ランダム抽選。10連では同じ動画が複数回出ることもあります。<br>結果はこのブラウザ内に保存されます。</p>
@@ -202,15 +213,6 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     </div>
   </section>
 
-  <section class="panel">
-    <h3>🎵 BGM・効果音</h3>
-    <p class="csv-help">MP3ファイルをこのHTMLと同じフォルダに置いてください。ファイル名を変える場合は、下のコード内の <code>bgm.mp3</code>、<code>se-pull.mp3</code>、<code>se-ur.mp3</code> を同じ名前に変更します。</p>
-    <div class="audio-tools"><button class="small-btn" id="bgmToggle">▶ BGMを再生</button><label>音量 <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label></div>
-    <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / ガチャSE=se-pull.mp3 / UR演出SE=se-ur.mp3 -->
-    <audio id="bgm" src="bgm.mp3" loop preload="none"></audio>
-    <audio id="pullSE" src="se-pull.mp3" preload="none"></audio>
-    <audio id="urSE" src="se-ur.mp3" preload="none"></audio>
-  </section>
 
   <section class="panel">
     <h3>🧰 動画リストの読み込み</h3>
@@ -360,6 +362,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       img.onerror = () => { img.style.visibility = "hidden"; };
     }, { once: true });
     card.querySelector(".favorite").addEventListener("click", () => toggleFavorite(video));
+    card.querySelector(".unviewed-toggle").addEventListener("click", () => toggleUnviewed(video));
     return card;
   }
   function renderResults(results, mode) {
@@ -410,34 +413,51 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1);
     renderDailyRecommendation();
   }
-  function shareList(list, label) {
-    const text = `${label}｜今日の琵琶ちゃぷおすすめ動画ガチャ\n\n` + list.map((v,i)=>`${i+1}. ${v.title}\n${v.url}`).join("\n\n");
-    const intent = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-    window.open(intent, "_blank", "noopener,noreferrer");
-  }
-  async function saveListImage(list, label) {
+  async function shareList(list, label) {
     if (!list.length) { showToast("一覧に動画がありません"); return; }
+    try {
+      const blob = await createListImage(list, label);
+      const file = new File([blob], "biwachap-list.png", {type:"image/png"});
+      if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
+        await navigator.share({title:label, text:`${label} #琵琶ちゃぷ`, files:[file]});
+        return;
+      }
+      const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(label.includes("未視聴")?"biwachap-unviewed":"biwachap-favorites")+".png";a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(`${label} #琵琶ちゃぷ`),"_blank","noopener,noreferrer");
+      showToast("一覧画像を保存しました。Xの投稿画面に画像を添付してください。");
+    } catch (_) { showToast("画像を共有できませんでした。『一覧画像を保存』をお試しください。"); }
+  }
+  async function createListImage(list, label) {
     const canvas=document.createElement("canvas"), ctx=canvas.getContext("2d");
     const width=1200, rowH=116, headerH=150; canvas.width=width; canvas.height=headerH+list.length*rowH+40;
     const grad=ctx.createLinearGradient(0,0,width,canvas.height); grad.addColorStop(0,"#101a3a");grad.addColorStop(1,"#172754");ctx.fillStyle=grad;ctx.fillRect(0,0,width,canvas.height);
     ctx.fillStyle="#c6ff38";ctx.font="900 34px sans-serif";ctx.fillText("BIWACHAP VIDEO GACHA",45,52);
     ctx.fillStyle="#ffffff";ctx.font="800 30px sans-serif";ctx.fillText(label,45,105);
     list.forEach((v,i)=>{const y=headerH+i*rowH;ctx.fillStyle="#0a122d";ctx.fillRect(35,y,width-70,rowH-10);ctx.strokeStyle="#c6ff38";ctx.lineWidth=2;ctx.strokeRect(35,y,width-70,rowH-10);ctx.fillStyle="#c6ff38";ctx.font="800 22px sans-serif";ctx.fillText(String(i+1).padStart(2,"0"),55,y+35);ctx.fillStyle="#fff";ctx.font="700 23px sans-serif";let title=v.title;while(ctx.measureText(title).width>width-150)title=title.slice(0,-2)+"…";ctx.fillText(title,105,y+35);ctx.fillStyle="#aab7d7";ctx.font="16px sans-serif";ctx.fillText(v.url,105,y+65);});
-    canvas.toBlob(blob=>{if(!blob){showToast("画像を作成できませんでした");return;}const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(label.includes("未視聴")?"biwachap-unviewed":"biwachap-favorites")+".png";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);},"image/png");
+    return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("canvas")),"image/png"));
+  }
+  async function saveListImage(list, label) {
+    if (!list.length) { showToast("一覧に動画がありません"); return; }
+    try {
+      const blob=await createListImage(list,label);
+      const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(label.includes("未視聴")?"biwachap-unviewed":"biwachap-favorites")+".png";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+      showToast("一覧画像を保存しました。");
+    } catch (_) { showToast("画像を作成できませんでした"); }
   }
   function dailyPick(list) {
     if(!list.length) return null;
-    const date=new Date();
-    // UTC日付を使い、タイムゾーンが異なるユーザー間でも同じ日付キーにする。
-    const key=date.toISOString().slice(0,10);
-    // 日付と動画ID一覧から決定的に選ぶ。同じ日・同じ動画リストなら全員同じ動画になる。
-    const ids=list.map(v=>v.id).sort();let hash=2166136261;const str=key+"|"+ids.join("|");
+    // 日本時間の日付をキーにする。ユーザーごとのタイムゾーンやページ更新に左右されない。
+    const key=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+    // IDでソートした配列から選ぶため、CSVの読み込み順が違っても同じ動画になる。
+    const sorted=[...list].sort((a,b)=>a.id.localeCompare(b.id));
+    let hash=2166136261;const str=key+"|"+sorted.map(v=>v.id).join("|");
     for(let i=0;i<str.length;i++){hash^=str.charCodeAt(i);hash=Math.imul(hash,16777619);}
-    return list[(hash>>>0)%list.length];
+    return sorted[(hash>>>0)%sorted.length];
   }
   function renderDailyRecommendation() {
     const el=$("dailyRecommendation");if(!el)return;
-    const now=new Date();$("dailyDate").textContent=`${now.toISOString().slice(0,10)} (UTC)`;
+    const dateLabel=new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());$("dailyDate").textContent=`${dateLabel} (日本時間)`;
     const v=dailyPick(videos);el.innerHTML="";
     if(!v){el.innerHTML='<div class="empty">CSVを読み込むと今日のおすすめが表示されます。</div>';return;}
     el.appendChild(renderCard(v,0));
@@ -483,9 +503,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     latestResults = picked;
-    if (picked.some(v => v.rarity === "UR")) playSE("urSE");
+    if (picked.some(v => v.rarity === "SR" || v.rarity === "UR")) playSE("urSE");
     renderResults(picked, count);
-    addHistory(picked);
     confettiBurst(count === 10 ? 100 : 58);
     $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
     busy = false;
@@ -592,7 +611,9 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       } else {
         const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="biwachap-gacha-result.png";a.click();
         setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-        showToast("結果画像を保存しました。画像をSNSに添付してね！");
+        const intent="https://twitter.com/intent/tweet?text="+encodeURIComponent("今日の琵琶ちゃぷおすすめ動画ガチャの結果！ #琵琶ちゃぷ");
+        window.open(intent,"_blank","noopener,noreferrer");
+        showToast("画像を保存し、開いたXの投稿画面に添付してください。");
       }
     } catch (_) { showToast("結果画像を作成できませんでした。通常の共有ボタンを使ってください。"); }
   }
@@ -631,7 +652,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio();
     $("singleBtn").addEventListener("click",()=>pull(1));
     $("tenBtn").addEventListener("click",()=>pull(10));
-    $("shareResultBtn").addEventListener("click",shareResults);
+    $("shareResultBtn").addEventListener("click",shareImage);
     $("shareImageBtn").addEventListener("click",shareImage);
     $("shareFavorites").addEventListener("click",()=>shareList(getFavorites(),"これ好き動画リスト"));
     $("shareUnviewed").addEventListener("click",()=>shareList(getUnviewed(),"未視聴動画リスト"));
