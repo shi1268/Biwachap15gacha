@@ -116,7 +116,7 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .list-row{display:flex;align-items:center;gap:10px;min-width:0;padding:9px;border-radius:10px;background:#ffffff06}
 .list-row img{width:76px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#080d20;flex-shrink:0}
 .list-row .list-title{font-size:.82rem;font-weight:750;overflow-wrap:anywhere;flex:1}
-.list-row a{color:var(--lime);font-size:.8rem;white-space:nowrap}
+.list-row a{color:var(--lime);font-size:.8rem;white-space:nowrap}.list-row .remove-list-item{padding:6px 8px;font-size:.72rem;flex-shrink:0}
 .two-panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .csv-help{font-size:.85rem;color:var(--muted);line-height:1.7}
 .csv-help code{color:var(--lime);overflow-wrap:anywhere}
@@ -143,12 +143,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-hint{color:#dbe5ff;margin:0 0 22px;font-size:.9rem}
 .reveal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(7px,2vw,16px);max-width:1000px;margin:auto}
 .reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
-.reveal-back:before{content:"◈ 琵琶湖 ◈";position:absolute;inset:0;display:grid;place-items:center;border:5px double #c6ff3850;margin:7px;border-radius:7px;color:#c6ff38;font-size:clamp(.65rem,2vw,1.2rem);letter-spacing:.08em;text-shadow:0 0 12px #c6ff38}
+.reveal-back:before,.reveal-back:after{content:"";position:absolute;top:50%;width:clamp(18px,3.4vw,38px);height:clamp(18px,3.4vw,38px);transform:translate(-50%,-50%) rotate(45deg);border-radius:2px;pointer-events:none}.reveal-back:before{left:43%;background:#172754;border:2px solid #0a1026;box-shadow:0 0 0 1px #7284a8,0 0 12px #172754}.reveal-back:after{left:57%;background:#c6ff38;border:2px solid #e5ff9b;box-shadow:0 0 14px #c6ff38a0}
 .reveal-back.rarity-R{border-color:#8be9ff;box-shadow:0 0 12px #43f4ff80,inset 0 0 24px #43f4ff28}
 .reveal-back.rarity-SR{border:2px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
 .reveal-back.rarity-UR{border:2px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
 .reveal-back:hover{transform:translateY(-4px) scale(1.02)}
-.reveal-back.revealed{padding:0;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{position:absolute;right:4px;bottom:4px;background:#05091bcc;color:white;border-radius:5px;padding:2px 5px;font-size:.7rem}
+.reveal-back.revealed{padding:0;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{position:absolute;right:4px;bottom:4px;background:#05091bcc;color:white;border-radius:5px;padding:2px 5px;font-size:.7rem}
 .reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
 .reveal-modal.show{display:grid}
 .reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:2px solid var(--lime);box-shadow:0 0 50px #c6ff3860;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
@@ -156,7 +156,19 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-modal-card .video-title{font-size:clamp(1rem,3vw,1.5rem)}
 .reveal-modal-card .card-body{padding:16px 4px 4px}
 .reveal-modal-card .card-actions{justify-content:center}
-.reveal-modal-card .rarity-label{font-size:1.1rem}
+ .reveal-modal-card .rarity-label{font-size:1.1rem}
+/* めくったカードのレアリティ演出 */
+.reveal-modal-card .video-card{isolation:isolate;overflow:visible;animation:flipIn .6s cubic-bezier(.2,.8,.2,1),rarityPulse 1.4s ease-in-out infinite alternate}
+.reveal-modal-card .video-card:after{content:"";position:absolute;inset:-7px;border-radius:20px;pointer-events:none;z-index:3;border:2px solid #aab7d7;box-shadow:0 0 14px #aab7d766}
+.reveal-modal-card .video-card.rarity-R:after{border:3px solid #8be9ff;box-shadow:0 0 12px #43f4ff,0 0 28px #43f4ff9c,inset 0 0 15px #43f4ff66;animation:rareAura 1.2s ease-in-out infinite alternate}
+.reveal-modal-card .video-card.rarity-SR:after{inset:-10px;border:3px double #ff70df;box-shadow:0 0 16px #ff42d0,0 0 38px #ff42d0b0,inset 0 0 18px #ff42d066;animation:srAura 1s ease-in-out infinite alternate}
+.reveal-modal-card .video-card.rarity-UR:after{inset:-13px;border:4px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 42px #ffb72b,0 0 70px #ff42d0,inset 0 0 25px #ffcf5b99;animation:urAura .75s ease-in-out infinite alternate}
+.reveal-modal-card .video-card.rarity-N:after{border-color:#aab7d7;box-shadow:0 0 12px #aab7d788}
+@keyframes rarityPulse{from{filter:brightness(1)}to{filter:brightness(1.08)}}
+@keyframes rareAura{from{box-shadow:0 0 8px #43f4ff,0 0 18px #43f4ff66}to{box-shadow:0 0 20px #43f4ff,0 0 40px #43f4ffcc}}
+@keyframes srAura{from{box-shadow:0 0 12px #ff42d0,0 0 25px #ff42d066}to{box-shadow:0 0 25px #ff42d0,0 0 50px #ff42d0cc,0 0 70px #a88bff}}
+@keyframes urAura{from{box-shadow:0 0 15px #fff4b8,0 0 30px #ffb72b,0 0 48px #ff42d066}to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 90px #ff42d0}}
+
 @keyframes srGlow{to{box-shadow:0 0 24px #ff42d0,0 0 42px #ff42d080,inset 0 0 30px #ff42d080}}
 @keyframes urGlow{to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 85px #ff42d0,inset 0 0 40px #ffcf5b90}}
 @keyframes flipIn{from{opacity:0;transform:perspective(900px) rotateY(90deg) scale(.8)}to{opacity:1;transform:perspective(900px) rotateY(0) scale(1)}}
@@ -171,10 +183,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 @media(min-width:760px){.results{grid-template-columns:minmax(0,1fr)}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr));max-width:1100px;gap:10px}.results.ten .video-card{display:block;min-width:0;border-width:1px}.results.ten .thumb-wrap{height:auto;aspect-ratio:16/9}.results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}.results.ten .rarity-UR:before{padding:3px;font-size:.65rem}.results.ten .card-actions{gap:4px;flex-wrap:wrap}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.68rem;padding:6px}}
 @media(max-width:560px){
  header{padding-top:23px}.buttons{grid-template-columns:1fr;gap:12px}.gacha-btn{min-height:72px}
- .results{grid-template-columns:1fr}.two-panels{grid-template-columns:1fr}
- .section-head{align-items:start;flex-direction:column}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr))}
- .results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}
- .results.ten .card-actions{gap:5px}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.72rem;padding:7px}
+ .results{grid-template-columns:1fr}.results.ten{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.results.ten .video-card{min-width:0}.results.ten .thumb-wrap{aspect-ratio:16/9;height:auto}.results.ten .card-body{padding:8px}.results.ten .video-title{font-size:.76rem;line-height:1.35}.results.ten .card-actions{gap:4px}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.65rem;padding:6px 5px;min-width:0;white-space:normal}.two-panels{grid-template-columns:1fr}
+ .section-head{align-items:start;flex-direction:column}
  .list-row img{width:64px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
@@ -218,7 +228,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     </div>
     <div class="secondary-actions">
       <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
-      <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を作成</button>
+      <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
     </div>
     <p class="notice">※毎回ランダム抽選。10連では同じ動画が複数回出ることもあります。<br>結果はこのブラウザ内に保存されます。</p>
   </section>
@@ -398,8 +408,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       img.src = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
       img.onerror = () => { img.style.visibility = "hidden"; };
     }, { once: true });
-    card.querySelector(".favorite").addEventListener("click", () => toggleFavorite(video));
-    card.querySelector(".unviewed-toggle").addEventListener("click", () => toggleUnviewed(video));
+    card.querySelector(".favorite").addEventListener("click", event => { event.stopPropagation(); toggleFavorite(video); });
+    card.querySelector(".unviewed-toggle").addEventListener("click", event => { event.stopPropagation(); toggleUnviewed(video); });
     return card;
   }
   function renderResults(results, mode) {
@@ -430,7 +440,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     if (!list.length) { el.innerHTML = `<p class="csv-help">${emptyText}</p>`; return; }
     list.forEach(v => {
       const row = document.createElement("div"); row.className = "list-row";
-      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a>`;
+      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a><button class="small-btn remove-list-item" type="button" aria-label="${escapeHtml(v.title)}をリストから削除">削除</button>`;
+      row.querySelector(".remove-list-item").addEventListener("click", () => {
+        if (elementId === "favoritesList") { writeStorage(STORAGE.favorites, getFavorites().filter(item => item.id !== v.id)); renderFavorites(); showToast("「これ好き」から削除しました"); }
+        else { writeStorage(STORAGE.unviewed, getUnviewed().filter(item => item.id !== v.id)); renderUnviewed(); showToast("「未視聴」から削除しました"); }
+        refreshVisibleCards();
+      });
       el.appendChild(row);
     });
   }
@@ -620,16 +635,16 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   async function makeShareImage() {
     if (!latestResults.length) return;
     const cols = latestResults.length === 1 ? 1 : 2;
-    const thumbW = 560, thumbH = 315, gap = 18, pad = 24, top = 24;
+    const thumbW = 560, thumbH = 315, gap = 18, top = 100;
     const rows = Math.ceil(latestResults.length / cols);
     const canvas = document.createElement("canvas");
     canvas.width = cols * thumbW + (cols + 1) * gap;
     canvas.height = rows * thumbH + (rows + 1) * gap + top;
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#101a3a"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="900 44px sans-serif";ctx.shadowColor="#c6ff38";ctx.shadowBlur=14;ctx.fillText("今日の琵琶ちゃぷガチャ結果",canvas.width/2,62);ctx.shadowBlur=0;
     for (let i=0;i<latestResults.length;i++) {
       const v=latestResults[i], x=gap+(i%cols)*(thumbW+gap), y=top+gap+Math.floor(i/cols)*(thumbH+gap);
-      ctx.fillStyle="#080d20"; ctx.fillRect(x-pad/2,y-pad/2,thumbW+pad,thumbH+pad);
       try {
         const img=new Image(); img.crossOrigin="anonymous";
         await new Promise((resolve,reject)=>{ const timeout=setTimeout(()=>reject(new Error("timeout")),3500); img.onload=()=>{clearTimeout(timeout);resolve();}; img.onerror=()=>{clearTimeout(timeout);reject(new Error("image"));}; img.src=thumbUrl(v); });
@@ -639,7 +654,6 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
         ctx.drawImage(img,x+(thumbW-w)/2,y+(thumbH-h)/2,w,h);
       } catch (_) {
         ctx.fillStyle="#243e75";ctx.fillRect(x,y,thumbW,thumbH);
-        ctx.fillStyle="#ffffff";ctx.font="bold 22px sans-serif";ctx.textAlign="center";ctx.fillText("サムネイルを読み込めませんでした",x+thumbW/2,y+thumbH/2);
       }
     }
     return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("canvas")),"image/png"));
