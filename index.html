@@ -71,7 +71,7 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:32px 0 14px}
 .section-head h2{font-size:1.35rem;margin:0}
 .section-head p{color:var(--muted);font-size:.82rem;margin:5px 0 0}
-.results{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:760px;margin:0 auto}
+.results{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:1100px;margin:0 auto}
 .video-card{min-width:0;position:relative;border:1px solid #7184b84a;border-radius:16px;overflow:hidden;background:var(--panel);
  box-shadow:0 8px 25px #0002;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both}
 .video-card:nth-child(2n){animation-delay:.07s}
@@ -143,11 +143,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-hint{color:#dbe5ff;margin:0 0 22px;font-size:.9rem}
 .reveal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(7px,2vw,16px);max-width:1000px;margin:auto}
 .reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
-.reveal-back:before{content:"✦ ✧ ✦";position:absolute;inset:0;display:grid;place-items:center;border:5px double #c6ff3850;margin:7px;border-radius:7px;color:#c6ff38}
+.reveal-back:before{content:"◈ 琵琶湖 ◈";position:absolute;inset:0;display:grid;place-items:center;border:5px double #c6ff3850;margin:7px;border-radius:7px;color:#c6ff38;font-size:clamp(.65rem,2vw,1.2rem);letter-spacing:.08em;text-shadow:0 0 12px #c6ff38}
 .reveal-back.rarity-R{border-color:#8be9ff;box-shadow:0 0 12px #43f4ff80,inset 0 0 24px #43f4ff28}
-.reveal-back.rarity-SR{border:3px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
-.reveal-back.rarity-UR{border:4px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
+.reveal-back.rarity-SR{border:2px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
+.reveal-back.rarity-UR{border:2px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
 .reveal-back:hover{transform:translateY(-4px) scale(1.02)}
+.reveal-back.revealed{padding:0;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{position:absolute;right:4px;bottom:4px;background:#05091bcc;color:white;border-radius:5px;padding:2px 5px;font-size:.7rem}
 .reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
 .reveal-modal.show{display:grid}
 .reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:2px solid var(--lime);box-shadow:0 0 50px #c6ff3860;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
@@ -167,11 +168,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 @keyframes pulse{to{transform:scale(1.04);filter:hue-rotate(35deg)}}
 @keyframes loading{to{width:100%;transform:translateX(0)}}
 @keyframes fall{to{transform:translate(var(--drift,20px),110vh) rotate(800deg);opacity:.1}}
-@media(min-width:760px){.results{grid-template-columns:minmax(0,1fr)}.results.ten{grid-template-columns:minmax(0,1fr)}.results.ten .video-card{display:grid;grid-template-columns:minmax(240px,42%) 1fr}.results.ten .thumb-wrap{height:100%;aspect-ratio:auto}.results.ten .card-body{padding:16px}.results.ten .video-title{font-size:.95rem}}
+@media(min-width:760px){.results{grid-template-columns:minmax(0,1fr)}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr));max-width:1100px;gap:10px}.results.ten .video-card{display:block;min-width:0;border-width:1px}.results.ten .thumb-wrap{height:auto;aspect-ratio:16/9}.results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}.results.ten .rarity-UR:before{padding:3px;font-size:.65rem}.results.ten .card-actions{gap:4px;flex-wrap:wrap}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.68rem;padding:6px}}
 @media(max-width:560px){
  header{padding-top:23px}.buttons{grid-template-columns:1fr;gap:12px}.gacha-btn{min-height:72px}
  .results{grid-template-columns:1fr}.two-panels{grid-template-columns:1fr}
- .section-head{align-items:start;flex-direction:column}.results.ten{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .section-head{align-items:start;flex-direction:column}.results.ten{grid-template-columns:repeat(5,minmax(0,1fr))}
  .results.ten .card-body{padding:10px}.results.ten .video-title{font-size:.82rem}
  .results.ten .card-actions{gap:5px}.results.ten .card-actions a,.results.ten .card-actions button{font-size:.72rem;padding:7px}
  .list-row img{width:64px}
@@ -184,10 +185,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <div class="audio-widget" aria-label="BGMコントロール">
   <button class="small-btn" id="bgmToggle">▶ BGM</button>
   <label title="BGM音量">音量 <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
-  <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / ガチャSE=se-pull.mp3 / レアSE=se-ur.mp3 -->
+  <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
   <audio id="bgm" src="bgm.mp3" loop preload="none"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="none"></audio>
-  <audio id="urSE" src="se-ur.mp3" preload="none"></audio>
+  <audio id="seN" src="se-n.mp3" preload="none"></audio>
+  <audio id="seR" src="se-r.mp3" preload="none"></audio>
+  <audio id="seSR" src="se-sr.mp3" preload="none"></audio>
+  <audio id="seUR" src="se-ur.mp3" preload="none"></audio>
 </div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
   <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
@@ -286,6 +290,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   let busy = false;
   let revealIndex = 0;
   let revealMode = 1;
+  let revealedIndices = new Set();
   const RARITIES = ["N","R","SR","UR"];
   const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — 究極的に観るべき"};
   let toastTimer = null;
@@ -522,7 +527,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     latestResults.forEach((v,i)=>{
       const b=document.createElement("button");
       b.type="button"; b.className="reveal-back rarity-"+(v.rarity||"N");
-      b.setAttribute("aria-label",`${i+1}枚目のカードをめくる`); b.textContent=String(i+1).padStart(2,"0");
+      b.setAttribute("aria-label",`${i+1}枚目のカード${revealedIndices.has(i)?"（表）":"をめくる"}`);
+      if (revealedIndices.has(i)) {
+        b.classList.add("revealed");
+        b.innerHTML=`<img src="${escapeHtml(thumbUrl(v))}" alt="" loading="lazy"><span>${i+1}</span>`;
+      } else b.textContent=String(i+1).padStart(2,"0");
       b.addEventListener("click",()=>openRevealCard(i)); grid.appendChild(b);
     });
     $("revealHint").textContent=`${latestResults.length}枚のカードが出現！ カードをクリックしてめくろう`;
@@ -534,21 +543,23 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     card.innerHTML=""; card.appendChild(renderCard(latestResults[index],index));
     card.querySelector(".video-card")?.classList.add("rarity-"+(latestResults[index].rarity||"N"));
     modal.classList.add("show"); modal.setAttribute("aria-hidden","false");
-    if(latestResults[index].rarity==="SR" || latestResults[index].rarity==="UR") playSE("urSE");
-    else playSE("pullSE");
+    revealedIndices.add(index);
+    playRaritySE(latestResults[index].rarity || "N");
   }
   function advanceReveal() {
     $("revealModal").classList.remove("show"); $("revealModal").setAttribute("aria-hidden","true");
-    const next=revealIndex+1;
-    if(next<latestResults.length) {
-      // 戻った全体画面を短く見せて、次のカードを自動で大きくめくる
-      $("revealHint").textContent=`${next+1} / ${latestResults.length} 枚目をめくります…`;
-      setTimeout(()=>openRevealCard(next),180);
-    } else {
+    showRevealGrid();
+    if (revealedIndices.size >= latestResults.length) {
       $("revealOverlay").classList.remove("show"); $("revealOverlay").setAttribute("aria-hidden","true");
       $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
       showToast("すべてのカードをめくりました！");
+    } else {
+      $("revealHint").textContent=`${revealedIndices.size}/${latestResults.length}枚めくりました。次にめくりたいカードを選んでください。`;
     }
+  }
+  function playRaritySE(rarity) {
+    const ids = {N:"seN", R:"seR", SR:"seSR", UR:"seUR"};
+    playSE(ids[rarity] || "seN");
   }
 
   async function pull(count) {
@@ -564,12 +575,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     overlay.setAttribute("aria-hidden","false");
     // 結果を選ぶのは毎回独立したランダム抽選。重複を許可する。
     const picked = Array.from({length:count}, () => ({...videos[Math.floor(Math.random() * videos.length)], rarity: rarityForPull()}));
-    playSE("pullSE");
     await wait(count === 10 ? 1750 : 1250);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     latestResults = picked;
-    if (picked.some(v => v.rarity === "SR" || v.rarity === "UR")) playSE("urSE");
+    revealedIndices = new Set();
     renderResults(picked, count);
     confettiBurst(count === 10 ? 100 : 58);
     showRevealGrid();
