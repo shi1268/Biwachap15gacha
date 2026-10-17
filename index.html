@@ -174,6 +174,28 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 @keyframes flipIn{from{opacity:0;transform:perspective(900px) rotateY(90deg) scale(.8)}to{opacity:1;transform:perspective(900px) rotateY(0) scale(1)}}
 @media(max-width:650px){.reveal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reveal-overlay{padding:14px}.reveal-back{aspect-ratio:16/10}}
 
+
+/* 特定動画のフルスクリーン・カットイン */
+.cutin-overlay{position:fixed;inset:0;z-index:120;display:none;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at center,#27386e 0%,#101a3a 42%,#030612 100%);}
+.cutin-overlay.show{display:block;animation:cutinBackdrop .45s ease-out both}
+.cutin-overlay:before{content:"";position:absolute;inset:-45%;pointer-events:none;background:repeating-conic-gradient(from 0deg,transparent 0 7deg,#c6ff3833 7.2deg 8deg,transparent 8.2deg 15deg);animation:spin 7s linear infinite}
+.cutin-overlay:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 15%,#43f4ff35 35%,transparent 47%,#ff42d035 63%,transparent 78%);mix-blend-mode:screen;animation:cutinSweep 1.3s ease-in-out infinite alternate}
+.cutin-flash{position:absolute;inset:0;z-index:2;pointer-events:none;background:white;animation:cutinFlash .55s ease-out forwards}
+.cutin-kicker{position:absolute;z-index:4;top:9%;left:0;width:100%;text-align:center;color:#c6ff38;font-weight:1000;letter-spacing:.35em;font-size:clamp(.75rem,2.5vw,1.1rem);text-shadow:0 0 18px #c6ff38;animation:cutinTitle .55s cubic-bezier(.2,.8,.2,1) both}
+.cutin-main-text{position:absolute;z-index:5;left:5%;right:5%;top:38%;text-align:center;transform:translateY(-50%);font-size:clamp(1.6rem,6vw,4rem);font-weight:1000;line-height:1.35;color:#fff;text-shadow:0 0 5px #fff,0 0 16px #43f4ff,0 0 35px #ff42d0;overflow-wrap:anywhere;opacity:0}
+.cutin-main-text.animate{animation:cutinFloat 1.35s cubic-bezier(.16,1,.3,1) both}
+.cutin-lanes{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none}
+.cutin-comment{position:absolute;left:100%;white-space:nowrap;max-width:none;font-size:clamp(1rem,3.4vw,2rem);font-weight:1000;color:#fff;text-shadow:0 2px 4px #000,0 0 10px currentColor;animation:cutinScroll var(--scroll-duration,5s) linear both;will-change:transform}
+.cutin-comment:nth-child(3n){font-size:clamp(1.3rem,4.2vw,2.4rem)}
+.cutin-footer{position:absolute;z-index:5;bottom:9%;width:100%;text-align:center;color:#dce7ff;font-size:.8rem;letter-spacing:.18em;text-shadow:0 0 12px #43f4ff;animation:cutinTitle .8s .2s both}
+@keyframes cutinBackdrop{from{opacity:0;filter:brightness(3)}to{opacity:1;filter:brightness(1)}}
+@keyframes cutinFlash{0%{opacity:.95}100%{opacity:0}}
+@keyframes cutinSweep{from{transform:translateX(-12%) skewX(-8deg)}to{transform:translateX(12%) skewX(-8deg)}}
+@keyframes cutinTitle{from{opacity:0;transform:translateY(18px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cutinFloat{0%{opacity:0;transform:translateY(24px) scale(.7);filter:blur(8px)}18%{opacity:1;transform:translateY(0) scale(1.04);filter:blur(0)}72%{opacity:1;transform:translateY(-8px) scale(1)}100%{opacity:0;transform:translateY(-32px) scale(1.12);filter:blur(2px)}}
+@keyframes cutinScroll{from{transform:translateX(0)}to{transform:translateX(calc(-100vw - 120%))}}
+@media(prefers-reduced-motion:reduce){.cutin-overlay:before,.cutin-overlay:after{animation:none}.cutin-comment{animation-duration:2s!important}.cutin-main-text.animate{animation-duration:.8s}}
+
 .confetti{position:fixed;top:-20px;width:9px;height:18px;z-index:40;pointer-events:none;animation:fall var(--dur,1.6s) linear forwards;box-shadow:0 0 10px currentColor}
 @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96);filter:brightness(2)}to{opacity:1;transform:none;filter:brightness(1)}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -285,6 +307,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <div class="reveal-stage"><h2 class="reveal-heading">運命のカードを選べ！</h2><p class="reveal-hint" id="revealHint">カードをクリックしてめくろう</p><div class="reveal-grid" id="revealGrid"></div></div>
 </div>
 <div class="reveal-modal" id="revealModal" aria-hidden="true"><div class="reveal-modal-card" id="revealModalCard"></div></div>
+<div class="cutin-overlay" id="cutinOverlay" aria-hidden="true" role="status" aria-live="polite">
+  <div class="cutin-flash"></div><div class="cutin-kicker">✦ SPECIAL VIDEO — LIMIT BREAK ✦</div>
+  <div class="cutin-lanes" id="cutinLanes"></div><div class="cutin-main-text" id="cutinMainText"></div>
+  <div class="cutin-footer">運命の一枚が姿を現す…</div>
+</div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -297,6 +324,9 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   const $ = (id) => document.getElementById(id);
   let videos = [];
   let latestResults = [];
+  const cutinByVideoId = new Map();
+  const cutinPending = new Set();
+  let cutinLoaded = false;
   let busy = false;
   let revealIndex = 0;
   let revealMode = 1;
@@ -319,11 +349,10 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[ch]));
   }
-  function parseCSV(text) {
-    // CSV標準のダブルクォート、カンマ、改行に対応する簡易パーサー
+  function parseCSVRows(text) {
     const rows = [];
     let row = [], field = "", quoted = false;
-    text = text.replace(/^\uFEFF/, "");
+    text = String(text).replace(/^\uFEFF/, "");
     for (let i = 0; i < text.length; i++) {
       const ch = text[i], next = text[i + 1];
       if (quoted) {
@@ -332,12 +361,16 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
         else field += ch;
       } else {
         if (ch === '"' && field.length === 0) quoted = true;
-        else if (ch === ",") { row.push(field); field = ""; }
-        else if (ch === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
-        else if (ch !== "\r") field += ch;
+        else if (ch === ',') { row.push(field); field = ""; }
+        else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
+        else if (ch !== '\r') field += ch;
       }
     }
     if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+  function parseCSV(text) {
+    const rows = parseCSVRows(text);
     if (!rows.length) return [];
     const headers = rows.shift().map(x => cleanText(x).toLowerCase());
     const titleIndex = headers.indexOf("title");
@@ -352,6 +385,74 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       if (!title || !id) return null;
       return { title, url: "https://www.youtube.com/watch?v=" + id, genre, id };
     }).filter(Boolean);
+  }
+  function parseCutinCSV(text) {
+    const rows = parseCSVRows(text);
+    if (!rows.length) return 0;
+    const headers = rows.shift().map(x => cleanText(x).toLowerCase());
+    const titleIndex = headers.findIndex(x => ["動画名", "title", "動画タイトル"].includes(x));
+    const urlIndex = headers.indexOf("url");
+    const textIndex = headers.findIndex(x => ["文章", "text", "comment", "コメント"].includes(x));
+    if (urlIndex < 0 || textIndex < 0) throw new Error("cutin_videos.csvには「動画名,URL,文章」の列が必要です。");
+    let added = 0;
+    for (const row of rows) {
+      const title = titleIndex >= 0 ? cleanText(row[titleIndex]) : "";
+      const id = getYouTubeId(cleanText(row[urlIndex]));
+      const message = cleanText(row[textIndex]);
+      if (!id || !message) continue;
+      if (!cutinByVideoId.has(id)) cutinByVideoId.set(id, { title, texts: [] });
+      const entry = cutinByVideoId.get(id);
+      if (title && !entry.title) entry.title = title;
+      entry.texts.push(message);
+      added++;
+    }
+    cutinLoaded = true;
+    return added;
+  }
+  async function loadCutinCSV() {
+    try {
+      const response = await fetch("./cutin_videos.csv", {cache:"no-store"});
+      if (!response.ok) throw new Error("cutin_videos.csv not found");
+      const count = parseCutinCSV(await response.text());
+      return `カットイン対象 ${cutinByVideoId.size}本・文章 ${count}件`;
+    } catch (_) {
+      return "カットインCSV未読込（cutin_videos.csvを追加すると有効）";
+    }
+  }
+  function cutinTextsFor(video) {
+    return cutinByVideoId.get(video.id)?.texts || [];
+  }
+  async function playCutin(video) {
+    const texts = cutinTextsFor(video);
+    if (!texts.length) return;
+    const overlay = $("cutinOverlay"), main = $("cutinMainText"), lanes = $("cutinLanes");
+    cutinPending.add(video.id);
+    overlay.classList.add("show"); overlay.setAttribute("aria-hidden", "false");
+    main.classList.remove("animate"); main.textContent = ""; lanes.innerHTML = "";
+    // 全文章を弾幕として流し、同時に中央には一つずつ浮かべて表示する。
+    texts.forEach((text, i) => {
+      const comment = document.createElement("div");
+      comment.className = "cutin-comment"; comment.textContent = text;
+      comment.style.top = (18 + ((i * 17) % 65)) + "%";
+      comment.style.color = ["#ffffff", "#c6ff38", "#43f4ff", "#ff9de8", "#ffe99b"][i % 5];
+      comment.style.setProperty("--scroll-duration", (4.4 + (i % 4) * .55) + "s");
+      comment.style.animationDelay = (Math.min(i, 8) * .12) + "s";
+      lanes.appendChild(comment);
+    });
+    const displayDuration = Math.min(12000, Math.max(4200, texts.length * 850));
+    const step = Math.max(600, (displayDuration - 500) / Math.max(1, texts.length));
+    const started = Date.now();
+    for (let i = 0; i < texts.length; i++) {
+      main.classList.remove("animate");
+      // force restart CSS animation
+      void main.offsetWidth;
+      main.textContent = texts[i]; main.classList.add("animate");
+      await wait(Math.min(step, Math.max(0, displayDuration - (Date.now() - started))));
+    }
+    const remaining = displayDuration - (Date.now() - started);
+    if (remaining > 0) await wait(remaining);
+    overlay.classList.remove("show"); overlay.setAttribute("aria-hidden", "true");
+    lanes.innerHTML = ""; main.textContent = ""; cutinPending.delete(video.id);
   }
   function getYouTubeId(url) {
     try {
@@ -547,19 +648,22 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
         b.classList.add("revealed");
         b.innerHTML=`<img src="${escapeHtml(thumbUrl(v))}" alt="" loading="lazy"><span>${i+1}</span>`;
       } else b.textContent=String(i+1).padStart(2,"0");
-      b.addEventListener("click",()=>openRevealCard(i)); grid.appendChild(b);
+      b.addEventListener("click",()=>{ if (!revealedIndices.has(i) && !cutinPending.size) openRevealCard(i); }); grid.appendChild(b);
     });
     $("revealHint").textContent=`${latestResults.length}枚のカードが出現！ カードをクリックしてめくろう`;
     $("revealOverlay").classList.add("show"); $("revealOverlay").setAttribute("aria-hidden","false");
   }
-  function openRevealCard(index) {
+  async function openRevealCard(index) {
+    if (revealedIndices.has(index) || cutinPending.size) return;
     revealIndex=index;
+    const video = latestResults[index];
+    if (cutinTextsFor(video).length) await playCutin(video);
     const modal=$("revealModal"); const card=$("revealModalCard");
-    card.innerHTML=""; card.appendChild(renderCard(latestResults[index],index));
-    card.querySelector(".video-card")?.classList.add("rarity-"+(latestResults[index].rarity||"N"));
+    card.innerHTML=""; card.appendChild(renderCard(video,index));
+    card.querySelector(".video-card")?.classList.add("rarity-"+(video.rarity||"N"));
     modal.classList.add("show"); modal.setAttribute("aria-hidden","false");
     revealedIndices.add(index);
-    playRaritySE(latestResults[index].rarity || "N");
+    playRaritySE(video.rarity || "N");
   }
   function advanceReveal() {
     $("revealModal").classList.remove("show"); $("revealModal").setAttribute("aria-hidden","true");
@@ -726,6 +830,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       {name:"game_videos.csv", genre:"game"},
       {name:"talk_videos.csv", genre:"talk"}
     ];
+    const cutinOutcomePromise = loadCutinCSV();
     const outcomes = await Promise.all(csvFiles.map(async file => {
       try {
         const response = await fetch("./" + file.name, {cache:"no-store"});
@@ -734,12 +839,14 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
         return `${file.name}: ${added}本追加`;
       } catch (_) { return `${file.name}: 未読込`; }
     }));
+    const cutinOutcome = await cutinOutcomePromise;
     if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
       $("loadMessage").textContent = "自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。PCで直接開いている場合は、下のファイル選択から3ファイルを選べます。";
       $("singleBtn").disabled = $("tenBtn").disabled = true;
+      $("loadMessage").textContent += ` ${cutinOutcome}。`;
     } else {
-      $("loadMessage").textContent = outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。`;
+      $("loadMessage").textContent = outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。 ${cutinOutcome}。`;
     }
   }
   init();
