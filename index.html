@@ -9,7 +9,7 @@
 <style>
 :root{
   --navy:#101a3a; --navy2:#172754; --lime:#c6ff38; --lime2:#8dff00;
-  --white:#f4f7ff; --muted:#aab7d7; --pink:#ff42d0; --cyan:#43f4ff;
+  --white:#f4f7ff; --muted:#aab7d7; --pink:#ff42d0; --cyan:#43f4ff; --orange:#ff9b35;
   --panel:rgba(23,39,84,.88); --line:rgba(198,255,56,.35);
 }
 *{box-sizing:border-box}
@@ -89,12 +89,12 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .audio-tools label{color:var(--muted);font-size:.82rem}
   .video-card .thumb-wrap{z-index:0}
   .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
-  .genre-challenge{border-color:#ffb2e8;box-shadow:inset 0 0 0 1px #ff42d022}
-  .genre-challenge .genre-tag{color:#ffb2e8;background:#ff42d01c}
-  .genre-game{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
-  .genre-game .genre-tag{color:#d2c3ff;background:#a88bff20}
-  .genre-talk{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
-  .genre-talk .genre-tag{color:#8be9ff;background:#43f4ff16}
+  .genre-challenge{border-color:#ff9b35;box-shadow:inset 0 0 0 1px #ff9b3522}
+  .genre-challenge .genre-tag{color:#ffc078;background:#ff9b351c}
+  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
+  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -135,6 +135,32 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .overlay-sub{color:#dbe5ff;font-weight:800}
 .overlay-bar{width:min(300px,75vw);height:9px;border:1px solid var(--lime);border-radius:999px;margin:22px auto;overflow:hidden}
 .overlay-bar span{display:block;width:30%;height:100%;background:var(--lime);box-shadow:0 0 20px var(--lime);animation:loading .85s ease-in-out infinite alternate}
+
+.reveal-overlay{position:fixed;inset:0;z-index:60;display:none;background:radial-gradient(circle at center,#1c2c5a,#05091b 75%);overflow:auto;padding:22px;place-items:center}
+.reveal-overlay.show{display:grid}
+.reveal-stage{width:min(1100px,100%);margin:auto;text-align:center}
+.reveal-heading{color:var(--lime);font-weight:1000;font-size:clamp(1.3rem,4vw,2rem);margin:0 0 8px;text-shadow:0 0 18px #c6ff3870}
+.reveal-hint{color:#dbe5ff;margin:0 0 22px;font-size:.9rem}
+.reveal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(7px,2vw,16px);max-width:1000px;margin:auto}
+.reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
+.reveal-back:before{content:"✦ ✧ ✦";position:absolute;inset:0;display:grid;place-items:center;border:5px double #c6ff3850;margin:7px;border-radius:7px;color:#c6ff38}
+.reveal-back.rarity-R{border-color:#8be9ff;box-shadow:0 0 12px #43f4ff80,inset 0 0 24px #43f4ff28}
+.reveal-back.rarity-SR{border:3px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
+.reveal-back.rarity-UR{border:4px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
+.reveal-back:hover{transform:translateY(-4px) scale(1.02)}
+.reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
+.reveal-modal.show{display:grid}
+.reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:2px solid var(--lime);box-shadow:0 0 50px #c6ff3860;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
+.reveal-modal-card .thumb-wrap{border-radius:12px}
+.reveal-modal-card .video-title{font-size:clamp(1rem,3vw,1.5rem)}
+.reveal-modal-card .card-body{padding:16px 4px 4px}
+.reveal-modal-card .card-actions{justify-content:center}
+.reveal-modal-card .rarity-label{font-size:1.1rem}
+@keyframes srGlow{to{box-shadow:0 0 24px #ff42d0,0 0 42px #ff42d080,inset 0 0 30px #ff42d080}}
+@keyframes urGlow{to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 85px #ff42d0,inset 0 0 40px #ffcf5b90}}
+@keyframes flipIn{from{opacity:0;transform:perspective(900px) rotateY(90deg) scale(.8)}to{opacity:1;transform:perspective(900px) rotateY(0) scale(1)}}
+@media(max-width:650px){.reveal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reveal-overlay{padding:14px}.reveal-back{aspect-ratio:16/10}}
+
 .confetti{position:fixed;top:-20px;width:9px;height:18px;z-index:40;pointer-events:none;animation:fall var(--dur,1.6s) linear forwards;box-shadow:0 0 10px currentColor}
 @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96);filter:brightness(2)}to{opacity:1;transform:none;filter:brightness(1)}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -217,7 +243,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <section class="panel">
     <h3>🧰 動画リストの読み込み</h3>
     <p class="csv-help">
-      公開時は <code>videos.csv</code> をこのHTMLと同じ場所に置くと自動で読み込みます。<br>
+      公開時は <code>challenge_videos.csv</code>、<code>game_videos.csv</code>、<code>talk_videos.csv</code> をこのHTMLと同じ場所に置くと自動で読み込みます。<br>
       CSVの列は <code>title,url,genre</code>（genreは任意）。複数ファイルを一度に選ぶか、続けて読み込めます。重複したYouTube動画IDは追加しません。<br>
       GitHub Pages上のCSVを更新した場合、ページを再読み込みしてください。
     </p>
@@ -241,6 +267,10 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     <div class="overlay-sub">PLEASE WAIT, DOPAGAKI...</div>
   </div>
 </div>
+<div class="reveal-overlay" id="revealOverlay" aria-hidden="true">
+  <div class="reveal-stage"><h2 class="reveal-heading">運命のカードを選べ！</h2><p class="reveal-hint" id="revealHint">カードをクリックしてめくろう</p><div class="reveal-grid" id="revealGrid"></div></div>
+</div>
+<div class="reveal-modal" id="revealModal" aria-hidden="true"><div class="reveal-modal-card" id="revealModalCard"></div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -254,6 +284,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   let videos = [];
   let latestResults = [];
   let busy = false;
+  let revealIndex = 0;
+  let revealMode = 1;
   const RARITIES = ["N","R","SR","UR"];
   const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — 究極的に観るべき"};
   let toastTimer = null;
@@ -340,7 +372,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const genre = video.genreType || "";
     const genreNames = {challenge:"🎉 企画動画", game:"🎮 ゲーム動画", talk:"💬 お話動画"};
     const card = document.createElement("article");
-    card.className = "video-card" + (genre ? " genre-" + genre : "");
+    card.className = "video-card" + (genre ? " genre-" + genre : "") + (rarity ? " rarity-" + rarity : "");
     card.innerHTML = `
       <div class="thumb-wrap">
         <img class="thumb" src="${thumbUrl(video)}" alt="${escapeHtml(video.title)} のサムネイル" loading="lazy">
@@ -485,6 +517,40 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     }
   }
   function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+  function showRevealGrid() {
+    const grid=$("revealGrid"); grid.innerHTML="";
+    latestResults.forEach((v,i)=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="reveal-back rarity-"+(v.rarity||"N");
+      b.setAttribute("aria-label",`${i+1}枚目のカードをめくる`); b.textContent=String(i+1).padStart(2,"0");
+      b.addEventListener("click",()=>openRevealCard(i)); grid.appendChild(b);
+    });
+    $("revealHint").textContent=`${latestResults.length}枚のカードが出現！ カードをクリックしてめくろう`;
+    $("revealOverlay").classList.add("show"); $("revealOverlay").setAttribute("aria-hidden","false");
+  }
+  function openRevealCard(index) {
+    revealIndex=index;
+    const modal=$("revealModal"); const card=$("revealModalCard");
+    card.innerHTML=""; card.appendChild(renderCard(latestResults[index],index));
+    card.querySelector(".video-card")?.classList.add("rarity-"+(latestResults[index].rarity||"N"));
+    modal.classList.add("show"); modal.setAttribute("aria-hidden","false");
+    if(latestResults[index].rarity==="SR" || latestResults[index].rarity==="UR") playSE("urSE");
+    else playSE("pullSE");
+  }
+  function advanceReveal() {
+    $("revealModal").classList.remove("show"); $("revealModal").setAttribute("aria-hidden","true");
+    const next=revealIndex+1;
+    if(next<latestResults.length) {
+      // 戻った全体画面を短く見せて、次のカードを自動で大きくめくる
+      $("revealHint").textContent=`${next+1} / ${latestResults.length} 枚目をめくります…`;
+      setTimeout(()=>openRevealCard(next),180);
+    } else {
+      $("revealOverlay").classList.remove("show"); $("revealOverlay").setAttribute("aria-hidden","true");
+      $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
+      showToast("すべてのカードをめくりました！");
+    }
+  }
+
   async function pull(count) {
     if (busy || !videos.length) return;
     busy = true;
@@ -506,7 +572,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     if (picked.some(v => v.rarity === "SR" || v.rarity === "UR")) playSE("urSE");
     renderResults(picked, count);
     confettiBurst(count === 10 ? 100 : 58);
-    $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
+    showRevealGrid();
     busy = false;
     $("singleBtn").disabled = $("tenBtn").disabled = false;
     $("shareResultBtn").disabled = false;
@@ -543,63 +609,30 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   // SNS用の「結果画像」を作成。YouTubeサムネイルを取得できない環境でもタイトルカード画像を生成。
   async function makeShareImage() {
     if (!latestResults.length) return;
-    const ten = latestResults.length === 10;
+    const cols = latestResults.length === 1 ? 1 : 2;
+    const thumbW = 560, thumbH = 315, gap = 18, pad = 24, top = 24;
+    const rows = Math.ceil(latestResults.length / cols);
     const canvas = document.createElement("canvas");
-    canvas.width = 1200; canvas.height = ten ? 1200 : 900;
+    canvas.width = cols * thumbW + (cols + 1) * gap;
+    canvas.height = rows * thumbH + (rows + 1) * gap + top;
     const ctx = canvas.getContext("2d");
-    const grad = ctx.createLinearGradient(0,0,1200,canvas.height);
-    grad.addColorStop(0,"#101a3a"); grad.addColorStop(1,"#172754");
-    ctx.fillStyle = grad; ctx.fillRect(0,0,1200,canvas.height);
-    // ネオン背景
-    ctx.strokeStyle = "rgba(198,255,56,.13)"; ctx.lineWidth = 2;
-    for (let x=0;x<1200;x+=42){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
-    for (let y=0;y<canvas.height;y+=42){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1200,y);ctx.stroke();}
-    ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="900 28px sans-serif";
-    ctx.fillText("BIWACHAP VIDEO GACHA",600,54);
-    ctx.font="900 42px sans-serif";ctx.fillStyle="#ffffff";
-    ctx.fillText(ten ? "10連ガチャ 結果!!" : "単発ガチャ 結果!!",600,108);
-    const cols = ten ? 2 : 1, rows = Math.ceil(latestResults.length/cols);
-    const marginX = ten ? 54 : 110, gapX = 22, top = 145, bottom = 95;
-    const cardW = (1200 - marginX*2 - gapX*(cols-1))/cols;
-    const cardH = (canvas.height - top - bottom - 22*(rows-1))/rows;
-    for (let i=0;i<latestResults.length;i++){
-      const v=latestResults[i], col=i%cols, row=Math.floor(i/cols);
-      const x=marginX+col*(cardW+gapX), y=top+row*(cardH+22);
-      ctx.fillStyle="#0a122d";ctx.fillRect(x,y,cardW,cardH);
-      ctx.strokeStyle="#c6ff38";ctx.lineWidth=3;ctx.strokeRect(x,y,cardW,cardH);
-      // サムネイルを取得できる場合は画像に含め、できない場合はネオンのプレースホルダーにする。
-      let imageLoaded=false;
+    ctx.fillStyle = "#101a3a"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    for (let i=0;i<latestResults.length;i++) {
+      const v=latestResults[i], x=gap+(i%cols)*(thumbW+gap), y=top+gap+Math.floor(i/cols)*(thumbH+gap);
+      ctx.fillStyle="#080d20"; ctx.fillRect(x-pad/2,y-pad/2,thumbW+pad,thumbH+pad);
       try {
-        const img = new Image();
-        img.crossOrigin="anonymous";
-        await new Promise((resolve,reject)=>{
-          img.onload=()=>{imageLoaded=true;resolve();};
-          img.onerror=reject;
-          img.src=thumbUrl(v);
-          setTimeout(reject,1800);
-        });
-        const imageH = ten ? cardH*.58 : cardH*.66;
-        ctx.drawImage(img,x+5,y+5,cardW-10,imageH-5);
-      } catch (_) {}
-      const titleTop = y + (imageLoaded ? (ten ? cardH*.68 : cardH*.73) : 24);
-      ctx.fillStyle="#c6ff38";ctx.font="900 21px sans-serif";ctx.textAlign="left";
-      ctx.fillText(String(i+1).padStart(2,"0"),x+15,y+(imageLoaded ? cardH*.58+22 : 25));
-      ctx.fillStyle="#ffffff";ctx.font=`700 ${ten ? 20 : 30}px sans-serif`;
-      const maxLines = ten ? 2 : 3, maxWidth=cardW-30, words=[...v.title];
-      let line="", lineNo=0, yText=titleTop;
-      for(const char of words){
-        const test=line+char;
-        if(ctx.measureText(test).width>maxWidth && line){
-          ctx.fillText(line,x+15,yText);
-          line=char;lineNo++;yText+=ten?28:38;
-          if(lineNo>=maxLines){line="";break;}
-        }else line=test;
+        const img=new Image(); img.crossOrigin="anonymous";
+        await new Promise((resolve,reject)=>{ const timeout=setTimeout(()=>reject(new Error("timeout")),3500); img.onload=()=>{clearTimeout(timeout);resolve();}; img.onerror=()=>{clearTimeout(timeout);reject(new Error("image"));}; img.src=thumbUrl(v); });
+        // サムネイル本来の16:9比率を維持。引き伸ばさず、比率どおりに描画。
+        const ratio=Math.min(thumbW/img.naturalWidth,thumbH/img.naturalHeight);
+        const w=img.naturalWidth*ratio, h=img.naturalHeight*ratio;
+        ctx.drawImage(img,x+(thumbW-w)/2,y+(thumbH-h)/2,w,h);
+      } catch (_) {
+        ctx.fillStyle="#243e75";ctx.fillRect(x,y,thumbW,thumbH);
+        ctx.fillStyle="#ffffff";ctx.font="bold 22px sans-serif";ctx.textAlign="center";ctx.fillText("サムネイルを読み込めませんでした",x+thumbW/2,y+thumbH/2);
       }
-      if(line && lineNo<maxLines)ctx.fillText(line,x+15,yText);
     }
-    ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="800 20px sans-serif";
-    ctx.fillText("今日の琵琶ちゃぷおすすめ動画ガチャ",600,canvas.height-42);
-    return new Promise(resolve=>canvas.toBlob(blob=>resolve(blob),"image/png"));
+    return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("canvas")),"image/png"));
   }
   async function shareImage() {
     try {
@@ -607,7 +640,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       if (!blob) throw new Error("画像を作れませんでした");
       const file = new File([blob],"biwachap-gacha-result.png",{type:"image/png"});
       if (navigator.canShare && navigator.canShare({files:[file]}) && navigator.share) {
-        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ",text:"ガチャ結果！",files:[file]});
+        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ",text:"琵琶ちゃぷ動画ガチャの結果！ #琵琶ちゃぷ",files:[file]});
       } else {
         const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="biwachap-gacha-result.png";a.click();
         setTimeout(()=>URL.revokeObjectURL(a.href),3000);
@@ -650,6 +683,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   }
   async function init() {
     renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio();
+    $("revealModal").addEventListener("click",event=>{ if(event.target.closest("button,a,input")) return; advanceReveal(); });
     $("singleBtn").addEventListener("click",()=>pull(1));
     $("tenBtn").addEventListener("click",()=>pull(10));
     $("shareResultBtn").addEventListener("click",shareImage);
