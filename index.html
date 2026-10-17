@@ -280,7 +280,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     <h3>🧰 動画リストの読み込み</h3>
     <p class="csv-help">
       公開時は <code>challenge_videos.csv</code>、<code>game_videos.csv</code>、<code>talk_videos.csv</code> をこのHTMLと同じ場所に置くと自動で読み込みます。<br>
-      CSVの列は <code>title,url,genre</code>（genreは任意）。複数ファイルを一度に選ぶか、続けて読み込めます。重複したYouTube動画IDは追加しません。<br>
+      CSVの列は <code>title,url,genre</code>（genreは任意）。複数ファイルを一度に選ぶか、続けて読み込めます。重複した動画IDは追加しません。<br>
       GitHub Pages上のCSVを更新した場合、ページを再読み込みしてください。
     </p>
     <label class="csv-help" for="csvFile">手元のCSVを試し読みする（任意）</label>
@@ -381,9 +381,9 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       const title = cleanText(r[titleIndex]);
       const url = cleanText(r[urlIndex]);
       const genre = genreIndex >= 0 ? cleanText(r[genreIndex]) : "";
-      const id = getYouTubeId(url);
-      if (!title || !id) return null;
-      return { title, url: "https://www.youtube.com/watch?v=" + id, genre, id };
+      const info = getVideoInfo(url);
+      if (!title || !info) return null;
+      return { title, url: info.url, genre, id: info.id, platform: info.platform };
     }).filter(Boolean);
   }
   function parseCutinCSV(text) {
@@ -392,15 +392,16 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const headers = rows.shift().map(x => cleanText(x).toLowerCase());
     const titleIndex = headers.findIndex(x => ["動画名", "title", "動画タイトル"].includes(x));
     const urlIndex = headers.indexOf("url");
-    const textIndex = headers.findIndex(x => ["文章", "text", "comment", "コメント"].includes(x));
-    if (urlIndex < 0 || textIndex < 0) throw new Error("cutin_videos.csvには「動画名,URL,文章」の列が必要です。");
+    const textIndex = headers.findIndex(x => ["文章", "text", "comment", "コメント", "genre"].includes(x));
+    if (urlIndex < 0 || textIndex < 0) throw new Error("cutin_videos.csvには「title,url,genre」（または「動画名,URL,文章」）の列が必要です。");
     let added = 0;
     for (const row of rows) {
       const title = titleIndex >= 0 ? cleanText(row[titleIndex]) : "";
-      const id = getYouTubeId(cleanText(row[urlIndex]));
+      const info = getVideoInfo(cleanText(row[urlIndex]));
       const message = cleanText(row[textIndex]);
-      if (!id || !message) continue;
-      if (!cutinByVideoId.has(id)) cutinByVideoId.set(id, { title, texts: [] });
+      if (!info || !message) continue;
+      const id = info.id;
+      if (!cutinByVideoId.has(id)) cutinByVideoId.set(id, { title, texts: [], platform: info.platform });
       const entry = cutinByVideoId.get(id);
       if (title && !entry.title) entry.title = title;
       entry.texts.push(message);
@@ -454,7 +455,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     overlay.classList.remove("show"); overlay.setAttribute("aria-hidden", "true");
     lanes.innerHTML = ""; main.textContent = ""; cutinPending.delete(video.id);
   }
-  function getYouTubeId(url) {
+  function getVideoInfo(url) {
     try {
       const u = new URL(url);
       let id = "";
@@ -463,10 +464,25 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
         if (u.pathname === "/watch") id = u.searchParams.get("v") || "";
         else if (/^\/(embed|shorts|live)\/[^/]+/.test(u.pathname)) id = u.pathname.split("/")[2] || "";
       }
-      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
-    } catch (_) { return ""; }
+      if (/^[A-Za-z0-9_-]{11}$/.test(id)) return { id, platform: "youtube", url: "https://www.youtube.com/watch?v=" + id };
+      if (/(^|\.)nicovideo\.jp$/.test(u.hostname) || u.hostname === "nico.ms") {
+        const match = u.pathname.match(/\/(?:watch|shorts)\/((?:sm|nm|so|ca|cw|nl|ig|na|ax|yo|ze|za|zb|zc|zd|om|sk|yk)?[0-9]{1,14})/i)
+          || u.pathname.match(/^\/((?:sm|nm|so|ca|cw|nl|ig|na|ax|yo|ze|za|zb|zc|zd|om|sk|yk)[0-9]{1,14})/i);
+        if (match) {
+          id = match[1];
+          return { id, platform: "niconico", url: "https://www.nicovideo.jp/watch/" + id };
+        }
+      }
+      return null;
+    } catch (_) { return null; }
   }
-  function thumbUrl(video) { return `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`; }
+  function thumbUrl(video) {
+    if (video.platform === "niconico" || /^((sm|nm|so|ca|cw|nl|ig|na|ax|yo|ze|za|zb|zc|zd|om|sk|yk)?[0-9]{1,14})$/.test(video.id) && String(video.url || "").includes("nicovideo.jp")) {
+      const numericId = String(video.id).replace(/^[a-z]+/i, "");
+      return `https://nicovideo.cdn.nimg.jp/thumbnails/${numericId}/${numericId}`;
+    }
+    return `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
+  }
   function showToast(message) {
     const el = $("toast");
     el.textContent = message;
@@ -492,14 +508,14 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     card.innerHTML = `
       <div class="thumb-wrap">
         <img class="thumb" src="${thumbUrl(video)}" alt="${escapeHtml(video.title)} のサムネイル" loading="lazy">
-        <a class="open-video" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(video.title)}をYouTubeで開く"><span>▶</span></a>
+        <a class="open-video" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(video.title)}を開く"><span>▶</span></a>
       </div>
       <div class="card-body">
         ${genre ? `<div class="genre-tag">${genreNames[genre]}</div>` : ""}
         ${rarity ? `<div class="rarity-label">${escapeHtml(RARITY_TEXT[rarity] || rarity)}</div>` : ""}
         <p class="video-title">${escapeHtml(video.title)}</p>
         <div class="card-actions">
-          <a class="watch" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">▶ YouTubeで見る</a>
+          <a class="watch" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">▶ 動画サイトで見る</a>
           <button class="favorite ${fav ? "is-fav" : ""}" type="button" aria-pressed="${fav}">${fav ? "♥ これ好き" : "♡ これ好き"}</button>
           <button class="favorite unviewed-toggle ${unviewed ? "is-fav" : ""}" type="button" aria-pressed="${unviewed}">${unviewed ? "✓ 未視聴" : "+ 未視聴"}</button>
         </div>
@@ -789,7 +805,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   async function loadCSVText(text, label) {
     try {
       const parsed = parseCSV(text);
-      if (!parsed.length) throw new Error("有効な動画が見つかりません。titleとYouTube URLを確認してください。");
+      if (!parsed.length) throw new Error("有効な動画が見つかりません。titleとYouTube／ニコニコ動画URLを確認してください。");
       const genreType = genreTypeFromFilename(label);
       const genreLabel = {challenge:"企画動画", game:"ゲーム動画", talk:"お話動画"}[genreType];
       const known = new Set(videos.map(v=>v.id));
