@@ -75,14 +75,16 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .video-card{min-width:0;position:relative;border:1px solid #7184b84a;border-radius:16px;overflow:hidden;background:var(--panel);
  box-shadow:0 8px 25px #0002;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both}
 .video-card:nth-child(2n){animation-delay:.07s}
-  .rarity-label{display:block;white-space:nowrap;max-width:100%;margin:-2px 0 9px;font-weight:1000;letter-spacing:.015em;font-size:clamp(.62rem,1.65vw,.9rem);line-height:1.25;}
-  .rarity-LR .rarity-label{font-family:Georgia,"Palatino Linotype","Book Antiqua",serif;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#fff0b5;text-shadow:0 0 4px #fff,0 0 12px #d9a441,0 0 24px #9b6c1c;font-size:clamp(.72rem,2vw,1rem);}
-  .rarity-LR{border:3px double #e6c779;box-shadow:0 0 18px #e6c77988,inset 0 0 20px #e6c77922;background:linear-gradient(145deg,#34280e,#111a35 55%,#30230c);}
+  .rarity-label{display:block;margin:-2px 0 9px;font-weight:1000;letter-spacing:.08em;font-size:.9rem}
   .rarity-N{border-color:#7184b84a}
   .rarity-R{border:2px solid #8be9ff;box-shadow:0 0 14px #43f4ff38,inset 0 0 10px #43f4ff12}
   .rarity-SR{border:3px double #ff70df;box-shadow:0 0 18px #ff42d060,inset 0 0 18px #ff42d01c;background:linear-gradient(145deg,#31134d,#101a3a 60%,#39154a)}
   .rarity-UR{border:4px ridge #ffe99b;box-shadow:0 0 8px #fff4b8,0 0 24px #ffb72b99,0 0 45px #ff42d044,inset 0 0 22px #ffcf5b25;background:linear-gradient(135deg,#4c2d05,#32104e 42%,#0e254d 70%,#4c1744)}
   .rarity-UR:before{content:"✦ ✧ ✦ ✧ ✦";display:block;text-align:center;padding:5px;color:#ffe99b;text-shadow:0 0 10px #ffcf5b;letter-spacing:.3em;background:linear-gradient(90deg,#ffcf5b22,#ff42d033,#43f4ff22)}
+  .rarity-LR{position:relative;border:5px double #fff4b8!important;background:linear-gradient(135deg,#5b103f,#23105d 28%,#07505d 55%,#6a3205)!important;box-shadow:0 0 10px #fff,0 0 28px #ffe66d,0 0 55px #ff42d0,0 0 85px #43f4ff,inset 0 0 35px #fff4b8!important;animation:lrPulse .8s ease-in-out infinite alternate}
+  .rarity-LR:before{content:"★ LEGEND RARE ★";display:block;text-align:center;padding:7px;color:#fff4b8;text-shadow:0 0 5px #fff,0 0 15px #ffe66d,0 0 28px #ff42d0;letter-spacing:.22em;background:linear-gradient(90deg,#ff42d066,#ffe66d66,#43f4ff66)}
+  .rarity-LR .rarity-label{color:#fff4b8;text-shadow:0 0 6px #fff,0 0 15px #ffe66d,0 0 25px #ff42d0}
+  @keyframes lrPulse{from{filter:brightness(1);box-shadow:0 0 12px #fff,0 0 35px #ffe66d,0 0 65px #ff42d0,inset 0 0 25px #fff4b8}to{filter:brightness(1.35);box-shadow:0 0 22px #fff,0 0 55px #ffe66d,0 0 100px #ff42d0,0 0 125px #43f4ff,inset 0 0 45px #fff4b8}}
   .rarity-R .rarity-label{color:#8be9ff}.rarity-SR .rarity-label{color:#ff9de8;text-shadow:0 0 9px #ff42d0}.rarity-UR .rarity-label{color:#ffe99b;text-shadow:0 0 5px #fff,0 0 15px #ffb72b}
   .list-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
   .recommended{border:2px solid var(--lime);border-radius:20px;padding:18px;background:linear-gradient(130deg,#263b20,#142449 60%,#321342);box-shadow:0 0 28px #c6ff3825}
@@ -143,61 +145,72 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-stage{width:min(1100px,100%);margin:auto;text-align:center}
 .reveal-heading{color:var(--lime);font-weight:1000;font-size:clamp(1.3rem,4vw,2rem);margin:0 0 8px;text-shadow:0 0 18px #c6ff3870}
 .reveal-hint{color:#dbe5ff;margin:0 0 22px;font-size:.9rem}
+.reveal-all-btn{margin:0 auto 18px;display:block;border-color:#ffe99b;color:#fff4b8;box-shadow:0 0 18px #ffe66d30}.reveal-all-btn:hover{color:#fff;border-color:#fff4b8;box-shadow:0 0 24px #ffe66d70}
 .reveal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(7px,2vw,16px);max-width:1000px;margin:auto}
 .reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
 .reveal-back:before,.reveal-back:after{content:"";position:absolute;top:50%;width:clamp(18px,3.4vw,38px);height:clamp(18px,3.4vw,38px);transform:translate(-50%,-50%) rotate(45deg);border-radius:2px;pointer-events:none}.reveal-back:before{left:43%;background:#172754;border:2px solid #0a1026;box-shadow:0 0 0 1px #7284a8,0 0 12px #172754}.reveal-back:after{left:57%;background:#c6ff38;border:2px solid #e5ff9b;box-shadow:0 0 14px #c6ff38a0}
 .reveal-back.rarity-R{border-color:#8be9ff;box-shadow:0 0 12px #43f4ff80,inset 0 0 24px #43f4ff28}
 .reveal-back.rarity-SR{border:2px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
 .reveal-back.rarity-UR{border:2px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
+.reveal-back.rarity-LR{border:5px double #fff4b8;box-shadow:0 0 15px #fff,0 0 35px #ffe66d,0 0 65px #ff42d0,0 0 90px #43f4ff,inset 0 0 30px #fff4b8;animation:lrPulse .65s ease-in-out infinite alternate}
 .reveal-back:hover{transform:translateY(-4px) scale(1.02)}
-.reveal-back.revealed{padding:0;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{position:absolute;right:4px;bottom:4px;background:#05091bcc;color:white;border-radius:5px;padding:2px 5px;font-size:.7rem}
+.reveal-back.revealed{padding:0;animation:revealCardLight .85s cubic-bezier(.16,1,.3,1) both;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{display:none}
 .reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
 .reveal-modal.show{display:grid}
-.reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:2px solid var(--lime);box-shadow:0 0 50px #c6ff3860;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
+.reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:1px solid #7184b84a;box-shadow:none;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
 .reveal-modal-card .thumb-wrap{border-radius:12px}
 .reveal-modal-card .video-title{font-size:clamp(1rem,3vw,1.5rem)}
 .reveal-modal-card .card-body{padding:16px 4px 4px}
 .reveal-modal-card .card-actions{justify-content:center}
- .reveal-modal-card .rarity-label{font-size:clamp(.78rem,2.2vw,1.05rem);white-space:nowrap;letter-spacing:.01em}
-/* めくったカードのレアリティ演出 */
-.reveal-modal-card .video-card{isolation:isolate;overflow:visible;animation:flipIn .6s cubic-bezier(.2,.8,.2,1),rarityPulse 1.4s ease-in-out infinite alternate}
-.reveal-modal-card .video-card:after{content:"";position:absolute;inset:-7px;border-radius:20px;pointer-events:none;z-index:3;border:2px solid #aab7d7;box-shadow:0 0 14px #aab7d766}
-.reveal-modal-card .video-card.rarity-R:after{border:3px solid #8be9ff;box-shadow:0 0 12px #43f4ff,0 0 28px #43f4ff9c,inset 0 0 15px #43f4ff66;animation:rareAura 1.2s ease-in-out infinite alternate}
-.reveal-modal-card .video-card.rarity-SR:after{inset:-10px;border:3px double #ff70df;box-shadow:0 0 16px #ff42d0,0 0 38px #ff42d0b0,inset 0 0 18px #ff42d066;animation:srAura 1s ease-in-out infinite alternate}
-.reveal-modal-card .video-card.rarity-UR:after{inset:-13px;border:4px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 42px #ffb72b,0 0 70px #ff42d0,inset 0 0 25px #ffcf5b99;animation:urAura .75s ease-in-out infinite alternate}
-.reveal-modal-card .video-card.rarity-N:after{border-color:#aab7d7;box-shadow:0 0 12px #aab7d788}
-@keyframes rarityPulse{from{filter:brightness(1)}to{filter:brightness(1.08)}}
+ .reveal-modal-card .rarity-label{font-size:1.1rem}
+  /* めくったカード本体の発光。装飾線の外側に追加フレームは作らない */
+  .reveal-modal-card .video-card{isolation:isolate;overflow:hidden;animation:flipIn .6s cubic-bezier(.2,.8,.2,1),rarityPulse 1.4s ease-in-out infinite alternate}
+  @keyframes rarityPulse{from{filter:brightness(1)}to{filter:brightness(1.08)}}
 @keyframes rareAura{from{box-shadow:0 0 8px #43f4ff,0 0 18px #43f4ff66}to{box-shadow:0 0 20px #43f4ff,0 0 40px #43f4ffcc}}
 @keyframes srAura{from{box-shadow:0 0 12px #ff42d0,0 0 25px #ff42d066}to{box-shadow:0 0 25px #ff42d0,0 0 50px #ff42d0cc,0 0 70px #a88bff}}
 @keyframes urAura{from{box-shadow:0 0 15px #fff4b8,0 0 30px #ffb72b,0 0 48px #ff42d066}to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 90px #ff42d0}}
 
 @keyframes srGlow{to{box-shadow:0 0 24px #ff42d0,0 0 42px #ff42d080,inset 0 0 30px #ff42d080}}
 @keyframes urGlow{to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 85px #ff42d0,inset 0 0 40px #ffcf5b90}}
+@keyframes revealCardLight{0%{transform:rotateY(90deg) scale(.7);filter:brightness(3);box-shadow:0 0 55px #fff,0 0 100px #ffe66d}65%{transform:rotateY(-8deg) scale(1.04);filter:brightness(1.7)}100%{transform:rotateY(0) scale(1);filter:brightness(1)}}
 @keyframes flipIn{from{opacity:0;transform:perspective(900px) rotateY(90deg) scale(.8)}to{opacity:1;transform:perspective(900px) rotateY(0) scale(1)}}
 @media(max-width:650px){.reveal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reveal-overlay{padding:14px}.reveal-back{aspect-ratio:16/10}}
 
 
-/* 特定動画のフルスクリーン・カットイン */
-.cutin-overlay{position:fixed;inset:0;z-index:120;display:none;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at center,#27386e 0%,#101a3a 42%,#030612 100%);}
+/* 特定動画のフルスクリーン・カットイン：弾幕を使わず、光を放つカード演出へ */
+.cutin-overlay{position:fixed;inset:0;z-index:120;display:none;overflow:hidden;isolation:isolate;background:#000}
 .cutin-overlay.show{display:block;animation:cutinBackdrop .45s ease-out both}
+.cutin-overlay.stage-one{background:#000!important}
+.cutin-overlay.stage-one:before,.cutin-overlay.stage-one:after{display:none}
+.cutin-overlay.stage-one .cutin-flash,.cutin-overlay.stage-one .cutin-kicker,.cutin-overlay.stage-one .cutin-footer,.cutin-overlay.stage-one .cutin-card-visual{display:none}
+.cutin-overlay.stage-one .cutin-main-text{top:50%;opacity:1;text-shadow:0 0 4px #fff,0 0 14px #fff,0 0 32px #ffe66d,0 0 60px #ff42d0,0 0 95px #43f4ff;animation:cutinTitle .7s cubic-bezier(.2,.8,.2,1) both}
+.cutin-overlay.stage-two{background:radial-gradient(ellipse at center,#27386e 0%,#080b17 55%,#000 100%)}
 .cutin-overlay:before{content:"";position:absolute;inset:-45%;pointer-events:none;background:repeating-conic-gradient(from 0deg,transparent 0 7deg,#c6ff3833 7.2deg 8deg,transparent 8.2deg 15deg);animation:spin 7s linear infinite}
 .cutin-overlay:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 15%,#43f4ff35 35%,transparent 47%,#ff42d035 63%,transparent 78%);mix-blend-mode:screen;animation:cutinSweep 1.3s ease-in-out infinite alternate}
 .cutin-flash{position:absolute;inset:0;z-index:2;pointer-events:none;background:white;animation:cutinFlash .55s ease-out forwards}
 .cutin-kicker{position:absolute;z-index:4;top:9%;left:0;width:100%;text-align:center;color:#c6ff38;font-weight:1000;letter-spacing:.35em;font-size:clamp(.75rem,2.5vw,1.1rem);text-shadow:0 0 18px #c6ff38;animation:cutinTitle .55s cubic-bezier(.2,.8,.2,1) both}
 .cutin-main-text{position:absolute;z-index:5;left:5%;right:5%;top:38%;text-align:center;transform:translateY(-50%);font-size:clamp(1.6rem,6vw,4rem);font-weight:1000;line-height:1.35;color:#fff;text-shadow:0 0 5px #fff,0 0 16px #43f4ff,0 0 35px #ff42d0;overflow-wrap:anywhere;opacity:0}
 .cutin-main-text.animate{animation:cutinFloat 1.35s cubic-bezier(.16,1,.3,1) both}
-.cutin-lanes{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none}
-.cutin-comment{position:absolute;left:100%;white-space:nowrap;max-width:none;font-size:clamp(1rem,3.4vw,2rem);font-weight:1000;color:#fff;text-shadow:0 2px 4px #000,0 0 10px currentColor;animation:cutinScroll var(--scroll-duration,5s) linear both;will-change:transform}
-.cutin-comment:nth-child(3n){font-size:clamp(1.3rem,4.2vw,2.4rem)}
+.cutin-lanes{display:none!important}
 .cutin-footer{position:absolute;z-index:5;bottom:9%;width:100%;text-align:center;color:#dce7ff;font-size:.8rem;letter-spacing:.18em;text-shadow:0 0 12px #43f4ff;animation:cutinTitle .8s .2s both}
+.cutin-click-prompt{position:absolute;z-index:8;bottom:8%;width:100%;text-align:center;color:#fff;font-size:.9rem;text-shadow:0 0 12px #fff;animation:pulse .8s infinite alternate}
+.cutin-overlay.stage-two .cutin-click-prompt{display:none}
+.cutin-card-visual{position:absolute;z-index:4;left:50%;top:52%;width:min(44vw,280px);aspect-ratio:3/4;transform:translate(-50%,-50%);perspective:1200px;filter:drop-shadow(0 0 22px #fff) drop-shadow(0 0 50px #ffe66d);}
+.cutin-card-visual:before{content:"";position:absolute;inset:-40%;border-radius:50%;background:conic-gradient(from 0deg,transparent,#fff4b8,#43f4ff,#ff42d0,#fff4b8,transparent);filter:blur(24px);opacity:0;transform:scale(.25);}
+.cutin-card-face{position:absolute;inset:0;border:4px double #fff4b8;border-radius:18px;background:linear-gradient(145deg,#fff4b8 0%,#ffe66d 8%,#5b103f 22%,#23105d 48%,#07505d 72%,#6a3205 100%);box-shadow:inset 0 0 30px #fff,0 0 20px #fff,0 0 50px #ffe66d;transform:rotateY(90deg) scale(.65);opacity:0;overflow:hidden;}
+.cutin-card-face:before{content:"✦  LEGEND RARE  ✦";position:absolute;inset:8%;display:grid;place-items:center;border:1px solid #fff4b8;border-radius:10px;color:#fff4b8;font:700 clamp(.7rem,2.5vw,1.1rem) Georgia,"Times New Roman",serif;letter-spacing:.08em;text-shadow:0 0 14px #fff,0 0 28px #ffe66d;background:linear-gradient(135deg,#ffffff08,#ffe66d22,#43f4ff10);}
+.cutin-overlay.stage-two .cutin-card-visual{animation:cutinCardHover 2.8s ease-in-out infinite .9s;}
+.cutin-overlay.stage-two .cutin-card-visual:before{animation:cutinLightBurst 2.2s ease-out both;}
+.cutin-overlay.stage-two .cutin-card-face{animation:cutinCardTurn 2.2s cubic-bezier(.12,.8,.2,1) both;}
 @keyframes cutinBackdrop{from{opacity:0;filter:brightness(3)}to{opacity:1;filter:brightness(1)}}
 @keyframes cutinFlash{0%{opacity:.95}100%{opacity:0}}
 @keyframes cutinSweep{from{transform:translateX(-12%) skewX(-8deg)}to{transform:translateX(12%) skewX(-8deg)}}
 @keyframes cutinTitle{from{opacity:0;transform:translateY(18px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes cutinFloat{0%{opacity:0;transform:translateY(24px) scale(.7);filter:blur(8px)}18%{opacity:1;transform:translateY(0) scale(1.04);filter:blur(0)}72%{opacity:1;transform:translateY(-8px) scale(1)}100%{opacity:0;transform:translateY(-32px) scale(1.12);filter:blur(2px)}}
-@keyframes cutinScroll{from{transform:translateX(0)}to{transform:translateX(calc(-100vw - 120%))}}
-@media(prefers-reduced-motion:reduce){.cutin-overlay:before,.cutin-overlay:after{animation:none}.cutin-comment{animation-duration:2s!important}.cutin-main-text.animate{animation-duration:.8s}}
-
+@keyframes cutinCardTurn{0%{opacity:0;transform:rotateY(90deg) scale(.58)}18%{opacity:1;transform:rotateY(65deg) scale(.78)}42%{opacity:1;transform:rotateY(-18deg) scale(1.05)}65%{opacity:1;transform:rotateY(12deg) scale(1)}82%{opacity:1;transform:rotateY(-4deg) scale(1.02)}100%{opacity:1;transform:rotateY(0) scale(1)}}
+@keyframes cutinLightBurst{0%{opacity:0;transform:scale(.2) rotate(0)}30%{opacity:1;transform:scale(.8) rotate(90deg)}65%{opacity:.85;transform:scale(1.15) rotate(210deg)}100%{opacity:.65;transform:scale(1.3) rotate(360deg)}}
+@keyframes cutinCardHover{0%,100%{transform:translate(-50%,-50%) rotate(-1deg)}50%{transform:translate(-50%,-53%) rotate(1deg)}}
+@media(prefers-reduced-motion:reduce){.cutin-overlay:before,.cutin-overlay:after{animation:none}.cutin-main-text.animate{animation-duration:.8s}.cutin-overlay.stage-two .cutin-card-face{animation-duration:.8s}}
 .confetti{position:fixed;top:-20px;width:9px;height:18px;z-index:40;pointer-events:none;animation:fall var(--dur,1.6s) linear forwards;box-shadow:0 0 10px currentColor}
 @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96);filter:brightness(2)}to{opacity:1;transform:none;filter:brightness(1)}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -212,6 +225,14 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
  .list-row img{width:64px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+  /* レアリティ表記を読みやすい1行に */
+  .rarity-label{font-size:clamp(.68rem,1.65vw,.9rem);letter-spacing:.015em;line-height:1.25;white-space:nowrap;}
+  .reveal-modal-card .rarity-label{font-size:clamp(.68rem,2.1vw,1.08rem);letter-spacing:0;white-space:nowrap;}
+  .rarity-LR:before{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:clamp(.7rem,2.1vw,1.15rem);letter-spacing:.12em;white-space:nowrap;}
+  .rarity-LR .rarity-label{font-family:Georgia,"Times New Roman",serif;letter-spacing:.025em;white-space:nowrap;}
+  @media(max-width:420px){.rarity-label{font-size:.65rem;letter-spacing:-.025em}.reveal-modal-card .rarity-label{font-size:.7rem}.rarity-LR:before{font-size:.72rem;letter-spacing:.06em}}
+
 </style>
 </head>
 <body>
@@ -220,12 +241,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <button class="small-btn" id="bgmToggle">▶ BGM</button>
   <label title="BGM音量">音量 <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
   <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
-  <audio id="bgm" src="bgm.mp3" loop preload="none"></audio>
+  <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="auto"></audio>
-  <audio id="seN" src="se-n.mp3" preload="none"></audio>
-  <audio id="seR" src="se-r.mp3" preload="none"></audio>
-  <audio id="seSR" src="se-sr.mp3" preload="none"></audio>
-  <audio id="seUR" src="se-ur.mp3" preload="none"></audio>
+  <audio id="seN" src="se-n.mp3" preload="auto"></audio>
+  <audio id="seR" src="se-r.mp3" preload="auto"></audio>
+  <audio id="seSR" src="se-sr.mp3" preload="auto"></audio>
+  <audio id="seUR" src="se-ur.mp3" preload="auto"></audio>
+  <audio id="cutinSE" src="se-cutin.mp3" preload="auto"></audio>
 </div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
   <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
@@ -240,7 +262,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <section class="machine" aria-label="ガチャマシン">
     <div class="machine-top">
       <div class="machine-label">🧠 BIWACHAP GACHA MACHINE 🧠</div>
-      <div class="counter" id="totalCounter">登録動画：-- 本</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="counter" id="totalCounter">登録動画：-- 本</div><div class="counter" id="remainingCounter">残り動画：-- 本</div><button class="small-btn" id="resetGachaBtn" type="button">↻ ガチャをリセット</button></div>
     </div>
     <div class="buttons">
       <button class="gacha-btn" id="singleBtn" disabled>
@@ -254,7 +276,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
       <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
     </div>
-    <p class="notice">※毎回ランダム抽選。10連では同じ動画が複数回出ることもあります。<br>結果はこのブラウザ内に保存されます。</p>
+    <p class="notice">※重複なしで抽選します。引いた動画はリセットするまで再登場しません。<br>お気に入り・未視聴リストはこのブラウザ内に保存されます。</p>
   </section>
 
   <section id="resultSection" aria-live="polite">
@@ -278,14 +300,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   </section>
 
 
-
+  <input class="file-input" type="file" id="csvFile" accept=".csv,text/csv" multiple hidden>
+  <div class="csv-help" id="loadMessage" hidden></div>
 </main>
 
 <footer class="wrap">
-  本ページは個人による非公式ファンメイド企画であり、各動画投稿者・権利者および各動画配信サービスとは関係ありません。<br>
-  動画タイトル・リンク・サムネイルはYouTubeおよびニコニコ動画から読み込んでいます。動画の著作権・肖像権等は各権利者に帰属します。<br>
-  BGM・効果音（SE）は「魔王魂」よりダウンロードした素材を使用しています。素材の権利は各権利者に帰属します。<br>
-  動画の削除・非公開・配信サービス側の仕様変更等により、サムネイルやリンクが表示されない場合があります。
+  個人用ファンメイド企画 / 動画の権利は各権利者に帰属します。<br>
+  サムネイルはYouTubeから読み込みます。動画が削除・非公開の場合、サムネイルやリンクが表示できないことがあります。
 </footer>
 
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
@@ -298,13 +319,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   </div>
 </div>
 <div class="reveal-overlay" id="revealOverlay" aria-hidden="true">
-  <div class="reveal-stage"><h2 class="reveal-heading">運命のカードを選べ！</h2><p class="reveal-hint" id="revealHint">カードをクリックしてめくろう</p><div class="reveal-grid" id="revealGrid"></div></div>
+  <div class="reveal-stage"><h2 class="reveal-heading">運命のカードを選べ！</h2><p class="reveal-hint" id="revealHint">カードをクリックしてめくろう</p><button class="small-btn reveal-all-btn" id="revealAllBtn" type="button">✨ 10枚まとめてめくる</button><div class="reveal-grid" id="revealGrid"></div></div>
 </div>
 <div class="reveal-modal" id="revealModal" aria-hidden="true"><div class="reveal-modal-card" id="revealModalCard"></div></div>
-<div class="cutin-overlay" id="cutinOverlay" aria-hidden="true" role="status" aria-live="polite">
+<div class="cutin-overlay" id="cutinOverlay" aria-hidden="true" role="status" aria-live="polite" tabindex="0">
   <div class="cutin-flash"></div><div class="cutin-kicker">✦ SPECIAL VIDEO — LIMIT BREAK ✦</div>
-  <div class="cutin-lanes" id="cutinLanes"></div><div class="cutin-main-text" id="cutinMainText"></div>
-  <div class="cutin-footer">運命の一枚が姿を現す…</div>
+  <div class="cutin-lanes" id="cutinLanes" aria-hidden="true"></div><div class="cutin-main-text" id="cutinMainText"></div><div class="cutin-card-visual" id="cutinCardVisual" aria-hidden="true"><div class="cutin-card-face"></div></div>
+  <div class="cutin-footer">運命の一枚が姿を現す…</div><div class="cutin-click-prompt" id="cutinClickPrompt">クリックしてカードの封印を解く</div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -317,6 +338,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   };
   const $ = (id) => document.getElementById(id);
   let videos = [];
+  let remainingVideos = [];
+  const pulledVideoIds = new Set();
   let latestResults = [];
   const cutinByVideoId = new Map();
   const cutinPending = new Set();
@@ -326,7 +349,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   let revealMode = 1;
   let revealedIndices = new Set();
   const RARITIES = ["N","R","SR","UR"];
-  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — 究極的に観るべき",LR:"★ LEGEND RARE ★"};
+  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — うるせェ!!! 観よう!!!",LR:"LR — Legend Rere"};
   let toastTimer = null;
 
   function readStorage(key, fallback) {
@@ -420,33 +443,26 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   async function playCutin(video) {
     const texts = cutinTextsFor(video);
     if (!texts.length) return;
-    const overlay = $("cutinOverlay"), main = $("cutinMainText"), lanes = $("cutinLanes");
+    const overlay = $("cutinOverlay"), main = $("cutinMainText"), lanes = $("cutinLanes"), bgm = $("bgm");
     cutinPending.add(video.id);
-    overlay.classList.add("show"); overlay.setAttribute("aria-hidden", "false");
-    main.classList.remove("animate"); main.textContent = ""; lanes.innerHTML = "";
-    // 全文章を弾幕として流し、同時に中央には一つずつ浮かべて表示する。
-    texts.forEach((text, i) => {
-      const comment = document.createElement("div");
-      comment.className = "cutin-comment"; comment.textContent = text;
-      comment.style.top = (18 + ((i * 17) % 65)) + "%";
-      comment.style.color = ["#ffffff", "#c6ff38", "#43f4ff", "#ff9de8", "#ffe99b"][i % 5];
-      comment.style.setProperty("--scroll-duration", (4.4 + (i % 4) * .55) + "s");
-      comment.style.animationDelay = (Math.min(i, 8) * .12) + "s";
-      lanes.appendChild(comment);
+    if (bgm) bgm.pause();
+    playSE("cutinSE");
+    const selectedText = texts[Math.floor(Math.random() * texts.length)];
+    overlay.classList.remove("stage-two"); overlay.classList.add("stage-one","show");
+    overlay.setAttribute("aria-hidden", "false");
+    main.classList.remove("animate"); main.textContent = selectedText; lanes.innerHTML = "";
+    // 第1段階：黒背景に選ばれた文章を表示。クリック後、カードが光を放ちながらゆっくりめくれる。
+    await new Promise(resolve => {
+      let done = false;
+      const finish = () => { if (done) return; done = true; overlay.removeEventListener("click", onClick); overlay.removeEventListener("keydown", onKey); resolve(); };
+      const onClick = event => { event.preventDefault(); finish(); };
+      const onKey = event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); finish(); } };
+      overlay.addEventListener("click", onClick); overlay.addEventListener("keydown", onKey); overlay.focus({preventScroll:true});
     });
-    const displayDuration = Math.min(12000, Math.max(4200, texts.length * 850));
-    const step = Math.max(600, (displayDuration - 500) / Math.max(1, texts.length));
-    const started = Date.now();
-    for (let i = 0; i < texts.length; i++) {
-      main.classList.remove("animate");
-      // force restart CSS animation
-      void main.offsetWidth;
-      main.textContent = texts[i]; main.classList.add("animate");
-      await wait(Math.min(step, Math.max(0, displayDuration - (Date.now() - started))));
-    }
-    const remaining = displayDuration - (Date.now() - started);
-    if (remaining > 0) await wait(remaining);
-    overlay.classList.remove("show"); overlay.setAttribute("aria-hidden", "true");
+    overlay.classList.remove("stage-one"); overlay.classList.add("stage-two");
+    main.classList.remove("animate"); main.textContent = "LEGEND RARE"; void main.offsetWidth; main.classList.add("animate");
+    await wait(2200);
+    overlay.classList.remove("show","stage-one","stage-two"); overlay.setAttribute("aria-hidden", "true");
     lanes.innerHTML = ""; main.textContent = ""; cutinPending.delete(video.id);
   }
   function getVideoInfo(url) {
@@ -489,8 +505,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
   function playSE(id) { const a=$(id); if(!a) return; try { a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
-  // LRはカットイン専用。通常ガチャは N60% / R25% / SR10% / UR5%。
   function rarityForPull() {
+    // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
     if (roll < 60) return "N";
     if (roll < 85) return "R";
@@ -523,7 +539,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       </div>`;
     const img = card.querySelector("img");
     img.addEventListener("error", () => {
-      img.src = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
+      if (video.platform !== "niconico") img.src = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
+      else img.style.visibility = "hidden";
       img.onerror = () => { img.style.visibility = "hidden"; };
     }, { once: true });
     card.querySelector(".favorite").addEventListener("click", event => { event.stopPropagation(); toggleFavorite(video); });
@@ -567,17 +584,29 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       el.appendChild(row);
     });
   }
+  function updateCardToggleState(video) {
+    document.querySelectorAll(`.video-card`).forEach(card => {
+      const title = card.querySelector(".video-title")?.textContent;
+      const link = card.querySelector(".watch")?.getAttribute("href");
+      if (title !== video.title || link !== video.url) return;
+      const fav = isFavorite(video.id), unseen = isUnviewed(video.id);
+      const fb = card.querySelector(".favorite:not(.unviewed-toggle)");
+      const ub = card.querySelector(".unviewed-toggle");
+      if (fb) { fb.classList.toggle("is-fav", fav); fb.setAttribute("aria-pressed",String(fav)); fb.textContent = fav ? "♥ これ好き" : "♡ これ好き"; }
+      if (ub) { ub.classList.toggle("is-fav", unseen); ub.setAttribute("aria-pressed",String(unseen)); ub.textContent = unseen ? "✓ 未視聴" : "+ 未視聴"; }
+    });
+  }
   function toggleFavorite(video) {
     let favorites = getFavorites();
     if (favorites.some(v => v.id === video.id)) { favorites = favorites.filter(v => v.id !== video.id); showToast("「これ好き」から外しました"); }
     else { favorites.unshift({ title: video.title, url: video.url, id: video.id }); showToast("💚「これ好き」に登録しました！"); }
-    writeStorage(STORAGE.favorites, favorites); renderFavorites(); refreshVisibleCards();
+    writeStorage(STORAGE.favorites, favorites); renderFavorites(); refreshVisibleCards(); updateCardToggleState(video);
   }
   function toggleUnviewed(video) {
     let list = getUnviewed();
     if (list.some(v => v.id === video.id)) { list = list.filter(v => v.id !== video.id); showToast("未視聴リストから外しました"); }
     else { list.unshift({ title: video.title, url: video.url, id: video.id }); showToast("🔖 未視聴に登録しました"); }
-    writeStorage(STORAGE.unviewed, list); renderUnviewed(); refreshVisibleCards();
+    writeStorage(STORAGE.unviewed, list); renderUnviewed(); refreshVisibleCards(); updateCardToggleState(video);
   }
   function refreshVisibleCards() {
     if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1);
@@ -657,6 +686,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
   function showRevealGrid() {
     const grid=$("revealGrid"); grid.innerHTML="";
+    $("revealAllBtn").hidden = latestResults.length < 10;
     latestResults.forEach((v,i)=>{
       const b=document.createElement("button");
       b.type="button"; b.className="reveal-back rarity-"+(v.rarity||"N");
@@ -670,11 +700,24 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     $("revealHint").textContent=`${latestResults.length}枚のカードが出現！ カードをクリックしてめくろう`;
     $("revealOverlay").classList.add("show"); $("revealOverlay").setAttribute("aria-hidden","false");
   }
+  async function revealAllCards() {
+    if (!latestResults.length || cutinPending.size) return;
+    const btn = $("revealAllBtn");
+    btn.disabled = true;
+    for (let i = 0; i < latestResults.length; i++) revealedIndices.add(i);
+    showRevealGrid();
+    $("revealHint").textContent = `${latestResults.length}枚をまとめてオープン！`;
+    await wait(1050);
+    $("revealOverlay").classList.remove("show"); $("revealOverlay").setAttribute("aria-hidden","true");
+    $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
+    btn.disabled = false;
+    showToast(`✨ ${latestResults.length}枚のカードをまとめてめくりました！`);
+  }
   async function openRevealCard(index) {
     if (revealedIndices.has(index) || cutinPending.size) return;
     revealIndex=index;
     const video = latestResults[index];
-    if (cutinTextsFor(video).length) await playCutin(video);
+    if (cutinTextsFor(video).length) { video.rarity = "LR"; await playCutin(video); }
     const modal=$("revealModal"); const card=$("revealModalCard");
     card.innerHTML=""; card.appendChild(renderCard(video,index));
     card.querySelector(".video-card")?.classList.add("rarity-"+(video.rarity||"N"));
@@ -694,48 +737,65 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     }
   }
   function playRaritySE(rarity) {
-    const ids = {N:"seN", R:"seR", SR:"seSR", UR:"seUR"};
+    const ids = {N:"seN", R:"seR", SR:"seSR", UR:"seUR", LR:"seUR"};
     playSE(ids[rarity] || "seN");
   }
 
+  function updateCounters() {
+    $("totalCounter").textContent = `登録動画：${videos.length} 本`;
+    $("remainingCounter").textContent = `残り動画：${remainingVideos.length} 本`;
+    $("singleBtn").disabled = busy || remainingVideos.length === 0;
+    $("tenBtn").disabled = busy || remainingVideos.length === 0;
+  }
+  function resetGacha() {
+    if (busy || cutinPending.size) return;
+    remainingVideos = [...videos]; pulledVideoIds.clear(); latestResults = []; revealedIndices = new Set();
+    $("resultsGrid").innerHTML = '<div class="empty">まだ動画が引かれていません。<br>単発または10連ガチャを回してね！</div>';
+    $("resultsGrid").classList.remove("ten");
+    $("resultCaption").textContent = "ボタンを押して運命の動画を引こう。";
+    $("resultHeading").textContent = "🎁 ガチャ結果";
+    $("shareResultBtn").disabled = $("shareImageBtn").disabled = true;
+    $("revealOverlay").classList.remove("show"); $("revealOverlay").setAttribute("aria-hidden","true");
+    $("revealModal").classList.remove("show"); $("revealModal").setAttribute("aria-hidden","true");
+    updateCounters(); showToast("ガチャをリセットしました。動画が再びすべて引けます！");
+  }
   async function pull(count) {
     if (busy || !videos.length) return;
     busy = true;
     $("singleBtn").disabled = $("tenBtn").disabled = true;
     $("shareResultBtn").disabled = true;
     $("shareImageBtn").disabled = true;
+    playSE("pullSE");
     const overlay = $("gachaOverlay");
     $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
     $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden","false");
-    // ガチャボタンのクリック操作中にSEを開始し、ブラウザの自動再生制限を回避する。
-    const pullAudio = $("pullSE");
-    if (pullAudio) {
-      try {
-        pullAudio.pause();
-        pullAudio.currentTime = 0;
-        const playback = pullAudio.play();
-        if (playback && typeof playback.catch === "function") playback.catch(() => showToast("ガチャ音を再生できません。se-pull.mp3がindex.htmlと同じフォルダにあるか確認してください。"));
-      } catch (_) {
-        showToast("ガチャ音を再生できません。se-pull.mp3の配置とファイル名を確認してください。");
-      }
+    // 残り動画から重複なしで抽選。残りが10本未満なら残りすべてを引く。
+    const actualCount = Math.min(count, remainingVideos.length);
+    const pool = [...remainingVideos];
+    const picked = [];
+    for (let i = 0; i < actualCount; i++) {
+      const index = Math.floor(Math.random() * pool.length);
+      const video = pool.splice(index, 1)[0];
+      picked.push({...video, rarity: cutinTextsFor(video).length ? "LR" : rarityForPull()});
     }
-    // 結果を選ぶのは毎回独立したランダム抽選。重複を許可する。
-    const picked = Array.from({length:count}, () => { const video = {...videos[Math.floor(Math.random() * videos.length)]}; return {...video, rarity: cutinByVideoId.has(video.id) ? "LR" : rarityForPull()}; });
-    await wait(count === 10 ? 1750 : 1250);
+    const pickedIds = new Set(picked.map(v => v.id));
+    remainingVideos = remainingVideos.filter(v => !pickedIds.has(v.id));
+    pickedIds.forEach(id => pulledVideoIds.add(id));
+    await wait(actualCount >= 10 ? 1750 : 1250);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     latestResults = picked;
     revealedIndices = new Set();
-    renderResults(picked, count);
-    confettiBurst(count === 10 ? 100 : 58);
+    renderResults(picked, actualCount === 10 ? 10 : 1);
+    confettiBurst(actualCount >= 10 ? 100 : 58);
     showRevealGrid();
     busy = false;
-    $("singleBtn").disabled = $("tenBtn").disabled = false;
+    updateCounters();
     $("shareResultBtn").disabled = false;
     $("shareImageBtn").disabled = false;
-    showToast(count === 10 ? "💥 10本召喚！結果をチェック！" : "✨ 動画を召喚しました！");
+    showToast(actualCount === 10 ? "💥 10本召喚！結果をチェック！" : actualCount < count ? `残り${actualCount}本をすべて召喚しました！` : "✨ 動画を召喚しました！");
   }
 
   function getSiteUrl() {
@@ -768,25 +828,31 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   async function makeShareImage() {
     if (!latestResults.length) return;
     const cols = latestResults.length === 1 ? 1 : 2;
-    const thumbW = 560, thumbH = 315, gap = 18, top = 100;
+    const thumbW = 560, thumbH = 315, gap = 18, top = 135, labelH = 42;
     const rows = Math.ceil(latestResults.length / cols);
     const canvas = document.createElement("canvas");
     canvas.width = cols * thumbW + (cols + 1) * gap;
-    canvas.height = rows * thumbH + (rows + 1) * gap + top;
+    canvas.height = rows * (thumbH + labelH) + (rows + 1) * gap + top;
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#101a3a"; ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.textAlign="center";ctx.fillStyle="#c6ff38";ctx.font="900 44px sans-serif";ctx.shadowColor="#c6ff38";ctx.shadowBlur=14;ctx.fillText("今日の琵琶ちゃぷガチャ結果",canvas.width/2,62);ctx.shadowBlur=0;
     for (let i=0;i<latestResults.length;i++) {
-      const v=latestResults[i], x=gap+(i%cols)*(thumbW+gap), y=top+gap+Math.floor(i/cols)*(thumbH+gap);
+      const v=latestResults[i], x=gap+(i%cols)*(thumbW+gap), y=top+gap+Math.floor(i/cols)*(thumbH+labelH+gap);
+      const styles = {N:{border:"#7184b8",bg:"#172754",label:"#dce6ff"},R:{border:"#8be9ff",bg:"#102f48",label:"#8be9ff"},SR:{border:"#ff70df",bg:"#31134d",label:"#ff9de8"},UR:{border:"#ffe99b",bg:"#4c2d05",label:"#ffe99b"},LR:{border:"#fff4b8",bg:"#42104e",label:"#fff4b8"}};
+      const rarity = v.rarity || "N", st = styles[rarity] || styles.N;
+      ctx.fillStyle=st.bg; ctx.fillRect(x,y,thumbW,thumbH+labelH);
+      ctx.strokeStyle=st.border; ctx.lineWidth=rarity==="LR"?12:rarity==="UR"?9:rarity==="SR"?6:3;
+      ctx.shadowColor=st.border;ctx.shadowBlur=rarity==="LR"?32:rarity==="UR"?22:rarity==="SR"?16:0;ctx.strokeRect(x+ctx.lineWidth/2,y+ctx.lineWidth/2,thumbW-ctx.lineWidth,thumbH+labelH-ctx.lineWidth);ctx.shadowBlur=0;
+      ctx.textAlign="center";ctx.fillStyle=st.label;ctx.font=`900 ${rarity==="LR"?30:26}px sans-serif`;ctx.fillText(`${rarity}  ${RARITY_TEXT[rarity] || rarity}`,x+thumbW/2,y+30);
       try {
         const img=new Image(); img.crossOrigin="anonymous";
         await new Promise((resolve,reject)=>{ const timeout=setTimeout(()=>reject(new Error("timeout")),3500); img.onload=()=>{clearTimeout(timeout);resolve();}; img.onerror=()=>{clearTimeout(timeout);reject(new Error("image"));}; img.src=thumbUrl(v); });
         // サムネイル本来の16:9比率を維持。引き伸ばさず、比率どおりに描画。
         const ratio=Math.min(thumbW/img.naturalWidth,thumbH/img.naturalHeight);
         const w=img.naturalWidth*ratio, h=img.naturalHeight*ratio;
-        ctx.drawImage(img,x+(thumbW-w)/2,y+(thumbH-h)/2,w,h);
+        ctx.save();ctx.beginPath();ctx.rect(x+8,y+labelH,thumbW-16,thumbH-12);ctx.clip();ctx.drawImage(img,x+(thumbW-w)/2,y+labelH+(thumbH-h)/2,w,h);ctx.restore();
       } catch (_) {
-        ctx.fillStyle="#243e75";ctx.fillRect(x,y,thumbW,thumbH);
+        ctx.fillStyle="#243e75";ctx.fillRect(x+8,y+labelH,thumbW-16,thumbH-12);
       }
     }
     return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("canvas")),"image/png"));
@@ -815,7 +881,6 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     if (name.includes("talk_videos")) return "talk";
     return "";
   }
-  function setLoadMessage(message) { const el=$("loadMessage"); if (el) el.textContent=message; else if (!videos.length) $("poolStatus").textContent=message; }
   async function loadCSVText(text, label) {
     try {
       const parsed = parseCSV(text);
@@ -826,16 +891,18 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       let added=0; for(const v of parsed){
         if(!known.has(v.id)) { videos.push({...v, genreType: genreType || v.genreType || ""}); known.add(v.id); added++; }
       }
+      // 読み込まれた新規動画は残りプールにも追加。すでに引いた動画は戻さない。
+      const remainingIds = new Set(remainingVideos.map(v=>v.id));
+      for (const v of videos) if (!remainingIds.has(v.id) && !pulledVideoIds.has(v.id)) remainingVideos.push(v);
       $("poolStatus").textContent = `動画 ${videos.length} 本 READY`;
-      $("totalCounter").textContent = `登録動画：${videos.length} 本`;
-      $("singleBtn").disabled = $("tenBtn").disabled = videos.length === 0;
+      updateCounters();
       const category = genreLabel ? `［${genreLabel}］` : "";
-      setLoadMessage(`${label}${category}から${added}本を追加しました（重複除外）。登録合計 ${videos.length} 本。`);
+      $("loadMessage").textContent = `${label}${category}から${added}本を追加しました（重複除外）。登録合計 ${videos.length} 本。`;
       renderDailyRecommendation();
-      
+      if (remainingVideos.length < 10) $("loadMessage").textContent += " ※残り動画が10本未満の場合、10連では残りすべてを引きます。";
       return added;
     } catch (err) {
-      setLoadMessage(`${label}: ${err.message}`);
+      $("loadMessage").textContent = `${label}: ${err.message}`;
       return 0;
     }
   }
@@ -843,13 +910,21 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio();
     $("revealModal").addEventListener("click",event=>{ if(event.target.closest("button,a,input")) return; advanceReveal(); });
     $("singleBtn").addEventListener("click",()=>pull(1));
+    $("revealAllBtn").addEventListener("click", revealAllCards);
+    $("revealAllBtn").addEventListener("click", revealAllCards);
     $("tenBtn").addEventListener("click",()=>pull(10));
+    $("resetGachaBtn").addEventListener("click",resetGacha);
     $("shareResultBtn").addEventListener("click",shareImage);
     $("shareImageBtn").addEventListener("click",shareImage);
     $("shareFavorites").addEventListener("click",()=>shareList(getFavorites(),"これ好き動画リスト"));
     $("shareUnviewed").addEventListener("click",()=>shareList(getUnviewed(),"未視聴動画リスト"));
     $("saveFavorites").addEventListener("click",()=>saveListImage(getFavorites(),"💚 これ好き"));
     $("saveUnviewed").addEventListener("click",()=>saveListImage(getUnviewed(),"🔖 未視聴動画"));
+    $("csvFile").addEventListener("change", async event => {
+      const files=Array.from(event.target.files || []); if (!files.length) return;
+      for(const file of files) await loadCSVText(await file.text(),file.name);
+      event.target.value="";
+    });
     const csvFiles = [
       {name:"challenge_videos.csv", genre:"challenge"},
       {name:"game_videos.csv", genre:"game"},
@@ -867,11 +942,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const cutinOutcome = await cutinOutcomePromise;
     if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
-      setLoadMessage("動画CSVを自動読み込みできませんでした。CSVファイルがindex.htmlと同じフォルダにあるか確認してください。");
+      $("loadMessage").textContent = "自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。PCで直接開いている場合は、下のファイル選択から3ファイルを選べます。";
       $("singleBtn").disabled = $("tenBtn").disabled = true;
-      showToast(`動画CSVを読み込めませんでした。${cutinOutcome}`);
+      $("loadMessage").textContent += ` ${cutinOutcome}。`;
     } else {
-      setLoadMessage(outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。 ${cutinOutcome}。`);
+      remainingVideos = [...videos];
+      updateCounters();
+      $("loadMessage").textContent = outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。 ${cutinOutcome}。`;
     }
   }
   init();
