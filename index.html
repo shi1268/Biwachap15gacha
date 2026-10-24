@@ -77,6 +77,7 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .video-card:nth-child(2n){animation-delay:.07s}
   .rarity-label{display:block;margin:-2px 0 9px;font-weight:1000;letter-spacing:.08em;font-size:.9rem}
   .rarity-N{border-color:#7184b84a}
+  .rarity-N .rarity-label{color:#c4c9d6}
   .rarity-R{border:2px solid #8be9ff;box-shadow:0 0 14px #43f4ff38,inset 0 0 10px #43f4ff12}
   .rarity-SR{border:3px double #ff70df;box-shadow:0 0 18px #ff42d060,inset 0 0 18px #ff42d01c;background:linear-gradient(145deg,#31134d,#101a3a 60%,#39154a)}
   .rarity-UR{border:4px ridge #ffe99b;box-shadow:0 0 8px #fff4b8,0 0 24px #ffb72b99,0 0 45px #ff42d044,inset 0 0 22px #ffcf5b25;background:linear-gradient(135deg,#4c2d05,#32104e 42%,#0e254d 70%,#4c1744)}
@@ -95,10 +96,10 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
   .genre-challenge{border-color:#ff9b35;box-shadow:inset 0 0 0 1px #ff9b3522}
   .genre-challenge .genre-tag{color:#ffc078;background:#ff9b351c}
-  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
-  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
-  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
-  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-game{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-game .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-talk{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-talk .genre-tag{color:#8be9ff;background:#43f4ff16}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -117,14 +118,17 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .panel{border:1px solid #7184b84a;border-radius:16px;background:#101a3a9c;padding:17px;margin-top:20px}
 .panel h3{margin:0 0 12px;font-size:1rem}
 .list{display:grid;gap:8px}
-.list-row{display:flex;align-items:center;gap:10px;min-width:0;padding:9px;border-radius:10px;background:#ffffff06}
+.list-row{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap;padding:9px;border-radius:10px;background:#ffffff06}
 .list-row img{width:76px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#080d20;flex-shrink:0}
-.list-row .list-title{font-size:.82rem;font-weight:750;overflow-wrap:anywhere;flex:1}
+.list-row .list-title{font-size:.82rem;font-weight:750;overflow-wrap:anywhere;flex:1;min-width:100px}
 .list-row a{color:var(--lime);font-size:.8rem;white-space:nowrap}.list-row .remove-list-item{padding:6px 8px;font-size:.72rem;flex-shrink:0}
 .two-panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .csv-help{font-size:.85rem;color:var(--muted);line-height:1.7}
 .csv-help code{color:var(--lime);overflow-wrap:anywhere}
 .file-input{display:block;width:100%;margin:10px 0;color:var(--muted);font-size:.85rem}
+.achievement-toast{position:fixed;right:20px;bottom:22px;z-index:90;width:min(360px,calc(100vw - 32px));padding:16px 18px;border:1px solid #ffe99b;border-radius:14px;background:linear-gradient(135deg,#1c2446f5,#11152df5);box-shadow:0 0 22px #ffe66d55,0 12px 35px #0008;display:flex;flex-direction:column;gap:6px;transform:translateX(calc(100% + 30px));opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;pointer-events:none}
+.achievement-toast.show{transform:translateX(0);opacity:1}.achievement-toast-kicker{font-size:.68rem;letter-spacing:.12em;color:#ffe99b;font-weight:900}.achievement-toast strong{font-size:1.08rem;color:#fff4b8}.achievement-toast span{font-size:.82rem;color:#dce6ff;line-height:1.5}
+.titles-modal{position:fixed;inset:0;z-index:85;display:none;place-items:center;padding:18px;background:#030716eF}.titles-modal.show{display:grid}.titles-dialog{width:min(720px,100%);max-height:85vh;overflow:auto;padding:20px;border:1px solid #ffe99b88;border-radius:18px;background:linear-gradient(145deg,#172754,#080e24);box-shadow:0 0 35px #ffe66d20}.titles-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.titles-head h2{margin:0;color:#ffe99b;font-size:1.3rem}.titles-count{color:var(--muted);font-size:.85rem}.titles-list{display:grid;gap:9px}.title-entry{border:1px solid #ffe99b44;border-radius:10px;padding:12px;background:#090f25}.title-entry strong{display:block;color:#fff4b8;margin-bottom:4px}.title-entry span{display:block;color:#c5cee5;font-size:.82rem;line-height:1.5}.title-entry.locked{opacity:.45;border-color:#7184b844}.list-reorder{display:flex;gap:4px}.list-reorder button{padding:5px 8px;font-size:.75rem}
 footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line-height:1.7}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;
  padding:12px 17px;background:var(--lime);color:#101a3a;font-weight:900;border-radius:12px;box-shadow:0 0 30px #c6ff3850;transition:.25s;max-width:calc(100% - 28px);text-align:center}
@@ -150,11 +154,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
 .reveal-back:before,.reveal-back:after{content:"";position:absolute;top:50%;width:clamp(18px,3.4vw,38px);height:clamp(18px,3.4vw,38px);transform:translate(-50%,-50%) rotate(45deg);border-radius:2px;pointer-events:none}.reveal-back:before{left:43%;background:#172754;border:2px solid #0a1026;box-shadow:0 0 0 1px #7284a8,0 0 12px #172754}.reveal-back:after{left:57%;background:#c6ff38;border:2px solid #e5ff9b;box-shadow:0 0 14px #c6ff38a0}
 .reveal-back.rarity-R{border-color:#8be9ff;box-shadow:0 0 12px #43f4ff80,inset 0 0 24px #43f4ff28}
-.reveal-back.rarity-SR{border:2px double #ff70df;box-shadow:0 0 14px #ff42d0c0,0 0 30px #ff42d060,inset 0 0 25px #ff42d050;animation:srGlow 1.6s ease-in-out infinite alternate}
-.reveal-back.rarity-UR{border:2px ridge #ffe99b;box-shadow:0 0 18px #fff4b8,0 0 38px #ffb72b,0 0 60px #ff42d088,inset 0 0 30px #ffcf5b60;animation:urGlow 1s ease-in-out infinite alternate}
-.reveal-back.rarity-LR{border:5px double #fff4b8;box-shadow:0 0 15px #fff,0 0 35px #ffe66d,0 0 65px #ff42d0,0 0 90px #43f4ff,inset 0 0 30px #fff4b8;animation:lrPulse .65s ease-in-out infinite alternate}
+.reveal-back.rarity-SR{border:2px double #ff70df;box-shadow:0 0 14px #ff42d060,inset 0 0 25px #ff42d020}
+.reveal-back.rarity-UR{border:2px ridge #ffe99b;box-shadow:0 0 18px #fff4b860,0 0 30px #ffb72b55,inset 0 0 30px #ffcf5b30}
+.reveal-back.rarity-LR{border:5px double #fff4b8;box-shadow:0 0 15px #fff8,0 0 25px #ffe66d80,0 0 35px #ff42d080,inset 0 0 30px #fff4b850}
 .reveal-back:hover{transform:translateY(-4px) scale(1.02)}
-.reveal-back.revealed{padding:0;animation:revealCardLight .85s cubic-bezier(.16,1,.3,1) both;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{display:none}
+.reveal-back.revealed{padding:0;animation:none;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.bulk-reveal{animation:revealCardLight .85s cubic-bezier(.16,.8,.3,1) both}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{display:none}
 .reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
 .reveal-modal.show{display:grid}
 .reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:1px solid #7184b84a;box-shadow:none;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
@@ -164,8 +168,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-modal-card .card-actions{justify-content:center}
  .reveal-modal-card .rarity-label{font-size:1.1rem}
   /* めくったカード本体の発光。装飾線の外側に追加フレームは作らない */
-  .reveal-modal-card .video-card{isolation:isolate;overflow:hidden;animation:flipIn .6s cubic-bezier(.2,.8,.2,1),rarityPulse 1.4s ease-in-out infinite alternate}
-  @keyframes rarityPulse{from{filter:brightness(1)}to{filter:brightness(1.08)}}
+  .reveal-modal-card .video-card{isolation:isolate;overflow:visible;animation:flipIn .6s cubic-bezier(.2,.8,.2,1);outline:3px solid var(--rarity-frame,#7184b8);outline-offset:4px}
+  .reveal-modal-card .video-card.rarity-N{--rarity-frame:#7184b8}.reveal-modal-card .video-card.rarity-R{--rarity-frame:#8be9ff}.reveal-modal-card .video-card.rarity-SR{--rarity-frame:#ff70df}.reveal-modal-card .video-card.rarity-UR{--rarity-frame:#ffe99b}.reveal-modal-card .video-card.rarity-LR{--rarity-frame:#fff4b8;outline-width:5px;outline-offset:5px;box-shadow:0 0 18px #fff8,0 0 35px #ffe66d,0 0 55px #ff42d0}
 @keyframes rareAura{from{box-shadow:0 0 8px #43f4ff,0 0 18px #43f4ff66}to{box-shadow:0 0 20px #43f4ff,0 0 40px #43f4ffcc}}
 @keyframes srAura{from{box-shadow:0 0 12px #ff42d0,0 0 25px #ff42d066}to{box-shadow:0 0 25px #ff42d0,0 0 50px #ff42d0cc,0 0 70px #a88bff}}
 @keyframes urAura{from{box-shadow:0 0 15px #fff4b8,0 0 30px #ffb72b,0 0 48px #ff42d066}to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 90px #ff42d0}}
@@ -239,7 +243,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 <header class="wrap">
   <div class="audio-widget" aria-label="BGMコントロール">
   <button class="small-btn" id="bgmToggle">▶ BGM</button>
-  <label title="BGM音量">音量 <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
+  <label title="BGM音量">BGM <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
+  <label title="効果音音量">SE <input id="seVolume" type="range" min="0" max="1" step="0.05" value="0.65"></label>
   <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
   <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="auto"></audio>
@@ -262,7 +267,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <section class="machine" aria-label="ガチャマシン">
     <div class="machine-top">
       <div class="machine-label">🧠 BIWACHAP GACHA MACHINE 🧠</div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="counter" id="totalCounter">登録動画：-- 本</div><div class="counter" id="remainingCounter">残り動画：-- 本</div><button class="small-btn" id="resetGachaBtn" type="button">↻ ガチャをリセット</button></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="counter" id="totalCounter">登録動画：-- 本</div><div class="counter" id="remainingCounter">残り動画：-- 本</div><button class="small-btn" id="titlesBtn" type="button">🏆 獲得した称号</button><button class="small-btn" id="resetGachaBtn" type="button">↻ ガチャをリセット</button></div>
     </div>
     <div class="buttons">
       <button class="gacha-btn" id="singleBtn" disabled>
@@ -328,13 +333,17 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <div class="cutin-footer">運命の一枚が姿を現す…</div><div class="cutin-click-prompt" id="cutinClickPrompt">クリックしてカードの封印を解く</div>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="achievement-toast" id="achievementToast" role="status" aria-live="polite"><div class="achievement-toast-kicker">🏆 ACHIEVEMENT UNLOCKED</div><strong id="achievementToastName"></strong><span id="achievementToastCondition"></span></div>
+<div class="titles-modal" id="titlesModal" aria-hidden="true"><div class="titles-dialog" role="dialog" aria-modal="true" aria-labelledby="titlesHeading"><div class="titles-head"><h2 id="titlesHeading">🏆 獲得した称号</h2><button class="small-btn" id="closeTitlesBtn" type="button">閉じる ✕</button></div><p class="titles-count" id="titlesCount"></p><div id="titlesList" class="titles-list"></div></div></div>
 
 <script>
 (() => {
   "use strict";
   const STORAGE = {
     favorites: "biwachapGachaFavorites_v1",
-    unviewed: "biwachapGachaUnviewed_v1"
+    unviewed: "biwachapGachaUnviewed_v1",
+    pullCount: "biwachapGachaPullCount_v1",
+    achievements: "biwachapGachaAchievements_v1"
   };
   const $ = (id) => document.getElementById(id);
   let videos = [];
@@ -348,8 +357,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   let revealIndex = 0;
   let revealMode = 1;
   let revealedIndices = new Set();
+  let bulkRevealActive = false;
+  let achievementToastTimer = null;
+  const achievementQueue = [];
+  let achievementToastBusy = false;
   const RARITIES = ["N","R","SR","UR"];
-  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — うるせェ!!! 観よう!!!",LR:"LR — Legend Rere"};
+  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — うるせェ!!! 観よう!!!",LR:"LR-LEGEND RARE"};
   let toastTimer = null;
 
   function readStorage(key, fallback) {
@@ -504,7 +517,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   function getUnviewed() { return readStorage(STORAGE.unviewed, []); }
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
-  function playSE(id) { const a=$(id); if(!a) return; try { a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.65); a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
   function rarityForPull() {
     // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
@@ -573,13 +586,22 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const el = $(elementId); if(!el) return;
     el.innerHTML = "";
     if (!list.length) { el.innerHTML = `<p class="csv-help">${emptyText}</p>`; return; }
-    list.forEach(v => {
+    list.forEach((v, index) => {
       const row = document.createElement("div"); row.className = "list-row";
-      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a><button class="small-btn remove-list-item" type="button" aria-label="${escapeHtml(v.title)}をリストから削除">削除</button>`;
+      row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a><div class="list-reorder"><button class="small-btn move-up" type="button" aria-label="${escapeHtml(v.title)}を上へ" ${index===0?"disabled":""}>↑</button><button class="small-btn move-down" type="button" aria-label="${escapeHtml(v.title)}を下へ" ${index===list.length-1?"disabled":""}>↓</button></div><button class="small-btn remove-list-item" type="button" aria-label="${escapeHtml(v.title)}をリストから削除">削除</button>`;
+      const storageKey = elementId === "favoritesList" ? STORAGE.favorites : STORAGE.unviewed;
+      const rerender = () => elementId === "favoritesList" ? renderFavorites() : renderUnviewed();
+      const move = direction => {
+        const items = readStorage(storageKey, []); const from = items.findIndex(item => item.id === v.id); const to = from + direction;
+        if (from < 0 || to < 0 || to >= items.length) return;
+        [items[from], items[to]] = [items[to], items[from]]; writeStorage(storageKey, items); rerender();
+      };
+      row.querySelector(".move-up").addEventListener("click", () => move(-1));
+      row.querySelector(".move-down").addEventListener("click", () => move(1));
       row.querySelector(".remove-list-item").addEventListener("click", () => {
-        if (elementId === "favoritesList") { writeStorage(STORAGE.favorites, getFavorites().filter(item => item.id !== v.id)); renderFavorites(); showToast("「これ好き」から削除しました"); }
-        else { writeStorage(STORAGE.unviewed, getUnviewed().filter(item => item.id !== v.id)); renderUnviewed(); showToast("「未視聴」から削除しました"); }
-        refreshVisibleCards();
+        writeStorage(storageKey, readStorage(storageKey, []).filter(item => item.id !== v.id)); rerender();
+        showToast(elementId === "favoritesList" ? "「これ好き」から削除しました" : "「未視聴」から削除しました");
+        refreshVisibleCards(); evaluateAchievements();
       });
       el.appendChild(row);
     });
@@ -600,13 +622,13 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     let favorites = getFavorites();
     if (favorites.some(v => v.id === video.id)) { favorites = favorites.filter(v => v.id !== video.id); showToast("「これ好き」から外しました"); }
     else { favorites.unshift({ title: video.title, url: video.url, id: video.id }); showToast("💚「これ好き」に登録しました！"); }
-    writeStorage(STORAGE.favorites, favorites); renderFavorites(); refreshVisibleCards(); updateCardToggleState(video);
+    writeStorage(STORAGE.favorites, favorites); renderFavorites(); refreshVisibleCards(); updateCardToggleState(video); evaluateAchievements();
   }
   function toggleUnviewed(video) {
     let list = getUnviewed();
     if (list.some(v => v.id === video.id)) { list = list.filter(v => v.id !== video.id); showToast("未視聴リストから外しました"); }
     else { list.unshift({ title: video.title, url: video.url, id: video.id }); showToast("🔖 未視聴に登録しました"); }
-    writeStorage(STORAGE.unviewed, list); renderUnviewed(); refreshVisibleCards(); updateCardToggleState(video);
+    writeStorage(STORAGE.unviewed, list); renderUnviewed(); refreshVisibleCards(); updateCardToggleState(video); evaluateAchievements();
   }
   function refreshVisibleCards() {
     if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1);
@@ -618,12 +640,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       const blob = await createListImage(list, label);
       const file = new File([blob], "biwachap-list.png", {type:"image/png"});
       if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
-        await navigator.share({title:label, text:`${label} #琵琶ちゃぷ`, files:[file]});
+        await navigator.share({title:label, text:`${label} #琵琶ちゃぷ動画ガチャ`, files:[file]});
         return;
       }
       const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(label.includes("未視聴")?"biwachap-unviewed":"biwachap-favorites")+".png";a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(`${label} #琵琶ちゃぷ`),"_blank","noopener,noreferrer");
+      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(`${label} #琵琶ちゃぷ動画ガチャ`),"_blank","noopener,noreferrer");
       showToast("一覧画像を保存しました。Xの投稿画面に画像を添付してください。");
     } catch (_) { showToast("画像を共有できませんでした。『一覧画像を保存』をお試しください。"); }
   }
@@ -662,9 +684,10 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     el.appendChild(renderCard(v,0));
   }
   function setupAudio() {
-    const bgm=$("bgm"), toggle=$("bgmToggle"), volume=$("bgmVolume");
+    const bgm=$("bgm"), toggle=$("bgmToggle"), volume=$("bgmVolume"), seVolume=$("seVolume");
     bgm.volume=Number(volume.value);
     volume.addEventListener("input",()=>bgm.volume=Number(volume.value));
+    seVolume.addEventListener("input",()=>{ document.querySelectorAll("audio:not(#bgm)").forEach(a=>a.volume=Number(seVolume.value)); });
     toggle.addEventListener("click",async()=>{if(bgm.paused){try{await bgm.play();toggle.textContent="⏸ BGMを停止";}catch(_){showToast("BGMを再生できません。MP3の配置とファイル名を確認してください。");}}else{bgm.pause();toggle.textContent="▶ BGMを再生";}});
   }
 
@@ -692,7 +715,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       b.type="button"; b.className="reveal-back rarity-"+(v.rarity||"N");
       b.setAttribute("aria-label",`${i+1}枚目のカード${revealedIndices.has(i)?"（表）":"をめくる"}`);
       if (revealedIndices.has(i)) {
-        b.classList.add("revealed");
+        b.classList.add("revealed"); if (bulkRevealActive) b.classList.add("bulk-reveal");
         b.innerHTML=`<img src="${escapeHtml(thumbUrl(v))}" alt="" loading="lazy"><span>${i+1}</span>`;
       } else b.textContent=String(i+1).padStart(2,"0");
       b.addEventListener("click",()=>{ if (!revealedIndices.has(i) && !cutinPending.size) openRevealCard(i); }); grid.appendChild(b);
@@ -703,11 +726,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   async function revealAllCards() {
     if (!latestResults.length || cutinPending.size) return;
     const btn = $("revealAllBtn");
-    btn.disabled = true;
+    btn.disabled = true; bulkRevealActive = true;
     for (let i = 0; i < latestResults.length; i++) revealedIndices.add(i);
     showRevealGrid();
     $("revealHint").textContent = `${latestResults.length}枚をまとめてオープン！`;
     await wait(1050);
+    bulkRevealActive = false;
     $("revealOverlay").classList.remove("show"); $("revealOverlay").setAttribute("aria-hidden","true");
     $("resultSection").scrollIntoView({behavior:"smooth",block:"start"});
     btn.disabled = false;
@@ -783,6 +807,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const pickedIds = new Set(picked.map(v => v.id));
     remainingVideos = remainingVideos.filter(v => !pickedIds.has(v.id));
     pickedIds.forEach(id => pulledVideoIds.add(id));
+    writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
     await wait(actualCount >= 10 ? 1750 : 1250);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
@@ -793,10 +818,50 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     showRevealGrid();
     busy = false;
     updateCounters();
+    evaluateAchievements();
     $("shareResultBtn").disabled = false;
     $("shareImageBtn").disabled = false;
     showToast(actualCount === 10 ? "💥 10本召喚！結果をチェック！" : actualCount < count ? `残り${actualCount}本をすべて召喚しました！` : "✨ 動画を召喚しました！");
   }
+
+  const ACHIEVEMENTS = [
+    ...[[3,"駆け出し琵琶ちゃぱー"],[10,"期待の新星琵琶ちゃぱー"],[20,"頼れる中堅琵琶ちゃぱー"],[30,"もはやベテラン琵琶ちゃぱー"],[40,"これぞエキスパート琵琶ちゃぱー"]].map(([n,name])=>({id:`pull-${n}`,name,condition:`ガチャで合計${n}本引く`,test:()=>Number(readStorage(STORAGE.pullCount,0))>=n})),
+    ...[[3,"琵琶ちゃぷ好き"],[10,"琵琶ちゃぷファン"],[20,"琵琶ちゃぷ愛好家"],[30,"琵琶ちゃぷマニア"],[40,"みそまめ教信者"]].map(([n,name])=>({id:`fav-${n}`,name,condition:`「これ好き」に${n}本登録する`,test:()=>getFavorites().length>=n})),
+    ...[[3,"無知の知の始まり"],[7,"1週間困らない"],[14,"2週間困らない"],[31,"1か月困らない"],[365,"1年困らない（本当に……？）"]].map(([n,name])=>({id:`unviewed-${n}`,name,condition:`「未視聴」に${n}本登録する`,test:()=>getUnviewed().length>=n})),
+    {id:"remaining-zero",name:"おめでとう！パーフェクト琵琶ちゃぱー",condition:"残り動画数が0になる",test:()=>videos.length>0&&remainingVideos.length===0},
+    {id:"all-unviewed",name:"逆にどうやってこのガチャを見つけた？?",condition:"登録されている全動画を「未視聴」に入れる",test:()=>videos.length>0&&getUnviewed().length>=videos.length&&videos.every(v=>getUnviewed().some(f=>f.id===v.id))},
+    ...[
+      [0,"琵琶ちゃぷコンプリートマスター！！（もしくはご本人）"],
+      [1,"琵琶ちゃぷほぼほぼマスター"],[6,"もう少しでマスター"],[16,"結構な琵琶ちゃぷフリーク"],[31,"まだまだ楽しみが残ってる"],[101,"これからの日々が楽しすぎる"]
+    ].map(([min,name],i)=>({id:`completion-${min}`,name,condition:`残り動画数が0の状態で「未視聴」が${i===0?"0本":i===1?"1～5本":i===2?"6～15本":i===3?"16～30本":i===4?"31～100本":"101本以上"}`,test:()=>videos.length>0&&remainingVideos.length===0&&(()=>{const n=getUnviewed().length;return i===0?n===0:i===1?n>=1&&n<=5:i===2?n>=6&&n<=15:i===3?n>=16&&n<=30:i===4?n>=31&&n<=100:n>=101;})()}))
+  ];
+  function getAchievements(){return readStorage(STORAGE.achievements,[]);}
+  function showAchievementToast(item){
+    achievementQueue.push(item);
+    if(achievementToastBusy) return;
+    const showNext = () => {
+      const next = achievementQueue.shift();
+      if(!next){achievementToastBusy=false;return;}
+      achievementToastBusy=true;
+      const el=$("achievementToast"); $("achievementToastName").textContent=next.name; $("achievementToastCondition").textContent=`達成条件：${next.condition}`;
+      el.classList.add("show"); playSE("seUR");
+      clearTimeout(achievementToastTimer); achievementToastTimer=setTimeout(()=>{el.classList.remove("show");achievementToastTimer=setTimeout(showNext,450);},4200);
+    };
+    showNext();
+  }
+  function evaluateAchievements(){
+    const earned=getAchievements(); let changed=false;
+    for(const item of ACHIEVEMENTS){if(!earned.includes(item.id)&&item.test()){earned.push(item.id);changed=true;showAchievementToast(item);}}
+    if(changed) writeStorage(STORAGE.achievements,earned);
+    if(changed) renderTitles();
+  }
+  function renderTitles(){
+    const earned=getAchievements(); $("titlesCount").textContent=`獲得済み ${earned.length} / ${ACHIEVEMENTS.length} 称号`;
+    const list=$("titlesList"); if(!list)return; list.innerHTML="";
+    ACHIEVEMENTS.forEach(item=>{const isEarned=earned.includes(item.id);const row=document.createElement("div");row.className="title-entry"+(isEarned?"":" locked");row.innerHTML=`<strong>${isEarned?"🏆":"🔒"} ${escapeHtml(item.name)}</strong><span>達成条件：${escapeHtml(item.condition)}</span><span>${isEarned?"獲得済み":"未獲得"}</span>`;list.appendChild(row);});
+  }
+  function openTitles(){renderTitles();$("titlesModal").classList.add("show");$("titlesModal").setAttribute("aria-hidden","false");}
+  function closeTitles(){$("titlesModal").classList.remove("show");$("titlesModal").setAttribute("aria-hidden","true");}
 
   function getSiteUrl() {
     // GitHub PagesのURLを自動取得。file://で開いた場合はURL共有を省略する。
@@ -863,11 +928,11 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       if (!blob) throw new Error("画像を作れませんでした");
       const file = new File([blob],"biwachap-gacha-result.png",{type:"image/png"});
       if (navigator.canShare && navigator.canShare({files:[file]}) && navigator.share) {
-        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ",text:"琵琶ちゃぷ動画ガチャの結果！ #琵琶ちゃぷ",files:[file]});
+        await navigator.share({title:"今日の琵琶ちゃぷおすすめ動画ガチャ",text:"琵琶ちゃぷ動画ガチャの結果！ #琵琶ちゃぷ動画ガチャ",files:[file]});
       } else {
         const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="biwachap-gacha-result.png";a.click();
         setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-        const intent="https://twitter.com/intent/tweet?text="+encodeURIComponent("今日の琵琶ちゃぷおすすめ動画ガチャの結果！ #琵琶ちゃぷ");
+        const intent="https://twitter.com/intent/tweet?text="+encodeURIComponent("今日の琵琶ちゃぷおすすめ動画ガチャの結果！ #琵琶ちゃぷ動画ガチャ");
         window.open(intent,"_blank","noopener,noreferrer");
         showToast("画像を保存し、開いたXの投稿画面に添付してください。");
       }
@@ -896,6 +961,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       for (const v of videos) if (!remainingIds.has(v.id) && !pulledVideoIds.has(v.id)) remainingVideos.push(v);
       $("poolStatus").textContent = `動画 ${videos.length} 本 READY`;
       updateCounters();
+      evaluateAchievements();
       const category = genreLabel ? `［${genreLabel}］` : "";
       $("loadMessage").textContent = `${label}${category}から${added}本を追加しました（重複除外）。登録合計 ${videos.length} 本。`;
       renderDailyRecommendation();
@@ -907,13 +973,15 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     }
   }
   async function init() {
-    renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio();
+    renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio(); renderTitles();
     $("revealModal").addEventListener("click",event=>{ if(event.target.closest("button,a,input")) return; advanceReveal(); });
     $("singleBtn").addEventListener("click",()=>pull(1));
     $("revealAllBtn").addEventListener("click", revealAllCards);
-    $("revealAllBtn").addEventListener("click", revealAllCards);
     $("tenBtn").addEventListener("click",()=>pull(10));
     $("resetGachaBtn").addEventListener("click",resetGacha);
+    $("titlesBtn").addEventListener("click",openTitles);
+    $("closeTitlesBtn").addEventListener("click",closeTitles);
+    $("titlesModal").addEventListener("click",event=>{if(event.target === $("titlesModal")) closeTitles();});
     $("shareResultBtn").addEventListener("click",shareImage);
     $("shareImageBtn").addEventListener("click",shareImage);
     $("shareFavorites").addEventListener("click",()=>shareList(getFavorites(),"これ好き動画リスト"));
