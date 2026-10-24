@@ -88,6 +88,7 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   @keyframes lrPulse{from{filter:brightness(1);box-shadow:0 0 12px #fff,0 0 35px #ffe66d,0 0 65px #ff42d0,inset 0 0 25px #fff4b8}to{filter:brightness(1.35);box-shadow:0 0 22px #fff,0 0 55px #ffe66d,0 0 100px #ff42d0,0 0 125px #43f4ff,inset 0 0 45px #fff4b8}}
   .rarity-R .rarity-label{color:#8be9ff}.rarity-SR .rarity-label{color:#ff9de8;text-shadow:0 0 9px #ff42d0}.rarity-UR .rarity-label{color:#ffe99b;text-shadow:0 0 5px #fff,0 0 15px #ffb72b}
   .list-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.list-row[draggable="true"]{cursor:grab}.list-row.dragging{opacity:.45}.list-row.drag-over{outline:2px dashed var(--lime);outline-offset:2px}
   .recommended{border:2px solid var(--lime);border-radius:20px;padding:18px;background:linear-gradient(130deg,#263b20,#142449 60%,#321342);box-shadow:0 0 28px #c6ff3825}
   .recommended .video-card{max-width:520px;margin:12px auto 0}
   .audio-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
@@ -96,10 +97,10 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
   .genre-challenge{border-color:#ff9b35;box-shadow:inset 0 0 0 1px #ff9b3522}
   .genre-challenge .genre-tag{color:#ffc078;background:#ff9b351c}
-  .genre-game{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
-  .genre-game .genre-tag{color:#d2c3ff;background:#a88bff20}
-  .genre-talk{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
-  .genre-talk .genre-tag{color:#8be9ff;background:#43f4ff16}
+  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
+  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -150,6 +151,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-heading{color:var(--lime);font-weight:1000;font-size:clamp(1.3rem,4vw,2rem);margin:0 0 8px;text-shadow:0 0 18px #c6ff3870}
 .reveal-hint{color:#dbe5ff;margin:0 0 22px;font-size:.9rem}
 .reveal-all-btn{margin:0 auto 18px;display:block;border-color:#ffe99b;color:#fff4b8;box-shadow:0 0 18px #ffe66d30}.reveal-all-btn:hover{color:#fff;border-color:#fff4b8;box-shadow:0 0 24px #ffe66d70}
+.reveal-all-btn[hidden]{display:none!important}
 .reveal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(7px,2vw,16px);max-width:1000px;margin:auto}
 .reveal-back{aspect-ratio:16/10;border-radius:13px;border:2px solid #7284a8;background:linear-gradient(135deg,#111c42,#243e75 48%,#101a3a);color:#c6ff38;font-size:clamp(1.4rem,5vw,3rem);font-weight:1000;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 0 20px #43f4ff22,0 8px 20px #0005;transition:transform .2s}
 .reveal-back:before,.reveal-back:after{content:"";position:absolute;top:50%;width:clamp(18px,3.4vw,38px);height:clamp(18px,3.4vw,38px);transform:translate(-50%,-50%) rotate(45deg);border-radius:2px;pointer-events:none}.reveal-back:before{left:43%;background:#172754;border:2px solid #0a1026;box-shadow:0 0 0 1px #7284a8,0 0 12px #172754}.reveal-back:after{left:57%;background:#c6ff38;border:2px solid #e5ff9b;box-shadow:0 0 14px #c6ff38a0}
@@ -305,13 +307,14 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   </section>
 
 
-  <input class="file-input" type="file" id="csvFile" accept=".csv,text/csv" multiple hidden>
   <div class="csv-help" id="loadMessage" hidden></div>
 </main>
 
 <footer class="wrap">
-  個人用ファンメイド企画 / 動画の権利は各権利者に帰属します。<br>
-  サムネイルはYouTubeから読み込みます。動画が削除・非公開の場合、サムネイルやリンクが表示できないことがあります。
+  <p>本ページは個人による非公式ファンメイド企画であり、各動画投稿者・権利者および各動画配信サービスとは関係ありません。</p>
+  <p>動画タイトル・リンク・サムネイルはYouTubeおよびニコニコ動画から読み込んでいます。<br>動画の著作権・肖像権等は各権利者に帰属します。</p>
+  <p>BGM・効果音（SE）は「魔王魂」よりダウンロードした素材を使用しています。<br>素材の権利は各権利者に帰属します。</p>
+  <p>動画の削除・非公開・配信サービス側の仕様変更等により、サムネイルやリンクが表示されない場合があります。</p>
 </footer>
 
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
@@ -320,7 +323,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     <div class="overlay-title" id="overlayTitle">GACHA!!</div>
     <div class="overlay-sub" id="overlaySub">運命の一本を召喚中…</div>
     <div class="overlay-bar"><span></span></div>
-    <div class="overlay-sub">PLEASE WAIT, DOPAGAKI...</div>
+    <div class="overlay-sub">WHAT'S NEXT BIWACHAP...</div>
   </div>
 </div>
 <div class="reveal-overlay" id="revealOverlay" aria-hidden="true">
@@ -343,6 +346,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     favorites: "biwachapGachaFavorites_v1",
     unviewed: "biwachapGachaUnviewed_v1",
     pullCount: "biwachapGachaPullCount_v1",
+    pulledIds: "biwachapGachaPulledIds_v1",
     achievements: "biwachapGachaAchievements_v1"
   };
   const $ = (id) => document.getElementById(id);
@@ -362,7 +366,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   const achievementQueue = [];
   let achievementToastBusy = false;
   const RARITIES = ["N","R","SR","UR"];
-  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — うるせェ!!! 観よう!!!",LR:"LR-LEGEND RARE"};
+  const RARITY_TEXT = {N:"N — 何はともあれ観るべき",R:"R — 理屈抜きに観るべき",SR:"SR — それはそれとして観るべき",UR:"UR — うるせェ!!! 観よう!!!",LR:"LR — LEGEND RARE"};
   let toastTimer = null;
 
   function readStorage(key, fallback) {
@@ -587,7 +591,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     el.innerHTML = "";
     if (!list.length) { el.innerHTML = `<p class="csv-help">${emptyText}</p>`; return; }
     list.forEach((v, index) => {
-      const row = document.createElement("div"); row.className = "list-row";
+      const row = document.createElement("div"); row.className = "list-row"; row.draggable = true; row.dataset.videoId = v.id;
       row.innerHTML = `<img src="${thumbUrl(v)}" alt="" loading="lazy"><span class="list-title">${escapeHtml(v.title)}</span><a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">開く ↗</a><div class="list-reorder"><button class="small-btn move-up" type="button" aria-label="${escapeHtml(v.title)}を上へ" ${index===0?"disabled":""}>↑</button><button class="small-btn move-down" type="button" aria-label="${escapeHtml(v.title)}を下へ" ${index===list.length-1?"disabled":""}>↓</button></div><button class="small-btn remove-list-item" type="button" aria-label="${escapeHtml(v.title)}をリストから削除">削除</button>`;
       const storageKey = elementId === "favoritesList" ? STORAGE.favorites : STORAGE.unviewed;
       const rerender = () => elementId === "favoritesList" ? renderFavorites() : renderUnviewed();
@@ -598,6 +602,32 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       };
       row.querySelector(".move-up").addEventListener("click", () => move(-1));
       row.querySelector(".move-down").addEventListener("click", () => move(1));
+      row.addEventListener("dragstart", event => {
+        row.classList.add("dragging");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", v.id);
+      });
+      row.addEventListener("dragend", () => {
+        row.classList.remove("dragging");
+        el.querySelectorAll(".list-row").forEach(item => item.classList.remove("drag-over"));
+      });
+      row.addEventListener("dragover", event => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+        row.classList.add("drag-over");
+      });
+      row.addEventListener("dragleave", () => row.classList.remove("drag-over"));
+      row.addEventListener("drop", event => {
+        event.preventDefault(); row.classList.remove("drag-over");
+        const draggedId = event.dataTransfer.getData("text/plain");
+        if (!draggedId || draggedId === v.id) return;
+        const items = readStorage(storageKey, []);
+        const from = items.findIndex(item => item.id === draggedId);
+        const to = items.findIndex(item => item.id === v.id);
+        if (from < 0 || to < 0) return;
+        const [dragged] = items.splice(from, 1); items.splice(to, 0, dragged);
+        writeStorage(storageKey, items); rerender();
+      });
       row.querySelector(".remove-list-item").addEventListener("click", () => {
         writeStorage(storageKey, readStorage(storageKey, []).filter(item => item.id !== v.id)); rerender();
         showToast(elementId === "favoritesList" ? "「これ好き」から削除しました" : "「未視聴」から削除しました");
@@ -773,7 +803,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   }
   function resetGacha() {
     if (busy || cutinPending.size) return;
-    remainingVideos = [...videos]; pulledVideoIds.clear(); latestResults = []; revealedIndices = new Set();
+    remainingVideos = [...videos]; pulledVideoIds.clear(); writeStorage(STORAGE.pulledIds, []); latestResults = []; revealedIndices = new Set();
     $("resultsGrid").innerHTML = '<div class="empty">まだ動画が引かれていません。<br>単発または10連ガチャを回してね！</div>';
     $("resultsGrid").classList.remove("ten");
     $("resultCaption").textContent = "ボタンを押して運命の動画を引こう。";
@@ -807,6 +837,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const pickedIds = new Set(picked.map(v => v.id));
     remainingVideos = remainingVideos.filter(v => !pickedIds.has(v.id));
     pickedIds.forEach(id => pulledVideoIds.add(id));
+    writeStorage(STORAGE.pulledIds, [...pulledVideoIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
     await wait(actualCount >= 10 ? 1750 : 1250);
     overlay.classList.remove("show");
@@ -825,7 +856,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   }
 
   const ACHIEVEMENTS = [
-    ...[[3,"駆け出し琵琶ちゃぱー"],[10,"期待の新星琵琶ちゃぱー"],[20,"頼れる中堅琵琶ちゃぱー"],[30,"もはやベテラン琵琶ちゃぱー"],[40,"これぞエキスパート琵琶ちゃぱー"]].map(([n,name])=>({id:`pull-${n}`,name,condition:`ガチャで合計${n}本引く`,test:()=>Number(readStorage(STORAGE.pullCount,0))>=n})),
+    ...[[30,"駆け出し琵琶ちゃぱー"],[100,"期待の新星琵琶ちゃぱー"],[200,"頼れる中堅琵琶ちゃぱー"],[300,"もはやベテラン琵琶ちゃぱー"],[400,"これぞエキスパート琵琶ちゃぱー"]].map(([n,name])=>({id:`pull-${n}`,name,condition:`ガチャで合計${n}本引く`,test:()=>Number(readStorage(STORAGE.pullCount,0))>=n})),
     ...[[3,"琵琶ちゃぷ好き"],[10,"琵琶ちゃぷファン"],[20,"琵琶ちゃぷ愛好家"],[30,"琵琶ちゃぷマニア"],[40,"みそまめ教信者"]].map(([n,name])=>({id:`fav-${n}`,name,condition:`「これ好き」に${n}本登録する`,test:()=>getFavorites().length>=n})),
     ...[[3,"無知の知の始まり"],[7,"1週間困らない"],[14,"2週間困らない"],[31,"1か月困らない"],[365,"1年困らない（本当に……？）"]].map(([n,name])=>({id:`unviewed-${n}`,name,condition:`「未視聴」に${n}本登録する`,test:()=>getUnviewed().length>=n})),
     {id:"remaining-zero",name:"おめでとう！パーフェクト琵琶ちゃぱー",condition:"残り動画数が0になる",test:()=>videos.length>0&&remainingVideos.length===0},
@@ -858,7 +889,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   function renderTitles(){
     const earned=getAchievements(); $("titlesCount").textContent=`獲得済み ${earned.length} / ${ACHIEVEMENTS.length} 称号`;
     const list=$("titlesList"); if(!list)return; list.innerHTML="";
-    ACHIEVEMENTS.forEach(item=>{const isEarned=earned.includes(item.id);const row=document.createElement("div");row.className="title-entry"+(isEarned?"":" locked");row.innerHTML=`<strong>${isEarned?"🏆":"🔒"} ${escapeHtml(item.name)}</strong><span>達成条件：${escapeHtml(item.condition)}</span><span>${isEarned?"獲得済み":"未獲得"}</span>`;list.appendChild(row);});
+    ACHIEVEMENTS.forEach(item=>{const isEarned=earned.includes(item.id);const row=document.createElement("div");row.className="title-entry"+(isEarned?"":" locked");row.innerHTML=`<strong>${isEarned?"🏆 "+escapeHtml(item.name):"🔒 ?????"}</strong><span>達成条件：${escapeHtml(item.condition)}</span><span>${isEarned?"獲得済み":"未獲得"}</span>`;list.appendChild(row);});
   }
   function openTitles(){renderTitles();$("titlesModal").classList.add("show");$("titlesModal").setAttribute("aria-hidden","false");}
   function closeTitles(){$("titlesModal").classList.remove("show");$("titlesModal").setAttribute("aria-hidden","true");}
@@ -988,11 +1019,6 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     $("shareUnviewed").addEventListener("click",()=>shareList(getUnviewed(),"未視聴動画リスト"));
     $("saveFavorites").addEventListener("click",()=>saveListImage(getFavorites(),"💚 これ好き"));
     $("saveUnviewed").addEventListener("click",()=>saveListImage(getUnviewed(),"🔖 未視聴動画"));
-    $("csvFile").addEventListener("change", async event => {
-      const files=Array.from(event.target.files || []); if (!files.length) return;
-      for(const file of files) await loadCSVText(await file.text(),file.name);
-      event.target.value="";
-    });
     const csvFiles = [
       {name:"challenge_videos.csv", genre:"challenge"},
       {name:"game_videos.csv", genre:"game"},
@@ -1010,12 +1036,15 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const cutinOutcome = await cutinOutcomePromise;
     if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
-      $("loadMessage").textContent = "自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。PCで直接開いている場合は、下のファイル選択から3ファイルを選べます。";
+      $("loadMessage").textContent = "自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。GitHub PagesなどのWebサーバー上で開いているか、CSVファイルの配置を確認してください。";
       $("singleBtn").disabled = $("tenBtn").disabled = true;
       $("loadMessage").textContent += ` ${cutinOutcome}。`;
     } else {
-      remainingVideos = [...videos];
+      const savedPulled = new Set(readStorage(STORAGE.pulledIds, []));
+      savedPulled.forEach(id => pulledVideoIds.add(id));
+      remainingVideos = videos.filter(v => !pulledVideoIds.has(v.id));
       updateCounters();
+      evaluateAchievements();
       $("loadMessage").textContent = outcomes.join(" ／ ") + `。登録合計 ${videos.length} 本（重複除外）。 ${cutinOutcome}。`;
     }
   }
