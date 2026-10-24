@@ -97,10 +97,10 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
   .genre-tag{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:950;letter-spacing:.04em;padding:4px 9px;border-radius:999px;margin:0 0 9px;border:1px solid currentColor}
   .genre-challenge{border-color:#ff9b35;box-shadow:inset 0 0 0 1px #ff9b3522}
   .genre-challenge .genre-tag{color:#ffc078;background:#ff9b351c}
-  .genre-game{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
-  .genre-game .genre-tag{color:#8be9ff;background:#43f4ff16}
-  .genre-talk{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
-  .genre-talk .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-game{border-color:#c9b5ff;box-shadow:inset 0 0 0 1px #a88bff20}
+  .genre-game .genre-tag{color:#d2c3ff;background:#a88bff20}
+  .genre-talk{border-color:#8be9ff;box-shadow:inset 0 0 0 1px #43f4ff20}
+  .genre-talk .genre-tag{color:#8be9ff;background:#43f4ff16}
 .thumb-wrap{position:relative;aspect-ratio:16/9;background:#080d20;overflow:hidden}
 .thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .video-card:hover .thumb{transform:scale(1.035)}
@@ -130,7 +130,8 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .achievement-toast{position:fixed;right:20px;bottom:22px;z-index:90;width:min(360px,calc(100vw - 32px));padding:16px 18px;border:1px solid #ffe99b;border-radius:14px;background:linear-gradient(135deg,#1c2446f5,#11152df5);box-shadow:0 0 22px #ffe66d55,0 12px 35px #0008;display:flex;flex-direction:column;gap:6px;transform:translateX(calc(100% + 30px));opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;pointer-events:none}
 .achievement-toast.show{transform:translateX(0);opacity:1}.achievement-toast-kicker{font-size:.68rem;letter-spacing:.12em;color:#ffe99b;font-weight:900}.achievement-toast strong{font-size:1.08rem;color:#fff4b8}.achievement-toast span{font-size:.82rem;color:#dce6ff;line-height:1.5}
 .titles-modal{position:fixed;inset:0;z-index:85;display:none;place-items:center;padding:18px;background:#030716eF}.titles-modal.show{display:grid}.titles-dialog{width:min(720px,100%);max-height:85vh;overflow:auto;padding:20px;border:1px solid #ffe99b88;border-radius:18px;background:linear-gradient(145deg,#172754,#080e24);box-shadow:0 0 35px #ffe66d20}.titles-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.titles-head h2{margin:0;color:#ffe99b;font-size:1.3rem}.titles-count{color:var(--muted);font-size:.85rem}.titles-list{display:grid;gap:9px}.title-entry{border:1px solid #ffe99b44;border-radius:10px;padding:12px;background:#090f25}.title-entry strong{display:block;color:#fff4b8;margin-bottom:4px}.title-entry span{display:block;color:#c5cee5;font-size:.82rem;line-height:1.5}.title-entry.locked{opacity:.45;border-color:#7184b844}.list-reorder{display:flex;gap:4px}.list-reorder button{padding:5px 8px;font-size:.75rem}
-footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line-height:1.7}
+footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line-height:1.45}
+footer p{margin:4px 0}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;
  padding:12px 17px;background:var(--lime);color:#101a3a;font-weight:900;border-radius:12px;box-shadow:0 0 30px #c6ff3850;transition:.25s;max-width:calc(100% - 28px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -163,7 +164,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
 .reveal-back.revealed{padding:0;animation:none;background:#080d20;border-color:#c6ff38;box-shadow:0 0 12px #c6ff3840}.reveal-back.revealed:before,.reveal-back.revealed:after{display:none}.reveal-back.bulk-reveal{animation:revealCardLight .85s cubic-bezier(.16,.8,.3,1) both}.reveal-back.revealed img{width:100%;height:100%;object-fit:cover;display:block}.reveal-back.revealed span{display:none}
 .reveal-modal{display:none;position:fixed;inset:0;z-index:61;background:#02040df5;place-items:center;padding:20px;cursor:pointer}
 .reveal-modal.show{display:grid}
-.reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:1px solid #7184b84a;box-shadow:none;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
+.reveal-modal-card{width:min(900px,94vw);max-height:90vh;overflow:auto;scrollbar-width:none;border-radius:22px;padding:clamp(12px,3vw,28px);background:linear-gradient(145deg,#172754,#080e24);border:1px solid #7184b84a;box-shadow:none;text-align:center;animation:flipIn .6s cubic-bezier(.2,.8,.2,1)}
+.reveal-modal-card::-webkit-scrollbar{display:none}
 .reveal-modal-card .thumb-wrap{border-radius:12px}
 .reveal-modal-card .video-title{font-size:clamp(1rem,3vw,1.5rem)}
 .reveal-modal-card .card-body{padding:16px 4px 4px}
@@ -246,7 +248,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   <div class="audio-widget" aria-label="BGMコントロール">
   <button class="small-btn" id="bgmToggle">▶ BGM</button>
   <label title="BGM音量">BGM <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
-  <label title="効果音音量">SE <input id="seVolume" type="range" min="0" max="1" step="0.05" value="0.65"></label>
+  <label title="効果音音量">SE <input id="seVolume" type="range" min="0" max="1" step="0.05" value="0.2"></label>
   <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
   <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="auto"></audio>
@@ -521,7 +523,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
   function getUnviewed() { return readStorage(STORAGE.unviewed, []); }
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
-  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.65); a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
   function rarityForPull() {
     // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
@@ -531,7 +533,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     return "UR";
   }
 
-  function renderCard(video, index, favoriteContext = false) {
+  function renderCard(video, index, favoriteContext = false, noAnimation = false) {
     const fav = isFavorite(video.id);
     const unviewed = isUnviewed(video.id);
     const rarity = video.rarity || "";
@@ -539,6 +541,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     const genreNames = {challenge:"🎉 企画動画", game:"🎮 ゲーム動画", talk:"💬 お話動画"};
     const card = document.createElement("article");
     card.className = "video-card" + (genre ? " genre-" + genre : "") + (rarity ? " rarity-" + rarity : "");
+    if (noAnimation) card.style.animation = "none";
     card.innerHTML = `
       <div class="thumb-wrap">
         <img class="thumb" src="${thumbUrl(video)}" alt="${escapeHtml(video.title)} のサムネイル" loading="lazy">
@@ -564,7 +567,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     card.querySelector(".unviewed-toggle").addEventListener("click", event => { event.stopPropagation(); toggleUnviewed(video); });
     return card;
   }
-  function renderResults(results, mode) {
+  function renderResults(results, mode, noAnimation = false) {
     const grid = $("resultsGrid");
     grid.innerHTML = "";
     grid.classList.toggle("ten", mode === 10);
@@ -572,7 +575,7 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
       grid.innerHTML = '<div class="empty">動画がありません。CSVを確認してください。</div>';
       return;
     }
-    results.forEach((video, index) => grid.appendChild(renderCard(video, index)));
+    results.forEach((video, index) => grid.appendChild(renderCard(video, index, false, noAnimation)));
     $("resultHeading").textContent = mode === 10 ? "💥 10連ガチャ結果！" : "🎁 単発ガチャ結果！";
     $("resultCaption").textContent = mode === 10
       ? "10本召喚完了！ 気になる動画をチェック！"
@@ -661,8 +664,8 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     writeStorage(STORAGE.unviewed, list); renderUnviewed(); refreshVisibleCards(); updateCardToggleState(video); evaluateAchievements();
   }
   function refreshVisibleCards() {
-    if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1);
-    renderDailyRecommendation();
+    if (latestResults.length) renderResults(latestResults, latestResults.length === 10 ? 10 : 1, true);
+    renderDailyRecommendation(true);
   }
   async function shareList(list, label) {
     if (!list.length) { showToast("一覧に動画がありません"); return; }
@@ -706,12 +709,12 @@ footer{padding:35px 0 45px;text-align:center;color:#8493ba;font-size:.78rem;line
     for(let i=0;i<str.length;i++){hash^=str.charCodeAt(i);hash=Math.imul(hash,16777619);}
     return sorted[(hash>>>0)%sorted.length];
   }
-  function renderDailyRecommendation() {
+  function renderDailyRecommendation(noAnimation = false) {
     const el=$("dailyRecommendation");if(!el)return;
     const dateLabel=new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());$("dailyDate").textContent=`${dateLabel} (日本時間)`;
     const v=dailyPick(videos);el.innerHTML="";
     if(!v){el.innerHTML='<div class="empty">CSVを読み込むと今日のおすすめが表示されます。</div>';return;}
-    el.appendChild(renderCard(v,0));
+    el.appendChild(renderCard(v,0,false,noAnimation));
   }
   function setupAudio() {
     const bgm=$("bgm"), toggle=$("bgmToggle"), volume=$("bgmVolume"), seVolume=$("seVolume");
