@@ -265,7 +265,7 @@ footer p{margin:4px 0}
 
 <main class="wrap">
   <section class="recommended" id="dailySection">
-    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2></div><span class="counter" id="dailyDate"></span></div>
+    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2><p>同じ動画リストを使うユーザーには、毎日同じ1本を表示します。</p></div><span class="counter" id="dailyDate"></span></div>
     <div id="dailyRecommendation"><div class="empty">動画リストを読み込み中…</div></div>
   </section>
   <section class="machine" aria-label="ガチャマシン">
@@ -315,7 +315,7 @@ footer p{margin:4px 0}
 <footer class="wrap">
   <p>本ページは個人による非公式ファンメイド企画であり、各動画投稿者・権利者および各動画配信サービスとは関係ありません。</p>
   <p>動画タイトル・リンク・サムネイルはYouTubeおよびニコニコ動画から読み込んでいます。<br>動画の著作権・肖像権等は各権利者に帰属します。</p>
-  <p>BGM・効果音（SE）には、「魔王魂」様より配布されている素材を使用させていただいております。<br>素材の権利は各権利者に帰属します。</p>
+  <p>BGM・効果音（SE）は「魔王魂」よりダウンロードした素材を使用しています。<br>素材の権利は各権利者に帰属します。</p>
   <p>動画の削除・非公開・配信サービス側の仕様変更等により、サムネイルやリンクが表示されない場合があります。</p>
 </footer>
 
@@ -349,7 +349,8 @@ footer p{margin:4px 0}
     unviewed: "biwachapGachaUnviewed_v1",
     pullCount: "biwachapGachaPullCount_v1",
     pulledIds: "biwachapGachaPulledIds_v1",
-    achievements: "biwachapGachaAchievements_v1"
+    achievements: "biwachapGachaAchievements_v1",
+    achievementFlags: "biwachapGachaAchievementFlags_v1"
   };
   const $ = (id) => document.getElementById(id);
   let videos = [];
@@ -716,11 +717,16 @@ footer p{margin:4px 0}
     if(!v){el.innerHTML='<div class="empty">CSVを読み込むと今日のおすすめが表示されます。</div>';return;}
     el.appendChild(renderCard(v,0,false,noAnimation));
   }
+  function checkAudioAchievement() {
+    const bgm=Number($("bgmVolume")?.value), se=Number($("seVolume")?.value);
+    if (bgm===1 && se===1) setAchievementFlag("audioMax");
+    if (bgm===0 && se===0) setAchievementFlag("audioMin");
+  }
   function setupAudio() {
     const bgm=$("bgm"), toggle=$("bgmToggle"), volume=$("bgmVolume"), seVolume=$("seVolume");
     bgm.volume=Number(volume.value);
-    volume.addEventListener("input",()=>bgm.volume=Number(volume.value));
-    seVolume.addEventListener("input",()=>{ document.querySelectorAll("audio:not(#bgm)").forEach(a=>a.volume=Number(seVolume.value)); });
+    volume.addEventListener("input",()=>{bgm.volume=Number(volume.value); checkAudioAchievement();});
+    seVolume.addEventListener("input",()=>{ document.querySelectorAll("audio:not(#bgm)").forEach(a=>a.volume=Number(seVolume.value)); checkAudioAchievement(); });
     toggle.addEventListener("click",async()=>{if(bgm.paused){try{await bgm.play();toggle.textContent="⏸ BGMを停止";}catch(_){showToast("BGMを再生できません。MP3の配置とファイル名を確認してください。");}}else{bgm.pause();toggle.textContent="▶ BGMを再生";}});
   }
 
@@ -858,6 +864,28 @@ footer p{margin:4px 0}
     showToast(actualCount === 10 ? "💥 10本召喚！結果をチェック！" : actualCount < count ? `残り${actualCount}本をすべて召喚しました！` : "✨ 動画を召喚しました！");
   }
 
+  // 称号条件はここにデータとして追加できます。動画IDはYouTubeの動画ID、またはニコニコ動画のID（例: sm123456）です。
+  // 「これ好き」の組み合わせ称号：1組につき1称号。必要な動画IDをすべて指定してください。
+  // favorite_combo / favorite_order の称号条件は title_conditions.csv から読み込みます。
+  const FAVORITE_COMBO_ACHIEVEMENTS = [];
+  const FAVORITE_ORDER_ACHIEVEMENTS = [];
+  // ジャンル別称号。genre は challenge / game / talk、threshold は必要本数。
+  const FAVORITE_GENRE_ACHIEVEMENTS = [
+    { id: "favorite-genre-challenge-10", name: "企画動画の沼", genre: "challenge", threshold: 10 },
+    { id: "favorite-genre-game-10", name: "ゲーム動画の沼", genre: "game", threshold: 10 },
+    { id: "favorite-genre-talk-10", name: "お話動画の沼", genre: "talk", threshold: 10 }
+  ];
+  const HIDDEN_CONDITION_ACHIEVEMENT_IDS = new Set([
+    "favorite-combo", "favorite-order", "favorite-genre-challenge-10", "favorite-genre-game-10", "favorite-genre-talk-10",
+    "audio-max", "audio-min", "first-favorites-image", "first-x-share", "first-daily-watch"
+  ]);
+  function getAchievementFlags() { return readStorage(STORAGE.achievementFlags, {}); }
+  function setAchievementFlag(flag) { const flags=getAchievementFlags(); if(flags[flag]) return; flags[flag]=true; writeStorage(STORAGE.achievementFlags, flags); evaluateAchievements(); }
+  function getFavoriteGenreCount(genre) {
+    const ids = new Set(videos.filter(v => v.genreType === genre).map(v => v.id));
+    return getFavorites().filter(v => ids.has(v.id)).length;
+  }
+
   const ACHIEVEMENTS = [
     ...[[30,"駆け出し琵琶ちゃぱー"],[100,"期待の新星琵琶ちゃぱー"],[200,"頼れる中堅琵琶ちゃぱー"],[300,"もはやベテラン琵琶ちゃぱー"],[400,"これぞエキスパート琵琶ちゃぱー"]].map(([n,name])=>({id:`pull-${n}`,name,condition:`ガチャで合計${n}本引く`,test:()=>Number(readStorage(STORAGE.pullCount,0))>=n})),
     ...[[3,"琵琶ちゃぷ好き"],[10,"琵琶ちゃぷファン"],[20,"琵琶ちゃぷ愛好家"],[30,"琵琶ちゃぷマニア"],[40,"みそまめ教信者"]].map(([n,name])=>({id:`fav-${n}`,name,condition:`「これ好き」に${n}本登録する`,test:()=>getFavorites().length>=n})),
@@ -867,8 +895,67 @@ footer p{margin:4px 0}
     ...[
       [0,"琵琶ちゃぷコンプリートマスター！！（もしくはご本人）"],
       [1,"琵琶ちゃぷほぼほぼマスター"],[6,"もう少しでマスター"],[16,"結構な琵琶ちゃぷフリーク"],[31,"まだまだ楽しみが残ってる"],[101,"これからの日々が楽しすぎる"]
-    ].map(([min,name],i)=>({id:`completion-${min}`,name,condition:`残り動画数が0の状態で「未視聴」が${i===0?"0本":i===1?"1～5本":i===2?"6～15本":i===3?"16～30本":i===4?"31～100本":"101本以上"}`,test:()=>videos.length>0&&remainingVideos.length===0&&(()=>{const n=getUnviewed().length;return i===0?n===0:i===1?n>=1&&n<=5:i===2?n>=6&&n<=15:i===3?n>=16&&n<=30:i===4?n>=31&&n<=100:n>=101;})()}))
+    ].map(([min,name],i)=>({id:`completion-${min}`,name,condition:`残り動画数が0の状態で「未視聴」が${i===0?"0本":i===1?"1～5本":i===2?"6～15本":i===3?"16～30本":i===4?"31～100本":"101本以上"}`,test:()=>videos.length>0&&remainingVideos.length===0&&(()=>{const n=getUnviewed().length;return i===0?n===0:i===1?n>=1&&n<=5:i===2?n>=6&&n<=15:i===3?n>=16&&n<=30:i===4?n>=31&&n<=100:n>=101;})()})),
+    {id:"favorite-combo",name:"好きが重なる瞬間",condition:"？？？",test:()=>FAVORITE_COMBO_ACHIEVEMENTS.some(rule=>rule.videoIds?.length && rule.videoIds.every(id=>getFavorites().some(v=>v.id===id)))},
+    {id:"favorite-order",name:"並び順にもこだわり",condition:"？？？",test:()=>FAVORITE_ORDER_ACHIEVEMENTS.some(rule=>{const ids=getFavorites().map(v=>v.id);if(!rule.videoIds?.length)return false;return ids.some((_,i)=>rule.videoIds.every((id,j)=>ids[i+j]===id));})},
+    ...FAVORITE_GENRE_ACHIEVEMENTS.map(rule=>({id:rule.id,name:rule.name,condition:"？？？",test:()=>getFavoriteGenreCount(rule.genre)>=rule.threshold})),
+    {id:"audio-max",name:"音量注意報",condition:"？？？",test:()=>!!getAchievementFlags().audioMax},
+    {id:"audio-min",name:"静寂の世界",condition:"？？？",test:()=>!!getAchievementFlags().audioMin},
+    {id:"first-favorites-image",name:"思い出を形に",condition:"？？？",test:()=>!!getAchievementFlags().favoritesImage},
+    {id:"first-x-share",name:"世界に発信！",condition:"？？？",test:()=>!!getAchievementFlags().xShare},
+    {id:"first-daily-watch",name:"今日の一本を観に行こう",condition:"？？？",test:()=>!!getAchievementFlags().dailyWatch}
   ];
+  // RFC4180形式のCSVを簡易パース（カンマ・改行を含む引用符付きセルに対応）
+  function parseAchievementCSV(text) {
+    const rows=[]; let row=[], cell="", quoted=false;
+    for(let i=0;i<text.length;i++){
+      const c=text[i];
+      if(quoted){ if(c==='"' && text[i+1]==='"'){cell+='"';i++;} else if(c==='"') quoted=false; else cell+=c; }
+      else if(c==='"') quoted=true;
+      else if(c===','){row.push(cell);cell="";}
+      else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell="";}
+      else if(c!=='\r') cell+=c;
+    }
+    if(cell.length||row.length){row.push(cell);rows.push(row);}
+    if(!rows.length)return [];
+    const headers=rows.shift().map(v=>v.trim().replace(/^\uFEFF/,''));
+    return rows.filter(r=>r.some(v=>v.trim())).map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]||'').trim()])));
+  }
+  async function loadTitleConditions(){
+    try{
+      const response=await fetch('./title_conditions.csv',{cache:'no-store'});
+      if(!response.ok) throw new Error('title_conditions.csv not found');
+      const rows=parseAchievementCSV(await response.text());
+      const seen=new Set(ACHIEVEMENTS.map(a=>a.id));
+      for(const row of rows){
+        const type=(row.type||'').toLowerCase();
+        const id=row.id||`${type}-${row.name}`;
+        const name=row.name||'';
+        const titleColumns=Object.keys(row)
+          .filter(key=>/^video_titles\d*$/i.test(key))
+          .sort((a,b)=>{
+            const an=Number((a.match(/\d+$/)||['0'])[0]);
+            const bn=Number((b.match(/\d+$/)||['0'])[0]);
+            return an-bn;
+          });
+        const videoTitles=titleColumns.map(key=>row[key].trim()).filter(Boolean);
+        if(!name||!videoTitles.length||seen.has(id)) continue;
+        if(type!=='favorite_combo'&&type!=='favorite_order') continue;
+        const rule={id,name,videoTitles};
+        if(type==='favorite_combo') FAVORITE_COMBO_ACHIEVEMENTS.push(rule);
+        else FAVORITE_ORDER_ACHIEVEMENTS.push(rule);
+        const normalizeTitle=value=>String(value??'').trim().normalize('NFC');
+        const item={id,name,condition:'？？？',test:()=>{
+          const titles=getFavorites().map(v=>normalizeTitle(v.title));
+          const targets=videoTitles.map(normalizeTitle);
+          if(type==='favorite_combo') return targets.every(title=>titles.includes(title));
+          return titles.some((_,i)=>targets.every((title,j)=>titles[i+j]===title));
+        }};
+        ACHIEVEMENTS.push(item); seen.add(id);
+      }
+    }catch(err){ console.warn('称号条件CSVを読み込めませんでした。',err); }
+  }
+
   function getAchievements(){return readStorage(STORAGE.achievements,[]);}
   function showAchievementToast(item){
     achievementQueue.push(item);
@@ -892,7 +979,7 @@ footer p{margin:4px 0}
   function renderTitles(){
     const earned=getAchievements(); $("titlesCount").textContent=`獲得済み ${earned.length} / ${ACHIEVEMENTS.length} 称号`;
     const list=$("titlesList"); if(!list)return; list.innerHTML="";
-    ACHIEVEMENTS.forEach(item=>{const isEarned=earned.includes(item.id);const row=document.createElement("div");row.className="title-entry"+(isEarned?"":" locked");row.innerHTML=`<strong>${isEarned?"🏆 "+escapeHtml(item.name):"🔒 ?????"}</strong><span>達成条件：${escapeHtml(item.condition)}</span><span>${isEarned?"獲得済み":"未獲得"}</span>`;list.appendChild(row);});
+    ACHIEVEMENTS.forEach(item=>{const isEarned=earned.includes(item.id);const row=document.createElement("div");row.className="title-entry"+(isEarned?"":" locked");const hideCondition = HIDDEN_CONDITION_ACHIEVEMENT_IDS.has(item.id) || item.id.startsWith("favorite-genre-") || item.id.startsWith("favorite_combo-") || item.id.startsWith("favorite_order-") || FAVORITE_COMBO_ACHIEVEMENTS.some(rule=>rule.id===item.id) || FAVORITE_ORDER_ACHIEVEMENTS.some(rule=>rule.id===item.id);row.innerHTML=`<strong>${isEarned?"🏆 "+escapeHtml(item.name):"🔒 ?????"}</strong><span>達成条件：${hideCondition?"？？？":escapeHtml(item.condition)}</span><span>${isEarned?"獲得済み":"未獲得"}</span>`;list.appendChild(row);});
   }
   function openTitles(){renderTitles();$("titlesModal").classList.add("show");$("titlesModal").setAttribute("aria-hidden","false");}
   function closeTitles(){$("titlesModal").classList.remove("show");$("titlesModal").setAttribute("aria-hidden","true");}
@@ -1007,8 +1094,10 @@ footer p{margin:4px 0}
     }
   }
   async function init() {
+    await loadTitleConditions();
     renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio(); renderTitles();
     $("revealModal").addEventListener("click",event=>{ if(event.target.closest("button,a,input")) return; advanceReveal(); });
+    $("dailyRecommendation").addEventListener("click",event=>{ if(event.target.closest("a.watch, a.open-video")) setAchievementFlag("dailyWatch"); });
     $("singleBtn").addEventListener("click",()=>pull(1));
     $("revealAllBtn").addEventListener("click", revealAllCards);
     $("tenBtn").addEventListener("click",()=>pull(10));
@@ -1016,11 +1105,11 @@ footer p{margin:4px 0}
     $("titlesBtn").addEventListener("click",openTitles);
     $("closeTitlesBtn").addEventListener("click",closeTitles);
     $("titlesModal").addEventListener("click",event=>{if(event.target === $("titlesModal")) closeTitles();});
-    $("shareResultBtn").addEventListener("click",shareImage);
-    $("shareImageBtn").addEventListener("click",shareImage);
-    $("shareFavorites").addEventListener("click",()=>shareList(getFavorites(),"これ好き動画リスト"));
-    $("shareUnviewed").addEventListener("click",()=>shareList(getUnviewed(),"未視聴動画リスト"));
-    $("saveFavorites").addEventListener("click",()=>saveListImage(getFavorites(),"💚 これ好き"));
+    $("shareResultBtn").addEventListener("click",()=>{setAchievementFlag("xShare");shareImage();});
+    $("shareImageBtn").addEventListener("click",()=>{setAchievementFlag("xShare");shareImage();});
+    $("shareFavorites").addEventListener("click",()=>{setAchievementFlag("xShare");shareList(getFavorites(),"これ好き動画リスト");});
+    $("shareUnviewed").addEventListener("click",()=>{setAchievementFlag("xShare");shareList(getUnviewed(),"未視聴動画リスト");});
+    $("saveFavorites").addEventListener("click",()=>{setAchievementFlag("favoritesImage");saveListImage(getFavorites(),"💚 これ好き");});
     $("saveUnviewed").addEventListener("click",()=>saveListImage(getUnviewed(),"🔖 未視聴動画"));
     const csvFiles = [
       {name:"challenge_videos.csv", genre:"challenge"},
