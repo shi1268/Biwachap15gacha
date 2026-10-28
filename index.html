@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<!-- saved from url=(0398)https://sdmntprnznorth.oaiusercontent.com/files/00000000-3150-820b-bf4f-826d47245ee6/raw?se=2026-10-28T13%3A24%3A14Z&sp=r&sv=2026-02-06&sr=b&scid=8a93cb67-3016-479d-9f53-4b4e16aa8ee5&skoid=d5627e4c-566b-4761-a954-54993b0ed17b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-28T09%3A27%3A06Z&ske=2026-10-29T09%3A27%3A06Z&sks=b&skv=2026-02-06&sig=N8rUoJMtjPz4esiGlJ5NX6VK3eHBvPz2WJYkFVNDzYI%3D -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101a3a">
 <meta name="description" content="今日の琵琶ちゃぷおすすめ動画ガチャ。単発・10連で動画をランダムに引こう！">
@@ -322,7 +322,7 @@ footer p{margin:4px 0}
   <label title="BGM音量">BGM <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
   <label title="効果音音量">SE <input id="seVolume" type="range" min="0" max="1" step="0.05" value="0.2"></label>
   <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
-  <audio id="bgm" src="bgm.mp3" loop="" preload="auto"></audio>
+  <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="auto"></audio>
   <audio id="seN" src="se-n.mp3" preload="auto"></audio>
   <audio id="seR" src="se-r.mp3" preload="auto"></audio>
@@ -332,13 +332,13 @@ footer p{margin:4px 0}
 </div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
   <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
-  <div class="status"><span class="status-dot"></span><span id="poolStatus">CSVを読み込んでください</span></div>
+  <div class="status"><span class="status-dot"></span><span id="poolStatus">動画リストを読み込み中…</span></div>
 </header>
 
 <main class="wrap">
   <section class="recommended" id="dailySection">
-    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2><p>同じ動画リストを使うユーザーには、毎日同じ1本を表示します。</p></div><span class="counter" id="dailyDate">2026/10/28 (日本時間)</span></div>
-    <div id="dailyRecommendation"><div class="empty">CSVを読み込むと今日のおすすめが表示されます。</div></div>
+    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2><p>同じ動画リストを使うユーザーには、毎日同じ1本を表示します。</p></div><span class="counter" id="dailyDate"></span></div>
+    <div id="dailyRecommendation"><div class="empty">動画リストを読み込み中…</div></div>
   </section>
   <section class="machine" aria-label="ガチャマシン">
     <div class="machine-top">
@@ -346,17 +346,17 @@ footer p{margin:4px 0}
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="counter" id="totalCounter">登録動画：-- 本</div><div class="counter" id="remainingCounter">残り動画：-- 本</div><div class="coin-counter" id="coinCounter">🪙 0 コイン</div><button class="small-btn" id="collectionBtn" type="button">📚 動画カード図鑑</button><button class="small-btn" id="titlesBtn" type="button">🏆 獲得した称号</button><button class="small-btn" id="resetGachaBtn" type="button">↻ ガチャをリセット</button></div>
     </div>
     <div class="buttons">
-      <button class="gacha-btn" id="singleBtn" disabled="">
+      <button class="gacha-btn" id="singleBtn" disabled>
         <span class="big">🎰 単発ガチャ</span><span class="small">1回引く / ONE PULL</span>
       </button>
-      <button class="gacha-btn" id="tenBtn" disabled="">
+      <button class="gacha-btn" id="tenBtn" disabled>
         <span class="big">💥 10連ガチャ</span><span class="small">10回まとめて引く / 1,500コイン</span>
       </button>
     </div>
     <div class="secondary-actions">
       <button class="small-btn" id="openBeamGameBtn" type="button">🎮 SBT-毒電波避けゲーム-</button><button class="small-btn" id="openYearGameBtn" type="button">🐺 琵琶ちゃぷ動画投稿年人狼</button><button class="small-btn" id="openMemoryGameBtn" type="button">🃏 動画カード神経衰弱</button><button class="small-btn" id="openCookGameBtn" type="button">🍚 炊き込みゲーム</button>
-      <button class="small-btn" id="shareResultBtn" disabled="">📣 結果画像をXで共有</button>
-      <button class="small-btn" id="shareImageBtn" disabled="">🖼️ 結果画像を保存</button>
+      <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
+      <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
     </div>
     <p class="notice">※重複なしで抽選します。引いた動画はリセットするまで再登場しません。<br>お気に入り・未視聴リストはこのブラウザ内に保存されます。</p>
   </section>
@@ -393,7 +393,7 @@ footer p{margin:4px 0}
   </section>
 
 
-  <div class="csv-help" id="loadMessage" hidden="">自動読み込みできませんでした。challenge_videos.csv・game_videos.csv・talk_videos.csvをindex.htmlと同じ場所に置いてください。GitHub PagesなどのWebサーバー上で開いているか、CSVファイルの配置を確認してください。 カットインCSV未読込（cutin_videos.csvを追加すると有効）。</div>
+  <div class="csv-help" id="loadMessage" hidden></div>
 </main>
 
 <footer class="wrap">
@@ -410,7 +410,7 @@ footer p{margin:4px 0}
       <button class="small-btn" id="closeBeamGameBtn" type="button">✕ 閉じる</button>
     </div>
     <div class="beam-game-stats"><span>生存時間 <b id="beamTime">0.0</b> 秒</span><span>スコア <b id="beamScore">0</b></span><span>自己ベスト <b id="beamBest">0.0</b> 秒</span></div>
-    <div class="beam-canvas-wrap"><canvas id="beamCanvas" aria-label="ビーム回避ゲーム画面" width="800" height="450"></canvas><div class="chakra-side" id="chakraSide" aria-label="チャクラゲージ"><div class="chakra-fill" id="chakraFill"></div></div><button class="mini-btn chakra-release" id="chakraReleaseBtn" type="button">チャクラを開放</button><div class="beam-game-message" id="beamGameMessage"><strong>READY?</strong><span>開始ボタンを押してゲームスタート</span></div></div>
+    <div class="beam-canvas-wrap"><canvas id="beamCanvas" aria-label="ビーム回避ゲーム画面"></canvas><div class="chakra-side" id="chakraSide" aria-label="チャクラゲージ"><div class="chakra-fill" id="chakraFill"></div></div><button class="mini-btn chakra-release" id="chakraReleaseBtn" type="button">チャクラを開放</button><div class="beam-game-message" id="beamGameMessage"><strong>READY?</strong><span>開始ボタンを押してゲームスタート</span></div></div>
     <div class="beam-game-actions"><button class="gacha-btn" id="startBeamGameBtn" type="button"><span class="big">▶ ゲーム開始</span><span class="small">ビームを避けて生き残れ！</span></button></div>
     <p class="beam-game-help">操作：PCはクリックしたままマウスを動かす／スマホは指を画面につけたまま滑らせると移動。クリック・タップだけでは移動しません。<br>画像ファイルはHTMLと同じフォルダに <code>player.png</code> という名前で置いてください。</p>
   </div>
@@ -419,7 +419,7 @@ footer p{margin:4px 0}
 <section class="collection-modal" id="collectionModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="collectionTitle"><div class="collection-dialog"><div class="collection-head"><h2 id="collectionTitle">📚 動画カード図鑑</h2><button class="small-btn" id="closeCollectionBtn" type="button">閉じる ✕</button></div><p class="collection-progress" id="collectionProgress">獲得済み 0 / 0 枚</p><div class="collection-controls"><select id="collectionGenre"><option value="all">すべてのジャンル</option><option value="challenge">企画動画</option><option value="game">ゲーム動画</option><option value="talk">お話動画</option></select><select id="collectionPlatform"><option value="all">YouTube・ニコニコ動画</option><option value="youtube">YouTube</option><option value="niconico">ニコニコ動画</option></select><select id="collectionSort"><option value="date-desc">投稿日が新しい順</option><option value="date-asc">投稿日が古い順</option><option value="title-asc">タイトル順</option><option value="genre">ジャンル順</option></select></div><div class="collection-grid" id="collectionGrid"></div></div></section>
 <section class="mini-modal" id="yearGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🐺 琵琶ちゃぷ動画投稿年人狼</h2><button class="small-btn" data-close-modal="yearGameModal">閉じる ✕</button></div><p class="mini-status" id="yearGameStatus">9枚の動画から投稿年が違う2枚を探そう。</p><div class="year-grid" id="yearGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startYearGameBtn">新しいゲーム</button></div></div></section>
 <section class="mini-modal" id="memoryGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🃏 動画カード神経衰弱</h2><button class="small-btn" data-close-modal="memoryGameModal">閉じる ✕</button></div><p class="mini-status" id="memoryGameStatus">同じ動画のペアをそろえよう。</p><div class="memory-grid" id="memoryGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startMemoryGameBtn">新しいゲーム</button></div></div></section>
-<section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><div class="cook-stage" id="cookStage"><span class="cook-label" style="top:25%;font-size:1.6rem">SPACE BEEF TIME</span><span class="cook-label" style="top:55%;font-size:1rem;animation-duration:22s">チャクラを開放せよ</span><div class="cook-player" id="cookPlayer">タッパー</div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（30秒）</button><button class="mini-btn" id="cookRiceBtn" hidden="">炊飯器に入れる！</button></div></div></section>
+<section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><div class="cook-stage" id="cookStage"><span class="cook-label" style="top:25%;font-size:1.6rem">SPACE BEEF TIME</span><span class="cook-label" style="top:55%;font-size:1rem;animation-duration:22s">チャクラを開放せよ</span><div class="cook-player" id="cookPlayer">タッパー</div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（30秒）</button><button class="mini-btn" id="cookRiceBtn" hidden>炊飯器に入れる！</button></div></div></section>
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
   <div class="overlay-inner">
     <div class="overlay-kicker">⚡ LIMIT BREAK ⚡</div>
@@ -440,7 +440,7 @@ footer p{margin:4px 0}
 </div>
 <div class="toast" id="toast" role="status"></div>
 <div class="achievement-toast" id="achievementToast" role="status" aria-live="polite"><div class="achievement-toast-kicker">🏆 ACHIEVEMENT UNLOCKED</div><strong id="achievementToastName"></strong><span id="achievementToastCondition"></span></div>
-<div class="titles-modal" id="titlesModal" aria-hidden="true"><div class="titles-dialog" role="dialog" aria-modal="true" aria-labelledby="titlesHeading"><div class="titles-head"><h2 id="titlesHeading">🏆 獲得した称号</h2><button class="small-btn" id="closeTitlesBtn" type="button">閉じる ✕</button></div><p class="titles-count" id="titlesCount">獲得済み 0 / 33 称号</p><div id="titlesList" class="titles-list"><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：ガチャで合計30本引く</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：ガチャで合計100本引く</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：ガチャで合計200本引く</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：ガチャで合計300本引く</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：ガチャで合計400本引く</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「これ好き」に3本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「これ好き」に10本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「これ好き」に20本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「これ好き」に30本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「これ好き」に40本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「未視聴」に3本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「未視聴」に7本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「未視聴」に14本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「未視聴」に31本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：「未視聴」に365本登録する</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0になる</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：登録されている全動画を「未視聴」に入れる</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が0本</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が1～5本</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が6～15本</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が16～30本</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が31～100本</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：残り動画数が0の状態で「未視聴」が101本以上</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div><div class="title-entry locked"><strong>🔒 ?????</strong><span>達成条件：？？？</span><span>未獲得</span></div></div></div></div>
+<div class="titles-modal" id="titlesModal" aria-hidden="true"><div class="titles-dialog" role="dialog" aria-modal="true" aria-labelledby="titlesHeading"><div class="titles-head"><h2 id="titlesHeading">🏆 獲得した称号</h2><button class="small-btn" id="closeTitlesBtn" type="button">閉じる ✕</button></div><p class="titles-count" id="titlesCount"></p><div id="titlesList" class="titles-list"></div></div></div>
 
 <script>
 (() => {
@@ -1410,6 +1410,5 @@ footer p{margin:4px 0}
  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function thumb(v){if(v.platform==='niconico')return `https://nicovideo.cdn.nimg.jp/thumbnails/${String(v.id).replace(/^[a-z]+/i,'')}/${String(v.id).replace(/^[a-z]+/i,'')}`;return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 })();
 </script>
-
-
-</body></html>
+</body>
+</html>
