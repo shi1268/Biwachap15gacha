@@ -241,6 +241,29 @@ footer p{margin:4px 0}
   .rarity-LR .rarity-label{font-family:Georgia,"Times New Roman",serif;letter-spacing:.025em;white-space:nowrap;}
   @media(max-width:420px){.rarity-label{font-size:.65rem;letter-spacing:-.025em}.reveal-modal-card .rarity-label{font-size:.7rem}.rarity-LR:before{font-size:.72rem;letter-spacing:.06em}}
 
+
+/* ビーム回避ミニゲーム */
+.beam-game-modal{display:none;position:fixed;inset:0;z-index:80;background:#030714ed;backdrop-filter:blur(8px);padding:16px;overflow:auto;align-items:center;justify-content:center}
+.beam-game-modal.is-open{display:flex}
+.beam-game-panel{width:min(960px,100%);border:1px solid #c6ff3880;border-radius:20px;padding:clamp(12px,3vw,24px);background:linear-gradient(145deg,#172754,#080e24);box-shadow:0 0 45px #c6ff3820}
+.beam-game-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+.beam-game-head h2{margin:6px 0;color:var(--lime);font-size:clamp(1.3rem,4vw,2rem)}
+.beam-game-head p,.beam-game-help{color:var(--muted);font-size:.86rem;line-height:1.6;margin:0}
+.beam-game-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.beam-game-stats span{border:1px solid var(--line);border-radius:9px;background:#101a3a;padding:7px 12px;color:#dce7ff;font-size:.85rem}
+.beam-game-stats b{color:var(--lime);font-variant-numeric:tabular-nums}
+.beam-canvas-wrap{position:relative;width:100%;border:1px solid #4a5b8d;border-radius:14px;overflow:hidden;background:#050a19;touch-action:none}
+#beamCanvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none;cursor:crosshair}
+.beam-game-message{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;background:#050a19b8;color:white;padding:16px;pointer-events:none}
+.beam-game-message strong{font-size:clamp(1.6rem,6vw,3rem);color:var(--lime);text-shadow:0 0 18px #c6ff38aa}
+.beam-game-message span{font-size:.9rem;color:#dce7ff}
+.beam-game-message.is-hidden{display:none}
+.beam-game-actions{display:flex;justify-content:center;margin:14px 0}
+.beam-game-actions .gacha-btn{width:min(360px,100%);min-height:68px}
+.beam-game-help{text-align:center}
+.beam-game-help code{color:var(--lime);background:#0005;padding:2px 5px;border-radius:4px}
+@media(max-width:560px){.beam-game-modal{padding:7px;align-items:flex-start}.beam-game-panel{padding:12px;border-radius:15px;margin:auto 0}.beam-game-head{gap:8px}.beam-game-head .small-btn{padding:7px 9px;white-space:nowrap;font-size:.75rem}.beam-game-stats{gap:6px}.beam-game-stats span{padding:6px 8px;font-size:.75rem}}
+
 </style>
 </head>
 <body>
@@ -282,6 +305,7 @@ footer p{margin:4px 0}
       </button>
     </div>
     <div class="secondary-actions">
+      <button class="small-btn" id="openBeamGameBtn" type="button">🎮 ビーム回避ゲーム</button>
       <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
       <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
     </div>
@@ -319,6 +343,19 @@ footer p{margin:4px 0}
   <p>動画の削除・非公開・配信サービス側の仕様変更等により、サムネイルやリンクが表示されない場合があります。</p>
 </footer>
 
+<section class="beam-game-modal" id="beamGameModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="beamGameTitle">
+  <div class="beam-game-panel">
+    <div class="beam-game-head">
+      <div><div class="eyebrow">BIWACHAP SURVIVAL</div><h2 id="beamGameTitle">ビーム回避ゲーム</h2><p>クリック／タッチした位置へ移動して、迫りくるビームを避けよう！</p></div>
+      <button class="small-btn" id="closeBeamGameBtn" type="button">✕ 閉じる</button>
+    </div>
+    <div class="beam-game-stats"><span>生存時間 <b id="beamTime">0.0</b> 秒</span><span>スコア <b id="beamScore">0</b></span><span>自己ベスト <b id="beamBest">0.0</b> 秒</span></div>
+    <div class="beam-canvas-wrap"><canvas id="beamCanvas" aria-label="ビーム回避ゲーム画面"></canvas><div class="beam-game-message" id="beamGameMessage"><strong>READY?</strong><span>開始ボタンを押してゲームスタート</span></div></div>
+    <div class="beam-game-actions"><button class="gacha-btn" id="startBeamGameBtn" type="button"><span class="big">▶ ゲーム開始</span><span class="small">ビームを避けて生き残れ！</span></button></div>
+    <p class="beam-game-help">操作：PCはクリックした位置へ移動（押したまま動かしてもOK）／スマホはタップした位置へ移動（指を滑らせて操作）。<br>画像ファイルはHTMLと同じフォルダに <code>player.png</code> という名前で置いてください。</p>
+  </div>
+</section>
+
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
   <div class="overlay-inner">
     <div class="overlay-kicker">⚡ LIMIT BREAK ⚡</div>
@@ -349,6 +386,7 @@ footer p{margin:4px 0}
     unviewed: "biwachapGachaUnviewed_v1",
     pullCount: "biwachapGachaPullCount_v1",
     pulledIds: "biwachapGachaPulledIds_v1",
+    gachaTitlePulledIds: "biwachapGachaTitlePulledIds_v1",
     achievements: "biwachapGachaAchievements_v1",
     achievementFlags: "biwachapGachaAchievementFlags_v1"
   };
@@ -847,6 +885,9 @@ footer p{margin:4px 0}
     remainingVideos = remainingVideos.filter(v => !pickedIds.has(v.id));
     pickedIds.forEach(id => pulledVideoIds.add(id));
     writeStorage(STORAGE.pulledIds, [...pulledVideoIds]);
+    const lifetimeGachaIds = new Set(readStorage(STORAGE.gachaTitlePulledIds, []));
+    pickedIds.forEach(id => lifetimeGachaIds.add(id));
+    writeStorage(STORAGE.gachaTitlePulledIds, [...lifetimeGachaIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
     await wait(actualCount >= 10 ? 1750 : 1250);
     overlay.classList.remove("show");
@@ -869,6 +910,7 @@ footer p{margin:4px 0}
   // favorite_combo / favorite_order の称号条件は title_conditions.csv から読み込みます。
   const FAVORITE_COMBO_ACHIEVEMENTS = [];
   const FAVORITE_ORDER_ACHIEVEMENTS = [];
+  const GACHA_TITLE_ACHIEVEMENTS = [];
   // ジャンル別称号。genre は challenge / game / talk、threshold は必要本数。
   const FAVORITE_GENRE_ACHIEVEMENTS = [
     { id: "favorite-genre-challenge-10", name: "企画動画の沼", genre: "challenge", threshold: 10 },
@@ -954,6 +996,37 @@ footer p{margin:4px 0}
         ACHIEVEMENTS.push(item); seen.add(id);
       }
     }catch(err){ console.warn('称号条件CSVを読み込めませんでした。',err); }
+  }
+
+  async function loadGachaTitleConditions(){
+    try{
+      const response=await fetch('./gacha_title_conditions.csv',{cache:'no-store'});
+      if(!response.ok) throw new Error('gacha_title_conditions.csv not found');
+      const rows=parseAchievementCSV(await response.text());
+      const existing=new Set(ACHIEVEMENTS.map(a=>a.id));
+      for(const row of rows){
+        const name=(row.name||'').trim();
+        const drawCount=Math.max(1,parseInt(row.draw_count,10)||0);
+        const targetType=(row.target_type||'keyword').trim().toLowerCase();
+        const targetValue=(row.target_value||'').trim();
+        const id=(row.id||`gacha-${name}`).trim();
+        if(!name||!targetValue||!drawCount||existing.has(id)) continue;
+        if(!['keyword','exact'].includes(targetType)) continue;
+        const matches=video=>{
+          const title=String(video.title||'').normalize('NFC');
+          const target=targetValue.normalize('NFC');
+          return targetType==='exact' ? title===target : title.toLocaleLowerCase().includes(target.toLocaleLowerCase());
+        };
+        const item={id,name,condition:`タイトルに「${targetValue}」を${drawCount}種類引く`,test:()=>{
+          const ids=new Set(readStorage(STORAGE.gachaTitlePulledIds,[]));
+          const matchingVideos=videos.filter(v=>ids.has(v.id)&&matches(v));
+          return new Set(matchingVideos.map(v=>v.id)).size>=drawCount;
+        }};
+        GACHA_TITLE_ACHIEVEMENTS.push(item);
+        ACHIEVEMENTS.push(item);
+        existing.add(id);
+      }
+    }catch(err){console.warn('ガチャ称号CSVを読み込めませんでした。',err);}
   }
 
   function getAchievements(){return readStorage(STORAGE.achievements,[]);}
@@ -1095,6 +1168,7 @@ footer p{margin:4px 0}
   }
   async function init() {
     await loadTitleConditions();
+    await loadGachaTitleConditions();
     renderFavorites(); renderUnviewed(); renderDailyRecommendation(); setupAudio(); renderTitles();
     $("revealModal").addEventListener("click",event=>{ if(event.target.closest("button,a,input")) return; advanceReveal(); });
     $("dailyRecommendation").addEventListener("click",event=>{ if(event.target.closest("a.watch, a.open-video")) setAchievementFlag("dailyWatch"); });
@@ -1143,5 +1217,68 @@ footer p{margin:4px 0}
   init();
 })();
 </script>
+<script>
+(()=>{
+  const modal=document.getElementById('beamGameModal');
+  const canvas=document.getElementById('beamCanvas');
+  if(!modal||!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const message=document.getElementById('beamGameMessage');
+  const startBtn=document.getElementById('startBeamGameBtn');
+  const timeEl=document.getElementById('beamTime');
+  const scoreEl=document.getElementById('beamScore');
+  const bestEl=document.getElementById('beamBest');
+  const playerImage=new Image();
+  playerImage.src='./player.png';
+  let imageReady=false;
+  playerImage.onload=()=>{imageReady=true;};
+  playerImage.onerror=()=>{imageReady=false;};
+  const BEST_KEY='biwachapBeamDodgeBest_v1';
+  let running=false,raf=0,lastFrame=0,startAt=0,lastSpawn=0,beams=[],elapsed=0,score=0;
+  let player={x:400,y:250,r:18,targetX:400,targetY:250};
+  const W=800,H=450;
+  canvas.width=W;canvas.height=H;
+  bestEl.textContent=(Number(localStorage.getItem(BEST_KEY))||0).toFixed(1);
+  function resizePlayer(){player.x=Math.min(W-player.r,Math.max(player.r,player.x));player.y=Math.min(H-player.r,Math.max(player.r,player.y));player.targetX=Math.min(W-player.r,Math.max(player.r,player.targetX));player.targetY=Math.min(H-player.r,Math.max(player.r,player.targetY));}
+  function openGame(){modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');draw(0);}
+  function closeGame(){stopGame(false);modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');}
+  function pointerPosition(e){const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*W;const y=(e.clientY-r.top)/r.height*H;player.targetX=Math.max(player.r,Math.min(W-player.r,x));player.targetY=Math.max(player.r,Math.min(H-player.r,y));}
+  canvas.addEventListener('pointerdown',e=>{e.preventDefault();pointerPosition(e);if(canvas.setPointerCapture)try{canvas.setPointerCapture(e.pointerId)}catch(_){}});
+  canvas.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')pointerPosition(e);});
+  document.getElementById('openBeamGameBtn').addEventListener('click',openGame);
+  document.getElementById('closeBeamGameBtn').addEventListener('click',closeGame);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeGame();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))closeGame();});
+  startBtn.addEventListener('click',startGame);
+  function startGame(){cancelAnimationFrame(raf);running=true;beams=[];elapsed=0;score=0;startAt=performance.now();lastFrame=startAt;lastSpawn=startAt;player={x:W/2,y:H/2,r:19,targetX:W/2,targetY:H/2};timeEl.textContent='0.0';scoreEl.textContent='0';message.classList.add('is-hidden');startBtn.querySelector('.big').textContent='↻ もう一度プレイ';startBtn.querySelector('.small').textContent='生存時間を伸ばそう！';raf=requestAnimationFrame(loop);}
+  function spawnBeam(now){
+    const side=Math.floor(Math.random()*4);let x,y;
+    if(side===0){x=Math.random()*W;y=-12;}else if(side===1){x=W+12;y=Math.random()*H;}else if(side===2){x=Math.random()*W;y=H+12;}else{x=-12;y=Math.random()*H;}
+    const dx=player.x-x,dy=player.y-y,len=Math.hypot(dx,dy)||1;
+    const speed=190+Math.min(230,elapsed*5)+Math.random()*45;
+    beams.push({x,y,vx:dx/len*speed,vy:dy/len*speed,life:0,maxLife:Math.hypot(W,H)/speed+0.7,width:5+Math.random()*2});
+  }
+  function loop(now){if(!running)return;const dt=Math.min(.035,(now-lastFrame)/1000||0);lastFrame=now;elapsed=(now-startAt)/1000;score=Math.floor(elapsed*10);timeEl.textContent=elapsed.toFixed(1);scoreEl.textContent=String(score);
+    const spawnEvery=Math.max(230,780-elapsed*12);if(now-lastSpawn>spawnEvery){spawnBeam(now);lastSpawn=now;if(elapsed>12&&Math.random()<.35)spawnBeam(now);}
+    const follow=1-Math.pow(.0008,dt);player.x+=(player.targetX-player.x)*follow;player.y+=(player.targetY-player.y)*follow;resizePlayer();
+    for(const b of beams){b.x+=b.vx*dt;b.y+=b.vy*dt;b.life+=dt;}
+    beams=beams.filter(b=>b.life<b.maxLife&&b.x>-50&&b.x<W+50&&b.y>-50&&b.y<H+50);
+    draw(elapsed);
+    if(beams.some(hitPlayer)){endGame();return;}raf=requestAnimationFrame(loop);
+  }
+  function hitPlayer(b){const speed=Math.hypot(b.vx,b.vy)||1;const ux=b.vx/speed,uy=b.vy/speed;const px=player.x-b.x,py=player.y-b.y;const t=Math.max(0,Math.min(speed*b.life,px*ux+py*uy));const cx=b.x+ux*t,cy=b.y+uy*t;return Math.hypot(player.x-cx,player.y-cy)<player.r+b.width*.7;}
+  function draw(t){ctx.clearRect(0,0,W,H);ctx.fillStyle='#050a19';ctx.fillRect(0,0,W,H);
+    ctx.save();ctx.strokeStyle='rgba(141,255,0,.08)';ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.restore();
+    for(const b of beams){const len=38;const sp=Math.hypot(b.vx,b.vy)||1;const ux=b.vx/sp,uy=b.vy/sp;ctx.save();ctx.lineCap='round';ctx.shadowBlur=18;ctx.shadowColor='#ff42d0';ctx.strokeStyle='#ff42d0';ctx.lineWidth=b.width+4;ctx.beginPath();ctx.moveTo(b.x-ux*len,b.y-uy*len);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowBlur=10;ctx.strokeStyle='#fff4ff';ctx.lineWidth=Math.max(2,b.width*.45);ctx.beginPath();ctx.moveTo(b.x-ux*len,b.y-uy*len);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.restore();}
+    ctx.save();ctx.shadowBlur=18;ctx.shadowColor='#c6ff38';
+    if(imageReady){const size=player.r*2.5;ctx.drawImage(playerImage,player.x-size/2,player.y-size/2,size,size);}else{ctx.fillStyle='#c6ff38';ctx.beginPath();ctx.arc(player.x,player.y,player.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#101a3a';ctx.font='bold 16px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',player.x,player.y);}
+    ctx.restore();
+  }
+  function endGame(){running=false;cancelAnimationFrame(raf);const old=Number(localStorage.getItem(BEST_KEY))||0;if(elapsed>old){localStorage.setItem(BEST_KEY,elapsed.toFixed(1));bestEl.textContent=elapsed.toFixed(1);}message.classList.remove('is-hidden');message.innerHTML='<strong>GAME OVER</strong><span>生存時間 '+elapsed.toFixed(1)+' 秒 ／ スコア '+score+'</span>';startBtn.querySelector('.big').textContent='↻ もう一度プレイ';startBtn.querySelector('.small').textContent='自己ベストに挑戦！';draw(elapsed);}
+  function stopGame(showMessage){running=false;cancelAnimationFrame(raf);if(showMessage){message.classList.remove('is-hidden');message.innerHTML='<strong>PAUSED</strong><span>ゲームを終了しました</span>';}}
+  draw(0);
+})();
+</script>
+
 </body>
 </html>
