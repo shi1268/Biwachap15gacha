@@ -296,7 +296,7 @@ footer p{margin:4px 0}
 .year-card img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px}
 .year-card span{display:block;font-size:.78rem;line-height:1.35;margin-top:6px;overflow-wrap:anywhere}
 .year-card.chosen{border-color:#c6ff38;box-shadow:0 0 12px #c6ff3844}.year-card.wolf-revealed{background:linear-gradient(145deg,#510b1b,#1a0610);border:3px solid #ff163f;box-shadow:0 0 18px #ff163f99;filter:saturate(1.4)}.year-card.wolf-revealed .wolf-mark{display:block;color:#ff3158;font-size:1rem;text-align:center;text-shadow:0 0 10px #ff163f}.year-card.villager-revealed{filter:grayscale(1);opacity:.52;background:#383b44;border-color:#9298a5}.year-card.executed{background:linear-gradient(145deg,#6b111b,#310710)!important;border-color:#ff354d!important;filter:saturate(1.3)}.year-card.attacked{filter:grayscale(1) brightness(.55)!important;background:#343744!important;border-color:#8b91a0!important}.year-card .claw-mark{display:block;color:#dce0e8;font-size:1.35rem;font-weight:1000;letter-spacing:.08em;text-shadow:0 0 7px #000;text-align:center}.year-card .execution-mark{display:block;color:#ff4b5f;font-size:1.2rem;text-align:center;font-weight:1000;text-shadow:0 0 12px #ff163f}.year-card .year-revealed{color:#c6ff38}
-.memory-card{width:100%;aspect-ratio:1/1;height:auto;min-height:0;max-height:none;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;place-items:stretch;font-size:1.1rem;font-weight:900;text-align:center;transform:none!important;transition:background .15s,border-color .15s;box-sizing:border-box;padding:7px;gap:5px}.memory-card img{display:block;width:100%;height:100%;min-height:0;aspect-ratio:auto;object-fit:contain;background:#050812;border-radius:5px}.memory-card span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-height:2.4em;overflow:hidden;font-size:.68rem;line-height:1.2;overflow-wrap:anywhere}.memory-card span{display:block;max-height:2.4em;overflow:hidden;font-size:.68rem;line-height:1.2}
+.memory-card{width:100%;aspect-ratio:1/1;height:auto;min-height:0;max-height:none;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;place-items:stretch;font-size:1.1rem;font-weight:900;text-align:center;transform:none!important;transition:background .15s,border-color .15s;box-sizing:border-box;padding:0;gap:0}.memory-card img{display:block;width:100%;height:100%;min-height:0;aspect-ratio:auto;object-fit:contain;background:#050812;border-radius:5px}.memory-card span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-height:2.4em;overflow:hidden;font-size:.68rem;line-height:1.2;overflow-wrap:anywhere}.memory-card span{display:block;max-height:2.4em;overflow:hidden;font-size:.68rem;line-height:1.2}
 .memory-card img{width:100%;height:100%;aspect-ratio:auto;object-fit:contain;border-radius:5px}
 .memory-card.opened,.memory-card.matched{background:#1b3150;border-color:#c6ff38}
 .cook-stage{height:350px;position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(#08152b,#111e3b);border:1px solid #59698f;touch-action:none;user-select:none}.cook-stage:before{content:"🗼";position:absolute;left:50%;top:50%;transform:translate(-50%,-4%);font-size:clamp(8rem,25vw,15rem);opacity:.17;filter:grayscale(.5);clip-path:inset(50% 0 0 0);pointer-events:none}.cook-background-image{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(58%,380px);height:85%;object-fit:contain;opacity:.5;z-index:0;pointer-events:none}.cook-appliance{display:none;position:absolute;left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);width:min(48%,260px);height:70%;object-fit:contain;z-index:6;filter:drop-shadow(0 0 15px #c6ff3866)}.cook-appliance.show{display:block;animation:cookerArrive .65s cubic-bezier(.2,.9,.2,1) both}@keyframes cookerArrive{from{opacity:0;transform:translate(-50%,35%) scale(.55)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
@@ -326,7 +326,6 @@ footer p{margin:4px 0}
   <button class="small-btn" id="bgmToggle">▶ BGM</button>
   <label title="BGM音量">BGM <input id="bgmVolume" type="range" min="0" max="1" step="0.05" value="0.25"></label>
   <label title="効果音音量">SE <input id="seVolume" type="range" min="0" max="1" step="0.05" value="0.2"></label>
-  <!-- 音源ファイル名はここで指定：BGM=bgm.mp3 / レア別SE=se-n.mp3, se-r.mp3, se-sr.mp3, se-ur.mp3 -->
   <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
   <audio id="pullSE" src="se-pull.mp3" preload="auto"></audio>
   <audio id="seN" src="se-n.mp3" preload="auto"></audio>
@@ -352,7 +351,7 @@ footer p{margin:4px 0}
     </div>
     <div class="buttons">
       <button class="gacha-btn" id="singleBtn" disabled>
-        <span class="big">🎰 単発ガチャ</span><span class="small">1回引く / ONE PULL</span>
+        <span class="big">🎰 単発ガチャ</span><span class="small">1回引く / 無料</span>
       </button>
       <button class="gacha-btn" id="tenBtn" disabled>
         <span class="big">💥 10連ガチャ</span><span class="small">10回まとめて引く / 1,500コイン</span>
@@ -373,16 +372,6 @@ footer p{margin:4px 0}
     </div>
   </section>
 
-  <section class="panel" id="miniGamesSection">
-    <h3>🎮 ゲームでガチャコインを獲得</h3>
-    <p class="csv-help">ゲームをクリアしてコインを集めよう！ 10連ガチャは1,500コイン、単発ガチャは無料。</p>
-    <div class="secondary-actions" style="justify-content:flex-start;margin-top:10px">
-      <button class="small-btn" type="button" data-open-game="beam">⚡ SBT-毒電波避けゲーム-（最大500）</button>
-      <button class="small-btn" type="button" data-open-game="year">🐺 琵琶ちゃぷ動画投稿年人狼（最大500）</button>
-      <button class="small-btn" type="button" data-open-game="memory">🃏 動画カード神経衰弱（手数で変動）</button>
-      <button class="small-btn" type="button" data-open-game="cook">🍚 炊き込みゲーム（集めた量で変動）</button>
-    </div>
-  </section>
 
   <section class="two-panels">
     <div class="panel">
@@ -401,7 +390,6 @@ footer p{margin:4px 0}
   <div class="csv-help" id="loadMessage" hidden></div>
 </main>
 
-<p class="csv-help">動画CSV：youtube_challenge_videos.csv／youtube_game_videos.csv／youtube_talk_videos.csv／niconico_challenge_videos.csv／niconico_game_videos.csv／niconico_talk_videos.csv。カットインは従来どおりcutin_videos.csvです。</p>
 <footer class="wrap">
   <p>本ページは個人による非公式ファンメイド企画であり、各動画投稿者・権利者および各動画配信サービスとは関係ありません。</p>
   <p>動画タイトル・リンク・サムネイルはYouTubeおよびニコニコ動画から読み込んでいます。<br>動画の著作権・肖像権等は各権利者に帰属します。</p>
@@ -412,20 +400,20 @@ footer p{margin:4px 0}
 <section class="beam-game-modal" id="beamGameModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="beamGameTitle">
   <div class="beam-game-panel">
     <div class="beam-game-head">
-      <div><div class="eyebrow">BIWACHAP SURVIVAL</div><h2 id="beamGameTitle">SBT-毒電波避けゲーム-</h2><p>押したまま指やマウスを動かして、迫りくる毒電波ビームを避けよう。30秒でチャクラを開放！</p><p class="csv-help">効果音：<code>se-sbt-start.mp3</code>（開始）、<code>se-sbt-move.mp3</code>（移動開始）、<code>se-sbt-hit.mp3</code>（被弾）、<code>se-sbt-release.mp3</code>（チャクラ開放）。</p></div>
+      <div><div class="eyebrow">BIWACHAP SURVIVAL</div><h2 id="beamGameTitle">SBT-毒電波避けゲーム-</h2><p>押したまま指やマウスを動かして、迫りくる毒電波ビームを避けよう。30秒でチャクラを開放！</p></div>
       <button class="small-btn" id="closeBeamGameBtn" type="button">✕ 閉じる</button>
     </div>
     <div class="beam-game-stats"><span>生存時間 <b id="beamTime">0.0</b> 秒</span><span>スコア <b id="beamScore">0</b></span><span>自己ベスト <b id="beamBest">0.0</b> 秒</span></div>
     <div class="beam-canvas-wrap"><canvas id="beamCanvas" aria-label="ビーム回避ゲーム画面"></canvas><div class="chakra-side" id="chakraSide" aria-label="チャクラゲージ"><div class="chakra-fill" id="chakraFill"></div></div><button class="mini-btn chakra-release" id="chakraReleaseBtn" type="button">チャクラを開放</button><div class="beam-game-message" id="beamGameMessage"><strong>READY?</strong><span>開始ボタンを押してゲームスタート</span></div></div>
     <div class="beam-game-actions"><button class="gacha-btn" id="startBeamGameBtn" type="button"><span class="big">▶ ゲーム開始</span><span class="small">ビームを避けて生き残れ！</span></button></div>
-    <p class="beam-game-help">操作：PCはクリックしたままマウスを動かす／スマホは指を画面につけたまま滑らせると移動。クリック・タップだけでは移動しません。<br>画像ファイルはHTMLと同じフォルダに <code>player.png</code>（SBTプレイヤー）、<code>tupper.png</code>（炊き込みゲームのタッパー）、<code>rice_cooker.png</code>（炊き込みゲームの炊飯器）、<code>cook_background.png</code>（炊き込みゲーム背景中央）を置いてください。<br>ゲーム効果音もHTMLと同じフォルダに置いてください。ファイル名一覧はこのゲーム欄の下に記載しています。</p>
+    <p class="beam-game-help">操作：PCはクリックしたままマウスを動かす／スマホは指を画面につけたまま滑らせると移動。クリック・タップだけでは移動しません。</p>
   </div>
 </section>
 
 <section class="collection-modal" id="collectionModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="collectionTitle"><div class="collection-dialog"><div class="collection-head"><h2 id="collectionTitle">📚 動画カード図鑑</h2><button class="small-btn" id="closeCollectionBtn" type="button">閉じる ✕</button></div><p class="collection-progress" id="collectionProgress">獲得済み 0 / 0 枚</p><div class="collection-controls"><select id="collectionGenre"><option value="all">すべてのジャンル</option><option value="challenge">企画動画</option><option value="game">ゲーム動画</option><option value="talk">お話動画</option></select><select id="collectionPlatform"><option value="all">YouTube・ニコニコ動画</option><option value="youtube">YouTube</option><option value="niconico">ニコニコ動画</option></select><select id="collectionSort"><option value="date-desc">投稿日が新しい順</option><option value="date-asc">投稿日が古い順</option><option value="title-asc">タイトル順</option><option value="genre">ジャンル順</option></select></div><div class="collection-grid" id="collectionGrid"></div></div></section>
-<section class="mini-modal" id="yearGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🐺 琵琶ちゃぷ動画投稿年人狼</h2><button class="small-btn" data-close-modal="yearGameModal">閉じる ✕</button></div><p class="mini-status" id="yearGameStatus">9枚の動画から投稿年が違う2枚を探そう。</p><p class="csv-help">効果音：<code>se-werewolf-start.mp3</code>（開始・再挑戦）、<code>se-werewolf-select.mp3</code>（カード選択）、<code>se-werewolf-wolf.mp3</code>（人狼発見）、<code>se-werewolf-execute.mp3</code>（村人処刑）、<code>se-werewolf-attack.mp3</code>（人狼の襲撃・爪痕）、<code>se-werewolf-clear.mp3</code>（クリア）。</p><div class="year-grid" id="yearGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startYearGameBtn">新しいゲーム</button></div></div></section>
-<section class="mini-modal" id="memoryGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🃏 動画カード神経衰弱</h2><button class="small-btn" data-close-modal="memoryGameModal">閉じる ✕</button></div><p class="mini-status" id="memoryGameStatus">同じ動画のペアをそろえよう。</p><p class="csv-help">効果音：<code>se-memory-start.mp3</code>（開始・再挑戦）、<code>se-memory-flip.mp3</code>（カードをめくる）、<code>se-memory-match.mp3</code>（ペア成立）、<code>se-memory-miss.mp3</code>（不一致）、<code>se-memory-clear.mp3</code>（全ペア達成）。</p><div class="memory-grid" id="memoryGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startMemoryGameBtn">新しいゲーム</button></div></div></section>
-<section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><p class="csv-help">画像：<code>tupper.png</code>（タッパー）、<code>rice_cooker.png</code>（炊飯器）、<code>cook_background.png</code>（背景中央）。効果音：<code>se-cook-start.mp3</code>、<code>se-cook-move.mp3</code>、<code>se-cook-catch.mp3</code>、<code>se-cook-transfer.mp3</code>、<code>se-cook-clear.mp3</code>。</p><div class="cook-stage" id="cookStage"><img class="cook-background-image" id="cookBackgroundImage" src="./cook_background.png" alt="" aria-hidden="true"><img class="cook-appliance" id="cookRiceCookerImage" src="./rice_cooker.png" alt="炊飯器"><div class="cook-player" id="cookPlayer"><img id="cookTubImage" src="./tupper.png" alt="タッパー" draggable="false"><span class="cook-fallback">タッパー</span></div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（30秒）</button><button class="mini-btn" id="cookRiceBtn" hidden>炊飯器に入れる！</button></div></div></section>
+<section class="mini-modal" id="yearGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🐺 琵琶ちゃぷ動画投稿年人狼</h2><button class="small-btn" data-close-modal="yearGameModal">閉じる ✕</button></div><p class="mini-status" id="yearGameStatus">9枚の動画から投稿年が違う2枚を探そう。</p><div class="year-grid" id="yearGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startYearGameBtn">新しいゲーム</button></div></div></section>
+<section class="mini-modal" id="memoryGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🃏 動画カード神経衰弱</h2><button class="small-btn" data-close-modal="memoryGameModal">閉じる ✕</button></div><p class="mini-status" id="memoryGameStatus">同じ動画のペアをそろえよう。</p><div class="memory-grid" id="memoryGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startMemoryGameBtn">新しいゲーム</button></div></div></section>
+<section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><div class="cook-stage" id="cookStage"><img class="cook-background-image" id="cookBackgroundImage" src="./cook_background.png" alt="" aria-hidden="true"><img class="cook-appliance" id="cookRiceCookerImage" src="./rice_cooker.png" alt="炊飯器"><div class="cook-player" id="cookPlayer"><img id="cookTubImage" src="./tupper.png" alt="タッパー" draggable="false"><span class="cook-fallback">タッパー</span></div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（30秒）</button><button class="mini-btn" id="cookRiceBtn" hidden>炊飯器に入れる！</button></div></div></section>
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
   <div class="overlay-inner">
     <div class="overlay-kicker">⚡ LIMIT BREAK ⚡</div>
@@ -845,7 +833,7 @@ footer p{margin:4px 0}
     bgm.volume=Number(volume.value);
     volume.addEventListener("input",()=>{bgm.volume=Number(volume.value); checkAudioAchievement();});
     seVolume.addEventListener("input",()=>{ document.querySelectorAll("audio:not(#bgm)").forEach(a=>a.volume=Number(seVolume.value)); checkAudioAchievement(); });
-    toggle.addEventListener("click",async()=>{if(bgm.paused){try{await bgm.play();toggle.textContent="⏸ BGMを停止";}catch(_){showToast("BGMを再生できません。MP3の配置とファイル名を確認してください。");}}else{bgm.pause();toggle.textContent="▶ BGMを再生";}});
+    toggle.addEventListener("click",async()=>{if(bgm.paused){try{await bgm.play();toggle.textContent="⏸ BGMを停止";}catch(_){showToast("BGMを再生できませんでした。");}}else{bgm.pause();toggle.textContent="▶ BGMを再生";}});
   }
 
   function confettiBurst(amount = 65) {
@@ -1329,7 +1317,7 @@ footer p{margin:4px 0}
     poolInitialized = true;
     if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
-      $("loadMessage").textContent = "自動読み込みできませんでした。youtube_challenge_videos.csv・youtube_game_videos.csv・youtube_talk_videos.csv・niconico_challenge_videos.csv・niconico_game_videos.csv・niconico_talk_videos.csvをindex.htmlと同じ場所に置いてください。GitHub PagesなどのWebサーバー上で開いているか、CSVファイルの配置を確認してください。";
+      $("loadMessage").textContent = "動画データを自動読み込みできませんでした。GitHub PagesなどのWebサーバー上で開いているか確認してください。";
       $("singleBtn").disabled = $("tenBtn").disabled = true;
       $("loadMessage").textContent += ` ${cutinOutcome}。`;
     } else {
@@ -1363,8 +1351,8 @@ footer p{margin:4px 0}
   document.getElementById('openBeamGameBtn').addEventListener('click',openGame);document.getElementById('closeBeamGameBtn').addEventListener('click',closeGame);
   document.querySelectorAll('[data-open-game="beam"]').forEach(b=>b.addEventListener('click',openGame));
   modal.addEventListener('click',e=>{if(e.target===modal)closeGame()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))closeGame()});
-  startBtn.addEventListener('click',()=>{sfx('se-sbt-start.mp3');startGame()});releaseBtn.addEventListener('click',()=>{if(readyToRelease&&!won){sfx('se-sbt-release.mp3');won=true;readyToRelease=false;releaseBtn.classList.remove('show');const burst=document.createElement('div');burst.className='power-burst';canvas.parentElement.appendChild(burst);setTimeout(()=>burst.remove(),1400);for(let i=0;i<4;i++)setTimeout(()=>{const b=document.createElement('div');b.className='power-burst';canvas.parentElement.appendChild(b);setTimeout(()=>b.remove(),1300)},i*150);finishGame(true)}});
-  function startGame(){cancelAnimationFrame(raf);running=true;won=false;readyToRelease=false;dragging=false;beams=[];elapsed=0;score=0;startAt=performance.now();lastFrame=startAt;lastSpawn=startAt;player={x:W/2,y:H/2,r:13};timeEl.textContent='0.0';scoreEl.textContent='0';chakraFill.style.height='0%';chakraSide.classList.remove('glowing');releaseBtn.classList.remove('show');message.classList.add('is-hidden');message.innerHTML='<strong>SPACE BEEF TIME</strong><span>クリック／タップしたまま動かして回避！</span>';startBtn.querySelector('.big').textContent='↻ もう一度プレイ';startBtn.querySelector('.small').textContent='30秒生き残ってチャクラを開放';raf=requestAnimationFrame(loop)}
+  startBtn.addEventListener('click',()=>{try{sfx('se-sbt-start.mp3');message.classList.add('is-hidden');message.innerHTML='<strong>START!</strong><span>毒電波を避けろ！</span>';startGame()}catch(err){running=false;message.classList.remove('is-hidden');message.innerHTML='<strong>START ERROR</strong><span>ゲームを開始できませんでした。もう一度押してください。</span>';console.error('SBT start error',err)}});releaseBtn.addEventListener('click',()=>{if(readyToRelease&&!won){sfx('se-sbt-release.mp3');won=true;readyToRelease=false;releaseBtn.classList.remove('show');const burst=document.createElement('div');burst.className='power-burst';canvas.parentElement.appendChild(burst);setTimeout(()=>burst.remove(),1400);for(let i=0;i<4;i++)setTimeout(()=>{const b=document.createElement('div');b.className='power-burst';canvas.parentElement.appendChild(b);setTimeout(()=>b.remove(),1300)},i*150);finishGame(true)}});
+  function startGame(){cancelAnimationFrame(raf);canvas.width=800;canvas.height=450;running=true;won=false;readyToRelease=false;dragging=false;beams=[];elapsed=0;score=0;startAt=performance.now();lastFrame=startAt;lastSpawn=startAt;player={x:W/2,y:H/2,r:13};timeEl.textContent='0.0';scoreEl.textContent='0';chakraFill.style.height='0%';chakraSide.classList.remove('glowing');releaseBtn.classList.remove('show');message.classList.add('is-hidden');message.innerHTML='<strong>SPACE BEEF TIME</strong><span>クリック／タップしたまま動かして回避！</span>';startBtn.querySelector('.big').textContent='↻ もう一度プレイ';startBtn.querySelector('.small').textContent='30秒生き残ってチャクラを開放';raf=requestAnimationFrame(loop)}
   function spawnBeam(){const side=Math.floor(Math.random()*4);let x,y;if(side===0){x=Math.random()*W;y=-20}else if(side===1){x=W+20;y=Math.random()*H}else if(side===2){x=Math.random()*W;y=H+20}else{x=-20;y=Math.random()*H}const dx=player.x-x,dy=player.y-y,len=Math.hypot(dx,dy)||1,speed=185+Math.min(170,elapsed*4)+Math.random()*35;beams.push({x,y,vx:dx/len*speed,vy:dy/len*speed,width:5+Math.random()*2,tail:38});}
   function loop(now){if(!running)return;const dt=Math.min(.03,Math.max(0,(now-lastFrame)/1000));lastFrame=now;elapsed=(now-startAt)/1000;score=Math.floor(elapsed*10);timeEl.textContent=elapsed.toFixed(1);scoreEl.textContent=String(score);const pct=Math.min(100,elapsed/30*100);chakraFill.style.height=pct+'%';if(elapsed>=30){chakraSide.classList.add('glowing');releaseBtn.classList.add('show');readyToRelease=true;running=false;dragging=false;draw(elapsed);return;}
     const spawnEvery=Math.max(270,820-elapsed*10);if(now-lastSpawn>=spawnEvery){spawnBeam();lastSpawn=now;if(elapsed>10&&Math.random()<.25)spawnBeam();}
@@ -1400,8 +1388,8 @@ footer p{margin:4px 0}
  }
  function pickYear(i,b){if(yearDone||yearPicked.has(i)||yearExecuted.has(i)||yearAttacked.has(i))return;sfx('se-werewolf-select.mp3');yearPicked.add(i);const v=yearCards[i];b.classList.add('chosen');b.insertAdjacentHTML('beforeend',`<span class="year-revealed">投稿年：${v.date.slice(0,4)}年</span>`);if(v.isWolf){sfx('se-werewolf-wolf.mp3');yearWolves++;b.classList.add('wolf-revealed');b.insertAdjacentHTML('beforeend','<b class="wolf-mark">🐺 人狼</b>')}else{yearHumans++;b.classList.add('villager-revealed')}
    if(yearWolves===2){sfx('se-werewolf-clear.mp3');yearDone=true;$('yearGameStatus').textContent='完全クリア！人狼動画カード2枚を見つけた！ 500コイン獲得！';reward(500,'動画投稿年人狼 完全クリア');return}
-   const eligible=yearCards.map((x,j)=>({x,j})).filter(o=>!o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));if(eligible.length){sfx('se-werewolf-execute.mp3');const victim=eligible[Math.floor(Math.random()*eligible.length)];yearExecuted.add(victim.j);const vb=grid.children[victim.j];vb.classList.add('executed');vb.insertAdjacentHTML('beforeend','<b class="execution-mark">✕ 処刑</b>')}
-   const attackable=yearCards.map((x,j)=>({x,j})).filter(o=>o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));const villagers=yearCards.map((x,j)=>({x,j})).filter(o=>!o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));if(attackable.length&&villagers.length){sfx('se-werewolf-attack.mp3');const attacker=attackable[Math.floor(Math.random()*attackable.length)],target=villagers[Math.floor(Math.random()*villagers.length)];yearAttacked.add(target.j);const tb=grid.children[target.j];tb.classList.add('attacked');tb.insertAdjacentHTML('beforeend','<b class="claw-mark">〰 爪痕 〰</b>')}
+   const eligible=yearCards.map((x,j)=>({x,j})).filter(o=>!o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));if(eligible.length){sfx('se-werewolf-execute.mp3');const victim=eligible[Math.floor(Math.random()*eligible.length)];yearExecuted.add(victim.j);const vb=grid.children[victim.j];vb.classList.add('executed');vb.disabled=true;vb.insertAdjacentHTML('beforeend','<b class="execution-mark">✕ 処刑</b>')}
+   const attackable=yearCards.map((x,j)=>({x,j})).filter(o=>o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));const villagers=yearCards.map((x,j)=>({x,j})).filter(o=>!o.x.isWolf&&!yearPicked.has(o.j)&&!yearExecuted.has(o.j)&&!yearAttacked.has(o.j));if(attackable.length&&villagers.length){sfx('se-werewolf-attack.mp3');const attacker=attackable[Math.floor(Math.random()*attackable.length)],target=villagers[Math.floor(Math.random()*villagers.length)];yearAttacked.add(target.j);const tb=grid.children[target.j];tb.classList.add('attacked');tb.disabled=true;tb.insertAdjacentHTML('beforeend','<b class="claw-mark">〰 爪痕 〰</b>')}
    const remainingWolves=yearCards.filter((x,j)=>x.isWolf&&!yearPicked.has(j)&&!yearExecuted.has(j)&&!yearAttacked.has(j)).length,remainingHumans=yearCards.filter((x,j)=>!x.isWolf&&!yearPicked.has(j)&&!yearExecuted.has(j)&&!yearAttacked.has(j)).length;
    if(remainingWolves>=remainingHumans){yearDone=true;$('yearGameStatus').textContent='人狼が残りの村人以上になった……ゲームオーバー！「新しいゲーム」で再挑戦。';return}$('yearGameStatus').textContent=`選択：人狼 ${yearWolves}枚／村人 ${yearHumans}枚。処刑された村人 ${yearExecuted.size}枚。残り人狼 ${remainingWolves}枚／村人 ${remainingHumans}枚。`;
  }
