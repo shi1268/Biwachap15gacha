@@ -1446,9 +1446,12 @@ footer p{margin:4px 0}
   [{e:'🎹',t:'ピアノ'},{e:'掛け軸',t:'掛け軸',scroll:true}],
   [{e:'🗄️',t:'タンス',img:'kagu_tansu.png'}]
  ];
- // 0が空白。正解状態では、ランダムに選んだ1マスだけが空白になる。
+ // 0が空白。タイルの移動・シャッフル・クリア判定は提示コードの方式に統一。
  let tiles=[],pieces=[],emptyIndex=8,moves=0,gameWon=false,goal=[];
- const shuffle=a=>{const v=a.slice();for(let i=v.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[v[i],v[j]]=[v[j],v[i]]}return v};
+ const shuffle=array=>{const a=array.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+ function inversionCount(puzzle){const flat=puzzle.filter(n=>n!==0);let count=0;for(let i=0;i<flat.length;i++)for(let j=i+1;j<flat.length;j++)if(flat[i]>flat[j])count++;return count}
+ function isSolvable(puzzle){return inversionCount(puzzle)%2===inversionCount(goal)%2}
+ function generateRandomState(){let state;do{state=shuffle(goal)}while(!isSolvable(state));return state}
  function canMove(index,empty){return (index===empty-1&&empty%3!==0)||(index===empty+1&&empty%3!==2)||index===empty-3||index===empty+3}
  function isSolved(){return tiles.every((tile,index)=>tile===goal[index])}
  function renderBoard(){
@@ -1456,7 +1459,7 @@ footer p{margin:4px 0}
   tiles.forEach((tile,index)=>{
    if(tile===0){const blank=document.createElement('div');blank.className='home-puzzle-piece empty';blank.setAttribute('aria-label','空白');blank.setAttribute('aria-hidden','true');grid.appendChild(blank);return}
    const piece=pieces[tile-1],button=document.createElement('button');button.type='button';button.className='home-puzzle-piece';button.disabled=gameWon;button.setAttribute('aria-label',piece.t);
-   if(piece.scroll){const scroll=document.createElement('span');scroll.className='home-scroll';scroll.textContent='掛\nけ\n軸';button.appendChild(scroll)}
+   if(piece.scroll){const scroll=document.createElement('span');scroll.className='home-scroll';scroll.textContent='掛\\nけ\\n軸';button.appendChild(scroll)}
    else if(piece.img){const img=document.createElement('img');img.className='home-piece-image';img.src='./'+piece.img;img.alt=piece.t;img.onerror=()=>{img.replaceWith(Object.assign(document.createElement('span'),{textContent:piece.e}))};button.appendChild(img);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
    else if(piece.imgs){const wrap=document.createElement('span');wrap.className='home-piece-images';piece.imgs.forEach(src=>{const img=document.createElement('img');img.src='./'+src;img.alt='';img.onerror=()=>img.style.display='none';wrap.appendChild(img)});button.appendChild(wrap);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
    else{const icon=document.createElement('span');icon.textContent=piece.e;button.appendChild(icon);if(piece.e!==piece.t){const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}}
@@ -1464,28 +1467,28 @@ footer p{margin:4px 0}
   });
   $('homePuzzleStatus').textContent=gameWon?`完成！ ${moves}回の移動で実家を再現した！`:`空白の隣にあるピースをクリック／タップして動かそう。移動回数：${moves}`;
  }
- function handleMove(index){if(gameWon||tiles[index]===0||!canMove(index,emptyIndex))return;[tiles[index],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[index]];emptyIndex=index;moves++;if(isSolved()){gameWon=true;window.biwachapPlayGameSE?.('se-memory-clear.mp3')}renderBoard()}
+ function handleMove(index){
+  if(gameWon)return;
+  const empty=tiles.indexOf(0);
+  if(!canMove(index,empty))return;
+  [tiles[index],tiles[empty]]=[tiles[empty],tiles[index]];emptyIndex=index;moves++;
+  if(isSolved()){gameWon=true;window.biwachapPlayGameSE?.('se-memory-clear.mp3')}
+  renderBoard();
+ }
  function initializeGame(){
-  moves=0;gameWon=false;
-  // 家具9候補から空白位置を1つランダムに選び、残り8個を正解位置に置く。
-  const blankGoal=Math.floor(Math.random()*9);
-  pieces=[];goal=[];let id=1;
+  moves=0;gameWon=false;pieces=[];goal=[];
+  // 9マスから空白位置を毎回ランダムに選び、残り8マスに家具を割り当てる。
+  const blankGoal=Math.floor(Math.random()*9);let id=1;
   for(let pos=0;pos<9;pos++){
    if(pos===blankGoal){goal.push(0);continue}
    const choices=locations[pos],choice=choices[Math.floor(Math.random()*choices.length)];
    pieces.push({...choice,homeIndex:pos,id});goal.push(id++);
   }
-  tiles=goal.slice();emptyIndex=blankGoal;
-  // 正解状態から隣接タイルを合法的に動かしてシャッフルするため、必ず解ける。
-  let previousEmpty=-1;
-  for(let n=0;n<100;n++){
-   const options=[];for(let i=0;i<9;i++)if(tiles[i]!==0&&canMove(i,emptyIndex)&&i!==previousEmpty)options.push(i);
-   const next=options[Math.floor(Math.random()*options.length)];
-   [tiles[next],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[next]];
-   previousEmpty=emptyIndex;emptyIndex=next;
-  }
+  // 提示コードと同じく、解ける配置になるまでランダムシャッフル。
+  tiles=generateRandomState();emptyIndex=tiles.indexOf(0);
   if(isSolved()){
-   const next=Array.from({length:9},(_,i)=>i).find(i=>tiles[i]!==0&&canMove(i,emptyIndex));
+   const movable=Array.from({length:9},(_,i)=>i).filter(i=>tiles[i]!==0&&canMove(i,emptyIndex));
+   const next=movable[Math.floor(Math.random()*movable.length)];
    [tiles[next],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[next]];emptyIndex=next;
   }
   renderBoard();
