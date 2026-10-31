@@ -317,6 +317,10 @@ footer p{margin:4px 0}
 #beamCanvas{touch-action:none;cursor:crosshair}
 @media(max-width:760px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-controls{grid-template-columns:1fr}.year-grid,.memory-grid{gap:6px}.year-card{padding:5px}.year-card span{font-size:.7rem}.memory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.memory-card span{font-size:.7rem;padding:4px 4px 6px}.cook-stage{height:300px}}
 
+
+.home-puzzle-dialog{width:min(760px,100%)}.home-floor-wrap{width:min(620px,100%);margin:14px auto 4px;display:flex;flex-direction:column;align-items:center;gap:7px}.home-edge-label{font-weight:1000;color:var(--lime);letter-spacing:.08em;text-shadow:0 0 10px #c6ff3877}.home-garden,.home-entrance{font-size:1.05rem}.home-floor-row{width:100%;display:grid;grid-template-columns:34px minmax(0,1fr) 34px;align-items:center;gap:8px}.home-bath{writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;font-size:.92rem;justify-self:center}.home-edge-spacer{width:34px}.home-board-frame{padding:8px;border:4px solid #c6ff38;border-radius:12px;background:linear-gradient(145deg,#28365d,#090f25);box-shadow:0 0 0 2px #101a3a,0 0 22px #c6ff3844}.home-puzzle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;aspect-ratio:1}.home-puzzle-piece{min-width:0;aspect-ratio:1;border:1px solid #93a5d1;border-radius:8px;background:linear-gradient(145deg,#26375f,#111b3a);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:clamp(1.35rem,5vw,2.8rem);font-weight:900;box-shadow:inset 0 0 12px #ffffff0b;transition:transform .12s,background .12s,border-color .12s;padding:2px}.home-puzzle-piece:active{transform:scale(.96)}.home-puzzle-piece small{font-size:clamp(.55rem,1.6vw,.78rem);line-height:1.1;color:#dce6ff;font-weight:800}.home-puzzle-piece.empty{background:#080d1d;border:1px dashed #455477;box-shadow:inset 0 0 16px #0008;cursor:default}.home-puzzle-piece:disabled{opacity:1;cursor:default}
+@media(max-width:560px){.home-floor-row{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}.home-bath{font-size:.75rem}.home-edge-spacer{width:25px}.home-board-frame{padding:5px;border-width:3px}.home-puzzle-grid{gap:3px}.home-puzzle-piece{border-radius:5px}}
+
 </style>
 </head>
 <body>
@@ -357,7 +361,7 @@ footer p{margin:4px 0}
       </button>
     </div>
     <div class="secondary-actions">
-      <button class="small-btn" id="openBeamGameBtn" type="button">🎮 SBT-毒電波避けゲーム-</button><button class="small-btn" id="openYearGameBtn" type="button">🐺 琵琶ちゃぷ動画投稿年人狼</button><button class="small-btn" id="openMemoryGameBtn" type="button">🃏 動画カード神経衰弱</button><button class="small-btn" id="openCookGameBtn" type="button">🍚 炊き込みゲーム</button>
+      <button class="small-btn" id="openBeamGameBtn" type="button">🎮 SBT-毒電波避けゲーム-</button><button class="small-btn" id="openYearGameBtn" type="button">🐺 琵琶ちゃぷ動画投稿年人狼</button><button class="small-btn" id="openMemoryGameBtn" type="button">🃏 動画カード神経衰弱</button><button class="small-btn" id="openCookGameBtn" type="button">🍚 炊き込みゲーム</button><button class="small-btn" id="openHomePuzzleBtn" type="button">🏠 実家再現スライドパズル</button>
       <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
       <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
     </div>
@@ -413,6 +417,7 @@ footer p{margin:4px 0}
 <div id="chakraSpecialOverlay" aria-hidden="true"><div id="chakraSpecialText"></div><div class="chakra-special-hint">クリック／タップして続ける</div></div>
 <section class="mini-modal" id="yearGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🐺 琵琶ちゃぷ動画投稿年人狼</h2><button class="small-btn" data-close-modal="yearGameModal">閉じる ✕</button></div><p class="mini-status" id="yearGameStatus">9枚の動画から投稿年が違う2枚を探そう。</p><div class="year-grid" id="yearGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startYearGameBtn">新しいゲーム</button></div></div></section>
 <section class="mini-modal" id="memoryGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🃏 動画カード神経衰弱</h2><button class="small-btn" data-close-modal="memoryGameModal">閉じる ✕</button></div><p class="mini-status" id="memoryGameStatus">同じ動画のペアをそろえよう。</p><div class="memory-grid" id="memoryGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startMemoryGameBtn">新しいゲーム</button></div></div></section>
+<section class="mini-modal" id="homePuzzleModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog home-puzzle-dialog"><div class="mini-head"><h2>🏠 実家再現スライドパズル</h2><button class="small-btn" data-close-modal="homePuzzleModal">閉じる ✕</button></div><p class="mini-status" id="homePuzzleStatus">ピースを動かして、実家の間取りを完成させよう。</p><div class="home-floor-wrap"><div class="home-edge-label home-garden">↑庭↑</div><div class="home-floor-row"><div class="home-edge-label home-bath">←風呂・トイレ←</div><div class="home-board-frame"><div class="home-puzzle-grid" id="homePuzzleGrid" aria-label="実家の間取りスライドパズル"></div></div><div class="home-edge-spacer"></div></div><div class="home-edge-label home-entrance">↓玄関↓</div></div><div class="mini-actions"><button class="mini-btn" id="newHomePuzzleBtn">別の実家で遊ぶ</button></div></div></section>
 <section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><div class="cook-stage" id="cookStage"><img class="cook-background-image" id="cookBackgroundImage" src="./cook_background.png" alt="" aria-hidden="true"><img class="cook-appliance" id="cookRiceCookerImage" src="./rice_cooker.png" alt="炊飯器"><div class="cook-player" id="cookPlayer"><img id="cookTubImage" src="./tupper.png" alt="タッパー" draggable="false"><span class="cook-fallback">タッパー</span></div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（20秒）</button><button class="mini-btn" id="cookRiceBtn" hidden>炊飯器に入れる！</button></div></div></section>
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
   <div class="overlay-inner">
@@ -1425,5 +1430,31 @@ footer p{margin:4px 0}
  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function thumb(v){if(v.platform==='niconico')return `https://nicovideo.cdn.nimg.jp/thumbnails/${String(v.id).replace(/^[a-z]+/i,'')}/${String(v.id).replace(/^[a-z]+/i,'')}`;return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 })();
 </script>
+
+<script>
+(()=>{
+ const $=id=>document.getElementById(id),modal=$('homePuzzleModal'),grid=$('homePuzzleGrid');if(!modal||!grid)return;
+ const locations=[
+  [{e:'🧺',t:'洗濯物'},{e:'❄️',t:'エアコン'},{e:'☎️',t:'電話'},{e:'🐶🏠',t:'ワンちゃんのハウス'}],
+  [{e:'🍽️',t:'食卓'}],
+  [{e:'🍳',t:'キッチン'},{e:'🗑️',t:'ゴミ箱'},{e:'🧊',t:'冷蔵庫'}],
+  [{e:'📺',t:'テレビ'},{e:'❄️',t:'エアコン'},{e:'🌀',t:'サーキュレーター'}],
+  [{e:'🍽️',t:'食器棚'},{e:'📚',t:'雑誌棚'},{e:'♨️',t:'電子レンジ'},{e:'🍚',t:'炊飯器'}],
+  [{e:'🛋️',t:'ソファ'}],
+  [{e:'🖥️',t:'古いデスクトップPC'}],
+  [{e:'🎹',t:'ピアノ'},{e:'掛け軸',t:'掛け軸'}],
+  [{e:'🗄️',t:'タンス'}]
+ ];
+ let board=[],blank=8,goalBlank=8,moves=0,done=false;
+ function neighbors(i){const r=Math.floor(i/3),c=i%3;return [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].filter(([y,x])=>y>=0&&y<3&&x>=0&&x<3).map(([y,x])=>y*3+x)}
+ function draw(){grid.innerHTML='';board.forEach((piece,i)=>{const b=document.createElement('button');b.type='button';b.className='home-puzzle-piece'+(piece===null?' empty':'');b.disabled=piece===null||done;b.setAttribute('aria-label',piece?piece.t:'空白');if(piece){const icon=document.createElement('span');icon.textContent=piece.e;b.appendChild(icon);if(piece.e!==piece.t){const small=document.createElement('small');small.textContent=piece.t;b.appendChild(small)}}b.addEventListener('click',()=>move(i));grid.appendChild(b)});$('homePuzzleStatus').textContent=done?`完成！ ${moves}回の移動で実家を再現した！`:`空白の隣のピースを動かそう。移動回数：${moves}`}
+ function move(i){if(done||!neighbors(blank).includes(i))return;[board[blank],board[i]]=[board[i],board[blank]];blank=i;moves++;if(blank===goalBlank&&board.every((v,i)=>i===goalBlank?v===null:v?.homeIndex===i)){done=true;window.biwachapPlayGameSE?.('se-memory-clear.mp3')}draw()}
+ function newGame(){done=false;moves=0;const blankGoal=Math.floor(Math.random()*9);goalBlank=blankGoal;board=locations.map((choices,i)=>{if(i===blankGoal)return null;const v=choices[Math.floor(Math.random()*choices.length)];return {...v,homeIndex:i}});blank=blankGoal;
+  // Legal random moves from the solved arrangement guarantee a solvable puzzle.
+  let previous=-1;for(let n=0;n<90;n++){const opts=neighbors(blank).filter(x=>x!==previous);const next=opts[Math.floor(Math.random()*opts.length)];[board[blank],board[next]]=[board[next],board[blank]];previous=blank;blank=next}draw()}
+ $('openHomePuzzleBtn')?.addEventListener('click',()=>{modal.classList.add('show');modal.setAttribute('aria-hidden','false');newGame()});$('newHomePuzzleBtn')?.addEventListener('click',newGame);modal.querySelector('[data-close-modal]')?.addEventListener('click',()=>{modal.classList.remove('show');modal.setAttribute('aria-hidden','true')});modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('show');modal.setAttribute('aria-hidden','true')}});newGame();
+})();
+</script>
+
 </body>
 </html>
