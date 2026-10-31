@@ -334,13 +334,13 @@ footer p{margin:4px 0}
 #homePuzzleModal .home-puzzle-tile-button:disabled{opacity:1;cursor:default}
 #homePuzzleModal .home-piece-image{display:block;max-width:82%;max-height:68%;width:auto;height:auto;object-fit:contain;pointer-events:none}
 #homePuzzleModal .home-piece-image.is-scaled{transform:scale(var(--piece-scale,1));transform-origin:center}
-#homePuzzleModal .home-piece-icon{display:block;flex:0 1 auto;max-width:100%;max-height:62%;font-size:clamp(1.35rem,4vw,2.35rem);line-height:1;transform:none;overflow:visible}
+#homePuzzleModal .home-piece-icon{display:block;flex:0 1 auto;max-width:100%;max-height:62%;font-size:clamp(1.35rem,4vw,2.35rem);line-height:1;transform:none;overflow:visible}#homePuzzleModal .home-desktop-icon{transform:translateY(-9%);transform-origin:center}
 #homePuzzleModal .home-side-image{max-width:66%;max-height:58%;object-fit:contain}
 #homePuzzleModal .home-piece-images{display:flex;align-items:center;justify-content:center;gap:2px;width:100%;height:70%;min-height:0}
 #homePuzzleModal .home-piece-images img{display:block;width:48%;height:100%;object-fit:contain}
 #homePuzzleModal .home-piece-label{display:block;flex:0 1 auto;font-size:clamp(.52rem,1.45vw,.74rem);line-height:1.12;color:#dce6ff;font-weight:800;max-width:100%;overflow-wrap:anywhere;word-break:keep-all;text-align:center}
-#homePuzzleModal .home-scroll{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;white-space:normal;font-family:'Yuji Syuku','HGP行書体','游教科書体','游明朝','Yu Mincho',serif;font-size:clamp(1.25rem,3.2vw,2rem);width:3em;line-height:1.25;color:#111;background:linear-gradient(90deg,#5b321b,#a36a37 20%,#d4a66a 50%,#8b552b 80%,#4a2918);border:3px solid #4b2919;box-shadow:inset 0 0 0 2px #d6b17c,0 2px 7px #0009;padding:5px 3px;height:78%;box-sizing:border-box;text-shadow:0 1px 1px #3b1d0b}
-@media(max-width:560px){#homePuzzleModal .home-scroll{font-size:clamp(.95rem,4vw,1.3rem);width:2.6em;padding:3px 2px;border-width:2px}#homePuzzleModal .home-floor-row{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}#homePuzzleModal .home-bath{font-size:.75rem}#homePuzzleModal .home-edge-spacer{width:25px}#homePuzzleModal .home-board-frame{padding:5px;border-width:3px}#homePuzzleModal .home-puzzle-grid{gap:3px}#homePuzzleModal .home-puzzle-tile-button{border-radius:5px}}
+#homePuzzleModal .home-scroll{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;white-space:normal;font-family:'Yuji Syuku','HGP行書体','游教科書体','游明朝','Yu Mincho',serif;font-size:clamp(.62rem,2vw,1.15rem);width:1.5em;line-height:1.12;color:#111;background:linear-gradient(90deg,#5b321b,#a36a37 20%,#d4a66a 50%,#8b552b 80%,#4a2918);border:3px solid #4b2919;box-shadow:inset 0 0 0 2px #d6b17c,0 2px 7px #0009;padding:3px 2px;height:58.5%;box-sizing:border-box;text-shadow:0 1px 1px #3b1d0b}
+@media(max-width:560px){#homePuzzleModal .home-scroll{font-size:clamp(.55rem,2.7vw,.9rem);width:1.5em;height:58.5%;padding:2px 1px;border-width:2px}#homePuzzleModal .home-floor-row{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}#homePuzzleModal .home-bath{font-size:.75rem}#homePuzzleModal .home-edge-spacer{width:25px}#homePuzzleModal .home-board-frame{padding:5px;border-width:3px}#homePuzzleModal .home-puzzle-grid{gap:3px}#homePuzzleModal .home-puzzle-tile-button{border-radius:5px}}
 
 .game-button-row{display:flex;flex-wrap:nowrap;gap:8px;align-items:center;white-space:nowrap}.game-button-row .small-btn{flex:0 0 auto}@media(max-width:760px){.game-button-row{max-width:100%;overflow-x:auto;padding-bottom:4px}}
 </style>
@@ -366,7 +366,7 @@ footer p{margin:4px 0}
 
 <main class="wrap">
   <section class="recommended" id="dailySection">
-    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2><p>同じ動画リストを使うユーザーには、毎日同じ1本を表示します。</p></div><span class="counter" id="dailyDate"></span></div>
+    <div class="section-head" style="margin:0"><div><h2>🌟 今日のおすすめ動画</h2></div><span class="counter" id="dailyDate"></span></div>
     <div id="dailyRecommendation"><div class="empty">動画リストを読み込み中…</div></div>
   </section>
   <section class="machine" aria-label="ガチャマシン">
@@ -1380,10 +1380,10 @@ footer p{margin:4px 0}
   const timeEl=document.getElementById('beamTime'),scoreEl=document.getElementById('beamScore'),bestEl=document.getElementById('beamBest');
   const chakraFill=document.getElementById('chakraFill'),chakraSide=document.getElementById('chakraSide'),releaseBtn=document.getElementById('chakraReleaseBtn');
   const playerImage=new Image();playerImage.src='./player.png';let imageReady=false,playerMaskCanvas=null,playerMaskCtx=null;const PLAYER_ANCHOR_X=551,PLAYER_ANCHOR_Y=771,PLAYER_HEIGHT=117;let playerAlpha=null;playerImage.onload=()=>{imageReady=true;playerMaskCanvas=document.createElement('canvas');playerMaskCanvas.width=playerImage.naturalWidth;playerMaskCanvas.height=playerImage.naturalHeight;playerMaskCtx=playerMaskCanvas.getContext('2d',{willReadFrequently:true});playerMaskCtx.drawImage(playerImage,0,0);const rgba=playerMaskCtx.getImageData(0,0,playerImage.naturalWidth,playerImage.naturalHeight).data;playerAlpha=new Uint8Array(playerImage.naturalWidth*playerImage.naturalHeight);for(let k=0,j=3;k<playerAlpha.length;k++,j+=4)playerAlpha[k]=rgba[j]} ;playerImage.onerror=()=>imageReady=false;
-  const BEST_KEY='biwachapSbtDodgeBest_v1';let running=false,raf=0,lastFrame=0,startAt=0,lastSpawn=0,beams=[],elapsed=0,score=0,dragging=false,won=false,readyToRelease=false;
+  const BEST_KEY='biwachapSbtDodgeBest_v1';let running=false,raf=0,bgRaf=0,lastFrame=0,startAt=0,lastSpawn=0,beams=[],elapsed=0,score=0,dragging=false,won=false,readyToRelease=false;
   let player={x:400,y:225,r:13};const W=800,H=450;canvas.width=W;canvas.height=H;bestEl.textContent=(Number(localStorage.getItem(BEST_KEY))||0).toFixed(1);
-  function openGame(){modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');draw(0);}
-  function closeGame(){stopGame(false);modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');}
+  function openGame(){modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');cancelAnimationFrame(bgRaf);const animateIdle=()=>{if(!modal.classList.contains('is-open'))return;if(!running)draw(performance.now()/1000);bgRaf=requestAnimationFrame(animateIdle)};draw(performance.now()/1000);bgRaf=requestAnimationFrame(animateIdle);}
+  function closeGame(){stopGame(false);cancelAnimationFrame(bgRaf);modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');}
   function pos(e){const r=canvas.getBoundingClientRect();player.x=Math.max(0,Math.min(W,(e.clientX-r.left)/r.width*W));player.y=Math.max(0,Math.min(H,(e.clientY-r.top)/r.height*H));}
   canvas.addEventListener('pointerdown',e=>{if(!running)return;e.preventDefault();window.biwachapPlayGameSE?.('se-sbt-move.mp3');dragging=true;pos(e);try{canvas.setPointerCapture(e.pointerId)}catch(_){} });
   canvas.addEventListener('pointermove',e=>{if(!running||!dragging)return;e.preventDefault();pos(e);});
@@ -1458,13 +1458,13 @@ footer p{margin:4px 0}
 (()=>{
  const $=id=>document.getElementById(id),modal=$('homePuzzleModal'),grid=$('homePuzzleGrid');if(!modal||!grid)return;
  const locations=[
-  [{e:'🧺',t:'洗濯物',img:'heyaboshi2.png'},{e:'❄️',t:'エアコン',img:'kaden_airconditioner.png'},{e:'☎️',t:'電話',img:'phone_kotei_denwa.png'},{e:'🐶🏠',t:'ワンちゃんのハウス'}],
+  [{e:'🧺',t:'洗濯物',img:'heyaboshi2.png'},{e:'❄️',t:'エアコン',img:'kaden_airconditioner.png'},{e:'☎️',t:'電話',img:'phone_kotei_denwa.png',scale:0.75},{e:'🐶🏠',t:'ワンちゃんのハウス'}],
   [{e:'🍽️',t:'食卓',sideImg:'table_naname_wood.png'}],
   [{e:'🍳',t:'キッチン',imgs:['konro_mitsukuchi.png','nagashidai_sink.png']},{e:'🗑️',t:'ゴミ箱',scale:1.5},{e:'🧊',t:'冷蔵庫',img:'kaden_reizouko.png'}],
-  [{e:'📺',t:'テレビ',img:'kaden_tv_wide.png'},{e:'❄️',t:'エアコン',img:'kaden_airconditioner.png'},{e:'🌀',t:'サーキュレーター',img:'kaden_circulator.png',scale:0.8}],
+  [{e:'📺',t:'テレビ',img:'kaden_tv_wide.png'},{e:'❄️',t:'エアコン',img:'kaden_airconditioner.png'},{e:'🌀',t:'サーキュレーター',img:'kaden_circulator.png',scale:0.6}],
   [{e:'🍽️',t:'食器棚',sideImg:'tana_empty.png'},{e:'📚',t:'雑誌棚',img:'book_zasshi_tana.png'},{e:'♨️',t:'電子レンジ',img:'cooking_microwave.png',scale:0.75},{e:'🍚',t:'炊飯器',img:'rice_cooker.png'}],
   [{e:'🛋️',t:'ソファ',img:'kagu_sofa.png'}],
-  [{e:'🖥️',t:'古いデスクトップPC',scale:1.56}],
+  [{e:'🖥️',t:'古いデスクトップPC',scale:2.34}],
   [{e:'🎹',t:'ピアノ',img:'piano_upright.png'},{e:'掛け軸',t:'掛け軸',scroll:true}],
   [{e:'🗄️',t:'タンス',img:'kagu_tansu.png'}]
  ];
@@ -1487,10 +1487,10 @@ footer p{margin:4px 0}
    const piece=pieces[tile-1],button=document.createElement('button');
    button.type='button';button.className='home-puzzle-tile-button';button.disabled=gameWon;
    button.setAttribute('aria-label',piece.t);
-   if(piece.scroll){const scroll=document.createElement('span');scroll.className='home-scroll';scroll.textContent='掛け軸';button.appendChild(scroll)}
+   if(piece.scroll){const scroll=document.createElement('span');scroll.className='home-scroll';scroll.textContent='物語繪名作選';button.appendChild(scroll);const label=document.createElement('small');label.className='home-piece-label';label.textContent='掛け軸';button.appendChild(label)}
    else if(piece.img){const img=document.createElement('img');img.className='home-piece-image'+(piece.scale?' is-scaled':'');if(piece.scale)img.style.setProperty('--piece-scale',piece.scale);img.src='./'+piece.img;img.alt=piece.t;img.onerror=()=>{img.replaceWith(Object.assign(document.createElement('span'),{textContent:piece.e}))};button.appendChild(img);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
    else if(piece.imgs){const wrap=document.createElement('span');wrap.className='home-piece-images';piece.imgs.forEach(src=>{const img=document.createElement('img');img.src='./'+src;img.alt='';img.onerror=()=>img.style.display='none';wrap.appendChild(img)});button.appendChild(wrap);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
-   else{const icon=document.createElement('span');icon.className='home-piece-icon';icon.textContent=piece.e;if(piece.scale)icon.style.fontSize=`calc(clamp(1.35rem,4vw,2.35rem) * ${piece.scale})`;button.appendChild(icon);if(piece.sideImg){const side=document.createElement('img');side.className='home-piece-image home-side-image';side.src='./'+piece.sideImg;side.alt=piece.t+'の家具';side.onerror=()=>side.remove();button.appendChild(side)}if(piece.e!==piece.t){const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}}
+   else{const icon=document.createElement('span');icon.className='home-piece-icon'+(piece.t==='古いデスクトップPC'?' home-desktop-icon':'');icon.textContent=piece.e;if(piece.scale)icon.style.fontSize=`calc(clamp(1.35rem,4vw,2.35rem) * ${piece.scale})`;button.appendChild(icon);if(piece.sideImg){const side=document.createElement('img');side.className='home-piece-image home-side-image';side.src='./'+piece.sideImg;side.alt=piece.t+'の家具';side.onerror=()=>side.remove();button.appendChild(side)}if(piece.e!==piece.t){const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}}
    button.addEventListener('click',()=>handleMove(index));cell.appendChild(button);grid.appendChild(cell);
   });
   $('homePuzzleStatus').textContent=gameWon?`完成！ ${moves}回の移動で「あの実家」を再現した！`:`「あの実家」を再現しよう。空白の隣にあるピースをクリック／タップして動かす。移動回数：${moves}`;
