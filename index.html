@@ -1542,10 +1542,24 @@ footer p{margin:4px 0}
   [tiles[index],tiles[empty]]=[tiles[empty],tiles[index]];moves++;
   window.biwachapPlayGameSE?.('se-puzzle-move.mp3');
   if(isSolved()){
-   gameWon=true;window.biwachapPlayGameSE?.('se-memory-clear.mp3');
+   // 先にクリア状態を確定して描画する。報酬処理の失敗で盤面更新が止まらないようにする。
+   gameWon=true;
+   window.biwachapPlayGameSE?.('se-memory-clear.mp3');
    const coins=moves<=40?1000:moves<=70?500:moves<=100?400:300;
    if(moves<=40)window.biwachapSetGameAchievementFlag?.('homePuzzleMaster');
-   reward(coins,'実家再現スライドパズル クリア報酬');
+   renderBoard();
+   try{
+    if(typeof window.biwachapAwardCoins==='function'){
+     window.biwachapAwardCoins(coins,'実家再現スライドパズル クリア報酬');
+    }else{
+     console.error('コイン報酬関数 biwachapAwardCoins が見つかりません');
+     $('homePuzzleStatus').textContent += `（${coins}コインの付与に失敗しました）`;
+    }
+   }catch(error){
+    console.error('実家再現スライドパズルの報酬処理でエラー:',error);
+    $('homePuzzleStatus').textContent += `（${coins}コインの付与に失敗しました）`;
+   }
+   return;
   }
   renderBoard();
  }
