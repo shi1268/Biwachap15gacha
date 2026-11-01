@@ -144,7 +144,7 @@ footer p{margin:4px 0}
 .overlay-title{font-size:clamp(2.3rem,10vw,5rem);font-weight:1000;color:white;text-shadow:0 0 8px var(--lime),0 0 32px var(--pink),0 0 55px var(--cyan);animation:pulse .35s infinite alternate}
 .overlay-sub{color:#dbe5ff;font-weight:800}
 .overlay-bar{width:min(300px,75vw);height:9px;border:1px solid var(--lime);border-radius:999px;margin:22px auto;overflow:hidden}
-.overlay-bar span{display:block;width:30%;height:100%;background:var(--lime);box-shadow:0 0 20px var(--lime);animation:loading .85s ease-in-out infinite alternate}
+.overlay-bar span{display:block;width:0;height:100%;background:var(--lime);box-shadow:0 0 20px var(--lime);transition:width .22s ease-out}.overlay-bar span.charging{width:72%;transition:width 1.05s cubic-bezier(.18,.72,.28,1)}.overlay-bar span.complete{width:100%;transition:width .16s ease-out}
 
 .reveal-overlay{position:fixed;inset:0;z-index:60;display:none;background:radial-gradient(circle at center,#1c2c5a,#05091b 75%);overflow:auto;padding:22px;place-items:center}
 .reveal-overlay.show{display:grid}
@@ -174,6 +174,10 @@ footer p{margin:4px 0}
   /* めくったカード本体の発光。装飾線の外側に追加フレームは作らない */
   .reveal-modal-card .video-card{isolation:isolate;overflow:visible;animation:flipIn .6s cubic-bezier(.2,.8,.2,1);outline:3px solid var(--rarity-frame,#7184b8);outline-offset:4px}
   .reveal-modal-card .video-card.rarity-N{--rarity-frame:#7184b8}.reveal-modal-card .video-card.rarity-R{--rarity-frame:#8be9ff}.reveal-modal-card .video-card.rarity-SR{--rarity-frame:#ff70df}.reveal-modal-card .video-card.rarity-UR{--rarity-frame:#ffe99b}.reveal-modal-card .video-card.rarity-LR{--rarity-frame:#fff4b8;outline-width:5px;outline-offset:5px;box-shadow:0 0 18px #fff8,0 0 35px #ffe66d,0 0 55px #ff42d0}
+  .reveal-modal-card.lr-reveal .video-card{transform-origin:center;animation:lrSlowTurn 2.45s cubic-bezier(.16,.72,.2,1) both!important;position:relative;overflow:visible}
+  .reveal-modal-card.lr-reveal .video-card:after{content:"";position:absolute;z-index:8;inset:-8%;pointer-events:none;border-radius:24px;background:radial-gradient(ellipse at center,#fff 0%,#fffbdcbb 9%,#ffe66d66 24%,#ff42d044 43%,#43f4ff22 58%,transparent 72%);mix-blend-mode:screen;opacity:0;animation:lrLightOverflow 2.45s ease-out both}
+  @keyframes lrSlowTurn{0%{opacity:.25;transform:perspective(1400px) rotateY(90deg) scale(.72);filter:brightness(3.5) saturate(1.5)}28%{opacity:1;transform:perspective(1400px) rotateY(48deg) scale(.9);filter:brightness(2.8)}62%{transform:perspective(1400px) rotateY(-9deg) scale(1.035);filter:brightness(1.9)}82%{transform:perspective(1400px) rotateY(3deg) scale(1.01);filter:brightness(1.35)}100%{transform:perspective(1400px) rotateY(0) scale(1);filter:brightness(1)}}
+  @keyframes lrLightOverflow{0%{opacity:0;transform:scale(.45)}24%{opacity:1;transform:scale(.85)}58%{opacity:.85;transform:scale(1.22)}100%{opacity:0;transform:scale(1.65)}}
 @keyframes rareAura{from{box-shadow:0 0 8px #43f4ff,0 0 18px #43f4ff66}to{box-shadow:0 0 20px #43f4ff,0 0 40px #43f4ffcc}}
 @keyframes srAura{from{box-shadow:0 0 12px #ff42d0,0 0 25px #ff42d066}to{box-shadow:0 0 25px #ff42d0,0 0 50px #ff42d0cc,0 0 70px #a88bff}}
 @keyframes urAura{from{box-shadow:0 0 15px #fff4b8,0 0 30px #ffb72b,0 0 48px #ff42d066}to{box-shadow:0 0 28px #fff4b8,0 0 55px #ffb72b,0 0 90px #ff42d0}}
@@ -359,6 +363,8 @@ footer p{margin:4px 0}
   <audio id="seSR" src="se-sr.mp3" preload="auto"></audio>
   <audio id="seUR" src="se-ur.mp3" preload="auto"></audio>
   <audio id="cutinSE" src="se-cutin.mp3" preload="auto"></audio>
+  <audio id="seLR" src="se-lr.mp3" preload="auto"></audio>
+  <audio id="se10pull" src="se-10pull.mp3" preload="auto"></audio>
 </div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
   <h1>今日の琵琶ちゃぷ<br>おすすめ動画ガチャ</h1>
@@ -444,7 +450,7 @@ footer p{margin:4px 0}
 <section class="mini-modal" id="cookGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🍚 炊き込みゲーム</h2><button class="small-btn" data-close-modal="cookGameModal">閉じる ✕</button></div><p class="mini-status" id="cookGameStatus">落ちてくる虫の卵をタッパーで集めよう！</p><div class="cook-stage" id="cookStage"><img class="cook-background-image" id="cookBackgroundImage" src="./cook_background.png" alt="" aria-hidden="true"><img class="cook-appliance" id="cookRiceCookerImage" src="./rice_cooker.png" alt="炊飯器"><div class="cook-player" id="cookPlayer"><img id="cookTubImage" src="./tupper.png" alt="タッパー" draggable="false"><span class="cook-fallback">タッパー</span></div></div><div class="mini-actions"><button class="mini-btn" id="startCookGameBtn">ゲーム開始（20秒）</button><button class="mini-btn" id="cookRiceBtn" hidden>炊飯器に入れる！</button></div></div></section>
 <div class="overlay" id="gachaOverlay" aria-hidden="true">
   <div class="overlay-inner">
-    <div class="overlay-kicker">⚡ LIMIT BREAK ⚡</div>
+    <div class="overlay-kicker">👓 BIWAKO CHAP-CHAP 🌺</div>
     <div class="overlay-title" id="overlayTitle">GACHA!!</div>
     <div class="overlay-sub" id="overlaySub">運命の一本を召喚中…</div>
     <div class="overlay-bar"><span></span></div>
@@ -663,7 +669,7 @@ footer p{margin:4px 0}
   function getUnviewed() { return readStorage(STORAGE.unviewed, []); }
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
-  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = id === "pullSE" ? 2 : 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
   function rarityForPull() {
     // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
@@ -907,6 +913,7 @@ footer p{margin:4px 0}
     if (!latestResults.length || cutinPending.size) return;
     const btn = $("revealAllBtn");
     btn.disabled = true; bulkRevealActive = true;
+    playSE("se10pull");
     for (let i = 0; i < latestResults.length; i++) revealedIndices.add(i);
     showRevealGrid();
     $("revealHint").textContent = `${latestResults.length}枚をまとめてオープン！`;
@@ -923,11 +930,11 @@ footer p{margin:4px 0}
     const video = latestResults[index];
     if (cutinTextsFor(video).length) { video.rarity = "LR"; await playCutin(video); }
     const modal=$("revealModal"); const card=$("revealModalCard");
-    card.innerHTML=""; card.appendChild(renderCard(video,index));
+    card.innerHTML=""; card.classList.toggle("lr-reveal", video.rarity === "LR"); card.appendChild(renderCard(video,index));
     card.querySelector(".video-card")?.classList.add("rarity-"+(video.rarity||"N"));
     modal.classList.add("show"); modal.setAttribute("aria-hidden","false");
     revealedIndices.add(index);
-    playRaritySE(video.rarity || "N");
+    if(video.rarity === "LR") playSE("seLR"); else playRaritySE(video.rarity || "N");
   }
   function advanceReveal() {
     $("revealModal").classList.remove("show"); $("revealModal").setAttribute("aria-hidden","true");
@@ -1043,8 +1050,11 @@ footer p{margin:4px 0}
     const overlay = $("gachaOverlay");
     $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
     $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
+    const progressBar = overlay.querySelector(".overlay-bar span");
+    progressBar.classList.remove("charging","complete"); progressBar.style.width="0";
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden","false");
+    requestAnimationFrame(()=>progressBar.classList.add("charging"));
     // 残り動画から重複なしで抽選。残りが10本未満なら残りすべてを引く。
     const actualCount = Math.min(count, remainingVideos.length);
     const pool = [...remainingVideos];
@@ -1063,9 +1073,13 @@ footer p{margin:4px 0}
     pickedIds.forEach(id => lifetimeGachaIds.add(id));
     writeStorage(STORAGE.gachaTitlePulledIds, [...lifetimeGachaIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
-    await wait(actualCount >= 10 ? 1750 : 1250);
+    const pullDuration = actualCount >= 10 ? 1750 : 1250;
+    await wait(Math.floor(pullDuration * 0.82));
+    progressBar.classList.add("complete");
+    await wait(pullDuration - Math.floor(pullDuration * 0.82));
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
+    progressBar.classList.remove("charging","complete"); progressBar.style.width="0";
     latestResults = picked;
     revealedIndices = new Set();
     renderResults(picked, actualCount === 10 ? 10 : 1);
@@ -1518,7 +1532,7 @@ footer p{margin:4px 0}
   [{e:'🗄️',t:'タンス',img:'kagu_tansu.png'}]
  ];
  // 0が空白。タイルの移動・シャッフル・クリア判定は提示コードの方式に統一。
- let tiles=[],pieces=[],emptyIndex=8,moves=0,gameWon=false,goal=[];
+ let tiles=[],pieces=[],emptyIndex=8,moves=0,gameWon=false,goal=[],puzzleEarnedCoins=0;
  function canMove(index,empty){return (index===empty-1&&empty%3!==0)||(index===empty+1&&empty%3!==2)||index===empty-3||index===empty+3}
  function isSolved(){return tiles.every((tile,index)=>tile===goal[index])}
  function renderBoard(){
@@ -1533,7 +1547,7 @@ footer p{margin:4px 0}
    else{const icon=document.createElement('span');icon.className='home-piece-icon'+(piece.t==='古いデスクトップPC'?' home-desktop-icon':'');icon.textContent=piece.e;if(piece.scale)icon.style.fontSize=`calc(clamp(1.35rem,4vw,2.35rem) * ${piece.scale})`;button.appendChild(icon);if(piece.sideImg){const side=document.createElement('img');side.className='home-piece-image home-side-image';side.src='./'+piece.sideImg;side.alt=piece.t+'の家具';side.onerror=()=>side.remove();button.appendChild(side)}if(piece.e!==piece.t){const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}}
    button.addEventListener('click',()=>handleMove(index));cell.appendChild(button);grid.appendChild(cell);
   });
-  $('homePuzzleStatus').textContent=gameWon?`完成！ ${moves}回の移動で「あの実家」を再現した！`:`「あの実家」を再現しよう。空白の隣にあるピースをクリック／タップして動かす。移動回数：${moves}`;
+  $('homePuzzleStatus').textContent=gameWon?`完成！ ${moves}回の移動で「あの実家」を再現した！（${puzzleEarnedCoins}コイン獲得！）`:`「あの実家」を再現しよう。空白の隣にあるピースをクリック／タップして動かす。移動回数：${moves}`;
  }
  function handleMove(index){
   if(gameWon)return;
@@ -1546,8 +1560,9 @@ footer p{margin:4px 0}
    gameWon=true;
    window.biwachapPlayGameSE?.('se-memory-clear.mp3');
    const coins=moves<=40?1000:moves<=70?500:moves<=100?400:300;
-   if(moves<=40)window.biwachapSetGameAchievementFlag?.('homePuzzleMaster');
+   puzzleEarnedCoins=coins;
    renderBoard();
+   if(moves<=40)window.biwachapSetGameAchievementFlag?.('homePuzzleMaster');
    try{
     if(typeof window.biwachapAwardCoins==='function'){
      window.biwachapAwardCoins(coins,'実家再現スライドパズル クリア報酬');
@@ -1564,7 +1579,7 @@ footer p{margin:4px 0}
   renderBoard();
  }
  function initializeGame(){
-  moves=0;gameWon=false;pieces=[];goal=[];
+  moves=0;gameWon=false;puzzleEarnedCoins=0;pieces=[];goal=[];
   const blankGoal=Math.floor(Math.random()*9);let id=1;
   for(let pos=0;pos<9;pos++){
    if(pos===blankGoal){goal.push(0);continue}
