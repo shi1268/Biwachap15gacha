@@ -666,7 +666,7 @@ footer p{margin:4px 0}
   function getUnviewed() { return readStorage(STORAGE.unviewed, []); }
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
-  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = id === "pullSE" ? 1.5 : 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
   function rarityForPull() {
     // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
@@ -1047,12 +1047,16 @@ footer p{margin:4px 0}
     const overlay = $("gachaOverlay");
     $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
     $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
-    const pullDuration = Math.min(count, remainingVideos.length) >= 10 ? 1750 : 1250;
+    const pullDuration = 4000;
     const progressBar = overlay.querySelector(".overlay-bar span");
+    progressBar.style.transition="none";
     progressBar.style.width="0";
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden","false");
-    requestAnimationFrame(()=>{ progressBar.style.width="100%"; });
+    requestAnimationFrame(()=>{
+      progressBar.style.transition="width 3.7s linear";
+      progressBar.style.width="72%";
+    });
     // 残り動画から重複なしで抽選。残りが10本未満なら残りすべてを引く。
     const actualCount = Math.min(count, remainingVideos.length);
     const pool = [...remainingVideos];
@@ -1071,7 +1075,10 @@ footer p{margin:4px 0}
     pickedIds.forEach(id => lifetimeGachaIds.add(id));
     writeStorage(STORAGE.gachaTitlePulledIds, [...lifetimeGachaIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
-    await wait(pullDuration);
+    await wait(3700);
+    progressBar.style.transition="width .12s ease-out";
+    progressBar.style.width="100%";
+    await wait(300);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     progressBar.style.width="0";
