@@ -278,6 +278,7 @@ footer p{margin:4px 0}
 .collection-progress{color:#dce6ff;font-size:.85rem;margin:8px 0 12px}
 .collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .collection-grid .video-card{animation:none}
+.rarity-upgrade-notice{margin:0 0 8px;padding:6px 8px;border:1px solid #c6ff38;border-radius:8px;background:#c6ff3818;color:#d8ff76;font-size:.78rem;font-weight:1000;text-align:center;text-shadow:0 0 8px #c6ff3860}.collection-tabs{display:flex;gap:8px;margin:10px 0 14px}.collection-tabs .is-active{border-color:var(--lime);color:var(--lime);box-shadow:0 0 12px #c6ff3840}.cutin-collection-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.cutin-entry{border:1px solid #c6ff3860;border-radius:12px;padding:12px;background:linear-gradient(145deg,#172754,#0b1228);min-width:0}.cutin-entry-title{font-weight:900;color:#c6ff38;margin-bottom:6px}.cutin-entry-text{color:#fff;line-height:1.55;overflow-wrap:anywhere}.cutin-entry-video{color:#9ca8c5;font-size:.75rem;margin-top:8px}@media(max-width:760px){.cutin-collection-grid{grid-template-columns:1fr}}
 .video-card.undiscovered{filter:grayscale(1);opacity:.48;border-color:#697187!important;box-shadow:none!important;background:#171b29!important}
 .video-card.undiscovered .thumb{filter:grayscale(1) brightness(.38);visibility:hidden}
 .video-card.undiscovered .thumb-wrap{background:repeating-linear-gradient(135deg,#242a3a,#242a3a 12px,#1b2030 12px,#1b2030 24px)}
@@ -435,7 +436,7 @@ footer p{margin:4px 0}
   </div>
 </section>
 
-<section class="collection-modal" id="collectionModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="collectionTitle"><div class="collection-dialog"><div class="collection-head"><h2 id="collectionTitle">📚 動画カード図鑑</h2><button class="small-btn" id="closeCollectionBtn" type="button">閉じる ✕</button></div><p class="collection-progress" id="collectionProgress">獲得済み 0 / 0 枚</p><div class="collection-controls"><select id="collectionGenre"><option value="all">すべてのジャンル</option><option value="challenge">企画動画</option><option value="game">ゲーム動画</option><option value="talk">お話動画</option></select><select id="collectionPlatform"><option value="all">YouTube・ニコニコ動画</option><option value="youtube">YouTube</option><option value="niconico">ニコニコ動画</option></select><select id="collectionSort"><option value="date-desc">投稿日が新しい順</option><option value="date-asc">投稿日が古い順</option><option value="title-asc">タイトル順</option><option value="genre">ジャンル順</option></select></div><div class="collection-grid" id="collectionGrid"></div></div></section>
+<section class="collection-modal" id="collectionModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="collectionTitle"><div class="collection-dialog"><div class="collection-head"><h2 id="collectionTitle">📚 動画カード図鑑</h2><button class="small-btn" id="closeCollectionBtn" type="button">閉じる ✕</button></div><p class="collection-progress" id="collectionProgress">獲得済み 0 / 0 枚</p><div class="collection-tabs"><button class="small-btn is-active" id="videoCollectionTab" type="button">動画カード</button><button class="small-btn" id="cutinCollectionTab" type="button">カットイン演出</button></div><div id="videoCollectionPanel"><div class="collection-controls"><select id="collectionGenre"><option value="all">すべてのジャンル</option><option value="challenge">企画動画</option><option value="game">ゲーム動画</option><option value="talk">お話動画</option></select><select id="collectionPlatform"><option value="all">YouTube・ニコニコ動画</option><option value="youtube">YouTube</option><option value="niconico">ニコニコ動画</option></select><select id="collectionSort"><option value="date-desc">投稿日が新しい順</option><option value="date-asc">投稿日が古い順</option><option value="title-asc">タイトル順</option><option value="genre">ジャンル順</option></select></div><div class="collection-grid" id="collectionGrid"></div></div><div id="cutinCollectionPanel" hidden><p class="collection-progress" id="cutinCollectionProgress"></p><div class="cutin-collection-grid" id="cutinCollectionGrid"></div></div></div></section>
 <div id="chakraSpecialOverlay" aria-hidden="true"><div id="chakraSpecialText"></div><div class="chakra-special-hint">クリック／タップして続ける</div></div>
 <section class="mini-modal" id="yearGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🐺 琵琶ちゃぷ動画投稿年人狼</h2><button class="small-btn" data-close-modal="yearGameModal">閉じる ✕</button></div><p class="mini-status" id="yearGameStatus">9枚の動画から投稿年が違う2枚を探そう。</p><div class="year-grid" id="yearGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startYearGameBtn">新しいゲーム</button></div></div></section>
 <section class="mini-modal" id="memoryGameModal" aria-hidden="true" role="dialog" aria-modal="true"><div class="mini-dialog"><div class="mini-head"><h2>🃏 動画カード神経衰弱</h2><button class="small-btn" data-close-modal="memoryGameModal">閉じる ✕</button></div><p class="mini-status" id="memoryGameStatus">同じ動画のペアをそろえよう。</p><div class="memory-grid" id="memoryGameGrid"></div><div class="mini-actions"><button class="mini-btn" id="startMemoryGameBtn">新しいゲーム</button></div></div></section>
@@ -475,6 +476,7 @@ footer p{margin:4px 0}
     achievements: "biwachapGachaAchievements_v1",
     achievementFlags: "biwachapGachaAchievementFlags_v1",
     collection: "biwachapGachaCollection_v1",
+    cutinCollection: "biwachapGachaCutinCollection_v1",
     coins: "biwachapGachaCoins_v1",
     coinLedger: "biwachapGachaCoinLedger_v1",
     watchRewards: "biwachapGachaWatchRewards_v1"
@@ -589,8 +591,12 @@ footer p{margin:4px 0}
       return "カットインCSV未読込（cutin_videos.csvを追加すると有効）";
     }
   }
-  function cutinTextsFor(video) {
-    return cutinByVideoId.get(video.id)?.texts || [];
+  function cutinTextsFor(video) { return cutinByVideoId.get(video.id)?.texts || []; }
+  function getCutinCollection(){return readStorage(STORAGE.cutinCollection,{});}
+  function recordCutinDiscovery(video, message){
+    const key=video.id+"::"+message;
+    const found=getCutinCollection();
+    if(!found[key]){found[key]={videoId:video.id,title:cutinByVideoId.get(video.id)?.title||video.title,text:message,platform:video.platform||""};writeStorage(STORAGE.cutinCollection,found);}
   }
   async function playCutin(video) {
     const texts = cutinTextsFor(video);
@@ -600,6 +606,7 @@ footer p{margin:4px 0}
     if (bgm) bgm.pause();
     playSE("cutinSE");
     const selectedText = texts[Math.floor(Math.random() * texts.length)];
+    recordCutinDiscovery(video, selectedText);
     overlay.classList.remove("stage-two"); overlay.classList.add("stage-one","show");
     overlay.setAttribute("aria-hidden", "false");
     main.classList.remove("animate"); main.textContent = selectedText; lanes.innerHTML = "";
@@ -683,6 +690,7 @@ footer p{margin:4px 0}
       <div class="card-body">
         ${genre ? `<div class="genre-tag">${genreNames[genre]}</div>` : ""}
         ${rarity ? `<div class="rarity-label">${escapeHtml(RARITY_TEXT[rarity] || rarity)}</div>` : ""}
+        ${video.rarityUpgradeFrom ? `<div class="rarity-upgrade-notice">📚 図鑑更新！ ${escapeHtml(video.rarityUpgradeFrom)} → ${escapeHtml(rarity)}</div>` : ""}
         <p class="video-title">${escapeHtml(video.title)}</p>
         <div class="card-actions">
           <a class="watch" data-video-id="${escapeHtml(video.id)}" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">▶ 動画サイトで見る（+500コイン）</a>
@@ -959,7 +967,13 @@ footer p{margin:4px 0}
   }
   function getCollection(){return readStorage(STORAGE.collection,{});}
   function saveCollection(collection){writeStorage(STORAGE.collection,collection);}
-  function recordPulledCard(video){const c=getCollection();if(!c[video.id])c[video.id]={rarity:video.rarity||"N",firstPulledAt:new Date().toISOString()};saveCollection(c);}
+  const rarityRank={N:1,R:2,SR:3,UR:4,LR:5};
+  function recordPulledCard(video){
+    const c=getCollection(), current=video.rarity||"N", old=c[video.id]?.rarity||"";
+    if(!c[video.id]){c[video.id]={rarity:current,firstPulledAt:new Date().toISOString()};saveCollection(c);return "";}
+    if((rarityRank[current]||0)>(rarityRank[old]||0)){c[video.id].rarity=current;c[video.id].rarityUpdatedAt=new Date().toISOString();saveCollection(c);return old;}
+    return "";
+  }
   function rewardWatch(id){if(!id)return;const ids=readStorage(STORAGE.watchRewards,[]);if(ids.includes(id)){showToast("この動画の視聴報酬は獲得済みです");return;}ids.push(id);writeStorage(STORAGE.watchRewards,ids);awardCoins(500,"watch:"+id,"動画サイト報酬");}
   function renderCollection(){
     const grid=$("collectionGrid");if(!grid)return;grid.innerHTML="";
@@ -975,8 +989,20 @@ footer p{margin:4px 0}
       grid.appendChild(card);
     });
     if(!items.length)grid.innerHTML='<div class="empty">条件に合う動画がありません。</div>';
+    renderCutinCollection();
   }
-  function openCollection(){renderCollection();$("collectionModal").classList.add("show");$("collectionModal").setAttribute("aria-hidden","false");}
+  function renderCutinCollection(){
+    const grid=$("cutinCollectionGrid");if(!grid)return;grid.innerHTML="";
+    const total=[...cutinByVideoId.entries()].reduce((n,[id,entry])=>n+new Set(entry.texts).size,0);
+    const found=getCutinCollection();
+    const entries=Object.values(found);
+    $("cutinCollectionProgress").textContent=`発見済み ${entries.length} / ${total} 種類`;
+    if(!entries.length){grid.innerHTML='<div class="empty">まだ見たことのあるカットイン演出はありません。</div>';return;}
+    entries.sort((a,b)=>(a.title||"").localeCompare(b.title||"","ja")||(a.text||"").localeCompare(b.text||"","ja"));
+    entries.forEach(entry=>{const el=document.createElement("article");el.className="cutin-entry";const title=document.createElement("div");title.className="cutin-entry-title";title.textContent=entry.title||"対象動画";const text=document.createElement("div");text.className="cutin-entry-text";text.textContent=entry.text;const video=document.createElement("div");video.className="cutin-entry-video";video.textContent=entry.platform==="niconico"?"ニコニコ動画のカットイン":"YouTubeのカットイン";el.append(title,text,video);grid.appendChild(el);});
+  }
+  function setCollectionTab(tab){const video=tab==="video";$("videoCollectionPanel").hidden=!video;$("cutinCollectionPanel").hidden=video;$("videoCollectionTab").classList.toggle("is-active",video);$("cutinCollectionTab").classList.toggle("is-active",!video);}
+  function openCollection(){setCollectionTab("video");renderCollection();$("collectionModal").classList.add("show");$("collectionModal").setAttribute("aria-hidden","false");}
   function closeCollection(){$("collectionModal").classList.remove("show");$("collectionModal").setAttribute("aria-hidden","true");}
 
   function resetGacha() {
@@ -1017,7 +1043,7 @@ footer p{margin:4px 0}
     const pickedIds = new Set(picked.map(v => v.id));
     remainingVideos = remainingVideos.filter(v => !pickedIds.has(v.id));
     pickedIds.forEach(id => pulledVideoIds.add(id));
-    picked.forEach(recordPulledCard);
+    picked.forEach(video=>{const previous=recordPulledCard(video);if(previous)video.rarityUpgradeFrom=previous;});
     writeStorage(STORAGE.pulledIds, [...pulledVideoIds]);
     const lifetimeGachaIds = new Set(readStorage(STORAGE.gachaTitlePulledIds, []));
     pickedIds.forEach(id => lifetimeGachaIds.add(id));
@@ -1323,6 +1349,8 @@ footer p{margin:4px 0}
     $("resetGachaBtn").addEventListener("click",resetGacha);
     $("titlesBtn").addEventListener("click",openTitles);
     $("collectionBtn").addEventListener("click",openCollection);
+    $("videoCollectionTab").addEventListener("click",()=>setCollectionTab("video"));
+    $("cutinCollectionTab").addEventListener("click",()=>{setCollectionTab("cutin");renderCutinCollection();});
     $("closeCollectionBtn").addEventListener("click",closeCollection);
     $("collectionModal").addEventListener("click",e=>{if(e.target===$("collectionModal"))closeCollection();});
     ["collectionGenre","collectionPlatform","collectionSort"].forEach(id=>$(id).addEventListener("change",renderCollection));
@@ -1465,7 +1493,7 @@ footer p{margin:4px 0}
   [{e:'🍽️',t:'食器棚',sideImg:'tana_empty.png'},{e:'📚',t:'雑誌棚',img:'book_zasshi_tana.png'},{e:'♨️',t:'電子レンジ',img:'cooking_microwave.png',scale:0.75},{e:'🍚',t:'炊飯器',img:'rice_cooker.png'}],
   [{e:'🛋️',t:'ソファ',img:'kagu_sofa.png'}],
   [{e:'🖥️',t:'古いデスクトップPC',scale:2.34}],
-  [{e:'🎹',t:'ピアノ',img:'piano_upright.png'},{e:'掛け軸',t:'掛け軸',scroll:true}],
+  [{e:'🎹',t:'ピアノ',img:'piano_upright.png'},{e:'掛け軸',t:'掛け軸(？)',img:'kakejiku.png',scroll:true}],
   [{e:'🗄️',t:'タンス',img:'kagu_tansu.png'}]
  ];
  // 0が空白。タイルの移動・シャッフル・クリア判定は提示コードの方式に統一。
@@ -1487,7 +1515,7 @@ footer p{margin:4px 0}
    const piece=pieces[tile-1],button=document.createElement('button');
    button.type='button';button.className='home-puzzle-tile-button';button.disabled=gameWon;
    button.setAttribute('aria-label',piece.t);
-   if(piece.scroll){const scroll=document.createElement('span');scroll.className='home-scroll';scroll.textContent='物語繪名作選';button.appendChild(scroll);const label=document.createElement('small');label.className='home-piece-label';label.textContent='掛け軸';button.appendChild(label)}
+   if(piece.scroll){const img=document.createElement('img');img.className='home-piece-image';img.src='./'+piece.img;img.alt='掛け軸';img.onerror=()=>{img.replaceWith(Object.assign(document.createElement('span'),{textContent:piece.e}))};button.appendChild(img);const label=document.createElement('small');label.className='home-piece-label';label.textContent='掛け軸(？)';button.appendChild(label)}
    else if(piece.img){const img=document.createElement('img');img.className='home-piece-image'+(piece.scale?' is-scaled':'');if(piece.scale)img.style.setProperty('--piece-scale',piece.scale);img.src='./'+piece.img;img.alt=piece.t;img.onerror=()=>{img.replaceWith(Object.assign(document.createElement('span'),{textContent:piece.e}))};button.appendChild(img);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
    else if(piece.imgs){const wrap=document.createElement('span');wrap.className='home-piece-images';piece.imgs.forEach(src=>{const img=document.createElement('img');img.src='./'+src;img.alt='';img.onerror=()=>img.style.display='none';wrap.appendChild(img)});button.appendChild(wrap);const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}
    else{const icon=document.createElement('span');icon.className='home-piece-icon'+(piece.t==='古いデスクトップPC'?' home-desktop-icon':'');icon.textContent=piece.e;if(piece.scale)icon.style.fontSize=`calc(clamp(1.35rem,4vw,2.35rem) * ${piece.scale})`;button.appendChild(icon);if(piece.sideImg){const side=document.createElement('img');side.className='home-piece-image home-side-image';side.src='./'+piece.sideImg;side.alt=piece.t+'の家具';side.onerror=()=>side.remove();button.appendChild(side)}if(piece.e!==piece.t){const label=document.createElement('small');label.className='home-piece-label';label.textContent=piece.t;button.appendChild(label)}}
