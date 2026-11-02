@@ -1047,14 +1047,14 @@ footer p{margin:4px 0}
     const overlay = $("gachaOverlay");
     $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
     $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
-    const pullDuration = 3000;
+    const pullDuration = 2500;
     const progressBar = overlay.querySelector(".overlay-bar span");
     progressBar.style.transition="none";
     progressBar.style.width="0";
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden","false");
     requestAnimationFrame(()=>{
-      progressBar.style.transition="width 2.2s linear";
+      progressBar.style.transition="width 1.8s linear";
       progressBar.style.width="40%";
     });
     // 残り動画から重複なしで抽選。残りが10本未満なら残りすべてを引く。
@@ -1075,10 +1075,10 @@ footer p{margin:4px 0}
     pickedIds.forEach(id => lifetimeGachaIds.add(id));
     writeStorage(STORAGE.gachaTitlePulledIds, [...lifetimeGachaIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
-    await wait(2200);
-    progressBar.style.transition="width .8s ease-out";
+    await wait(1800);
+    progressBar.style.transition="width .7s ease-out";
     progressBar.style.width="100%";
-    await wait(800);
+    await wait(700);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     progressBar.style.width="0";
