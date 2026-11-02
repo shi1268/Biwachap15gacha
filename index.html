@@ -360,6 +360,7 @@ footer p{margin:4px 0}
   <audio id="seUR" src="se-ur.mp3" preload="auto"></audio>
   <audio id="cutinSE" src="se-cutin.mp3" preload="auto"></audio>
   <audio id="seLR" src="se-lr.mp3" preload="auto"></audio>
+  <audio id="seLRFlip" src="se-lr_flip.mp3" preload="auto"></audio>
   <audio id="se10pull" src="se-10pull.mp3" preload="auto"></audio>
 </div>
   <div class="eyebrow">BIWACHAP VIDEO GACHA</div>
@@ -621,9 +622,9 @@ footer p{margin:4px 0}
       overlay.addEventListener("click", onClick); overlay.addEventListener("keydown", onKey); overlay.focus({preventScroll:true});
     });
     overlay.classList.remove("stage-one"); overlay.classList.add("stage-two");
-    playSE("seLR");
+    const lrSoundSequence = playLRSESequence();
     main.classList.remove("animate"); main.textContent = "LEGEND RARE"; void main.offsetWidth; main.classList.add("animate");
-    await wait(2200);
+    await Promise.all([wait(2200), lrSoundSequence]);
     overlay.classList.remove("show","stage-one","stage-two"); overlay.setAttribute("aria-hidden", "true");
     lanes.innerHTML = ""; main.textContent = ""; cutinPending.delete(video.id);
   }
@@ -667,6 +668,24 @@ footer p{margin:4px 0}
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
   function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = id === "pullSE" ? 1.25 : 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  async function playLRSESequence() {
+    const first = $("seLR"), second = $("seLRFlip");
+    if (!first) return;
+    try {
+      if (!Number.isFinite(first.duration) || first.duration <= 0) {
+        await new Promise(resolve => { const done=()=>resolve(); first.addEventListener("loadedmetadata", done, {once:true}); first.addEventListener("error", done, {once:true}); setTimeout(done, 1000); });
+      }
+      first.volume = Number($("seVolume")?.value ?? 0.2);
+      // LR演出の発光アニメーション（2.2秒）に音声全体を合わせる。
+      first.playbackRate = Number.isFinite(first.duration) && first.duration > 0 ? Math.max(0.25, Math.min(4, first.duration / 2.2)) : 1;
+      first.currentTime = 0;
+      await first.play();
+      await new Promise(resolve => { first.addEventListener("ended", resolve, {once:true}); first.addEventListener("error", resolve, {once:true}); });
+    } catch (_) { /* 音声ファイル未配置・再生不可でも演出は継続 */ }
+    if (second) {
+      try { second.volume = Number($("seVolume")?.value ?? 0.2); second.playbackRate = 1.25; second.currentTime = 0; await second.play(); } catch (_) {}
+    }
+  }
   function rarityForPull() {
     // LRはカットイン対象専用。通常枠は N60% / R25% / SR10% / UR5%。
     const roll = Math.random() * 100;
@@ -1023,8 +1042,9 @@ footer p{margin:4px 0}
     const resetCount = Number(readStorage("biwachapGachaResetCount_v1", 0)) + 1;
     writeStorage("biwachapGachaResetCount_v1", resetCount);
     if (resetCount === 1) setAchievementFlag("gachaReset1");
-    if (resetCount === 3) setAchievementFlag("gachaReset3");
+    if (resetCount === 4) setAchievementFlag("gachaReset4");
     if (resetCount === 5) setAchievementFlag("gachaReset5");
+    if (resetCount === 6) setAchievementFlag("gachaReset6");
     remainingVideos = [...videos]; pulledVideoIds.clear(); writeStorage(STORAGE.pulledIds, []); latestResults = []; revealedIndices = new Set();
     $("resultsGrid").innerHTML = '<div class="empty">まだ動画が引かれていません。<br>単発または10連ガチャを回してね！</div>';
     $("resultsGrid").classList.remove("ten");
@@ -1108,8 +1128,8 @@ footer p{margin:4px 0}
     { id: "favorite-genre-talk-10", name: "お話動画の沼", genre: "talk", threshold: 10 }
   ];
   const HIDDEN_CONDITION_ACHIEVEMENT_IDS = new Set([
-    "favorite-combo", "favorite-order", "favorite-genre-challenge-10", "favorite-genre-game-10", "favorite-genre-talk-10",
-    "audio-max", "audio-min", "first-favorites-image", "first-x-share", "first-daily-watch", "sbt-chakra-1", "sbt-chakra-5", "sbt-chakra-10", "sbt-chakra-30", "werewolf-master", "memory-40", "memory-20", "memory-16", "cook-zero", "cook-50", "home-puzzle-master", "gacha-reset-1", "gacha-reset-3", "gacha-reset-5", "collection-all-r", "collection-all-sr", "collection-all-ur", "collection-all-lr"
+    "favorite-genre-challenge-10", "favorite-genre-game-10", "favorite-genre-talk-10",
+    "audio-max", "audio-min", "first-favorites-image", "first-x-share", "first-daily-watch", "sbt-chakra-1", "sbt-chakra-5", "sbt-chakra-10", "sbt-chakra-30", "werewolf-master", "memory-40", "memory-20", "cook-zero", "cook-50", "home-puzzle-master", "gacha-reset-1", "gacha-reset-4", "gacha-reset-5", "gacha-reset-6", "collection-all-r", "collection-all-sr", "collection-all-ur", "collection-all-lr"
   ]);
   function getAchievementFlags() { return readStorage(STORAGE.achievementFlags, {}); }
   function setAchievementFlag(flag) { const flags=getAchievementFlags(); if(flags[flag]) return; flags[flag]=true; writeStorage(STORAGE.achievementFlags, flags); evaluateAchievements(); }
@@ -1128,8 +1148,6 @@ footer p{margin:4px 0}
       [0,"琵琶ちゃぷコンプリートマスター！！（もしくはご本人）"],
       [1,"琵琶ちゃぷほぼほぼマスター"],[6,"もう少しでマスター"],[16,"結構な琵琶ちゃぷフリーク"],[31,"まだまだ楽しみが残ってる"],[101,"これからの日々が楽しすぎる"]
     ].map(([min,name],i)=>({id:`completion-${min}`,name,condition:`残り動画数が0の状態で「未視聴」が${i===0?"0本":i===1?"1～5本":i===2?"6～15本":i===3?"16～30本":i===4?"31～100本":"101本以上"}`,test:()=>poolInitialized&&videos.length>0&&remainingVideos.length===0&&(()=>{const n=getUnviewed().length;return i===0?n===0:i===1?n>=1&&n<=5:i===2?n>=6&&n<=15:i===3?n>=16&&n<=30:i===4?n>=31&&n<=100:n>=101;})()})),
-    {id:"favorite-combo",name:"好きが重なる瞬間",condition:"特定の動画をすべて「これ好き」に登録する",test:()=>FAVORITE_COMBO_ACHIEVEMENTS.some(rule=>rule.videoIds?.length && rule.videoIds.every(id=>getFavorites().some(v=>v.id===id)))},
-    {id:"favorite-order",name:"並び順にもこだわり",condition:"特定の動画を指定された順番で「これ好き」に並べる",test:()=>FAVORITE_ORDER_ACHIEVEMENTS.some(rule=>{const ids=getFavorites().map(v=>v.id);if(!rule.videoIds?.length)return false;return ids.some((_,i)=>rule.videoIds.every((id,j)=>ids[i+j]===id));})},
     ...FAVORITE_GENRE_ACHIEVEMENTS.map(rule=>({id:rule.id,name:rule.name,condition:`${({challenge:"企画動画",game:"ゲーム動画",talk:"お話動画"})[rule.genre]}を「これ好き」に${rule.threshold}本登録する`,test:()=>getFavoriteGenreCount(rule.genre)>=rule.threshold})),
     {id:"audio-max",name:"音量注意報",condition:"BGMと効果音の音量を両方最大にする",test:()=>!!getAchievementFlags().audioMax},
     {id:"audio-min",name:"静寂の世界",condition:"BGMと効果音の音量を両方最小にする",test:()=>!!getAchievementFlags().audioMin},
@@ -1143,12 +1161,12 @@ footer p{margin:4px 0}
     ,{id:"werewolf-master",name:"動画投稿年マスター",condition:"人狼カードだけを選んで動画投稿年人狼をクリアする",test:()=>!!getAchievementFlags().werewolfMaster}
     ,{id:"memory-40",name:"海馬、焼きすぎたかも",condition:"動画カード神経衰弱を40手以上でクリアする",test:()=>!!getAchievementFlags().memory40}
     ,{id:"memory-20",name:"まばゆく輝く🧠",condition:"動画カード神経衰弱を15手以内にクリアする",test:()=>!!getAchievementFlags().memory20}
-    ,{id:"memory-16",name:"ゴッドハンド",condition:"動画カード神経衰弱を16手でクリアする",test:()=>!!getAchievementFlags().memory16}
     ,{id:"cook-zero",name:"正常な感性",condition:"炊き込みゲームで卵を1個も取らない",test:()=>!!getAchievementFlags().cookZero}
     ,{id:"cook-50",name:"きしぇ～～！うまそ～～！",condition:"炊き込みゲームで卵を50個すべて取る",test:()=>!!getAchievementFlags().cook50}
     ,{id:"gacha-reset-1",name:"コンプリート沼の始まり",condition:"初めてガチャをリセットする",test:()=>Number(readStorage("biwachapGachaResetCount_v1",0))>=1}
-    ,{id:"gacha-reset-3",name:"三度目のコンプリート",condition:"ガチャを3回リセットする",test:()=>Number(readStorage("biwachapGachaResetCount_v1",0))>=3}
+    ,{id:"gacha-reset-4",name:"忌み数字分のリセット",condition:"ガチャを4回リセットする",test:()=>Number(readStorage("biwachapGachaResetCount_v1",0))>=4}
     ,{id:"gacha-reset-5",name:"帰ってきたコンプリート沼",condition:"ガチャを5回リセットする",test:()=>Number(readStorage("biwachapGachaResetCount_v1",0))>=5}
+    ,{id:"gacha-reset-6",name:"2人の誕生月分（諸説あり）のリセット",condition:"ガチャを6回リセットする",test:()=>Number(readStorage("biwachapGachaResetCount_v1",0))>=6}
     ,{id:"collection-all-r",name:"R級動画カードコレクター",condition:"全動画カードをR以上で図鑑に登録する",test:()=>videos.length>0&&videos.every(v=>(rarityRank[getCollection()[v.id]?.rarity||""]||0)>=2)}
     ,{id:"collection-all-sr",name:"SR級動画カードコレクター",condition:"全動画カードをSR以上で図鑑に登録する",test:()=>videos.length>0&&videos.every(v=>(rarityRank[getCollection()[v.id]?.rarity||""]||0)>=3)}
     ,{id:"collection-all-ur",name:"UR級動画カードコレクター",condition:"全動画カードをUR以上で図鑑に登録する",test:()=>videos.length>0&&videos.every(v=>(rarityRank[getCollection()[v.id]?.rarity||""]||0)>=4)}
@@ -1503,7 +1521,7 @@ footer p{margin:4px 0}
  // Video-card memory matching
  let memoryDeck=[],memoryFirst=null,memoryLock=false,memoryMoves=0,memoryPairs=0,memoryFinished=false,memoryTarget=8;
  function newMemoryGame(){sfx('se-memory-start.mp3');const source=shuffle(getVideos()).slice(0,8);memoryTarget=source.length;const grid=$('memoryGameGrid');grid.innerHTML='';memoryDeck=shuffle(source.flatMap((v,i)=>[{...v,pair:i,key:i+'a'},{...v,pair:i,key:i+'b'}]));memoryFirst=null;memoryLock=false;memoryMoves=0;memoryPairs=0;memoryFinished=false;$('memoryGameStatus').textContent='手数：0。動画カードのペアを8組そろえよう。';memoryDeck.forEach((v,i)=>{const b=document.createElement('button');b.className='memory-card';b.dataset.index=i;b.textContent='';b.addEventListener('click',()=>flipMemory(i,b));grid.appendChild(b)});if(source.length<2)$('memoryGameStatus').textContent='神経衰弱には動画が2本以上必要です。CSVを追加してください。'}
- function flipMemory(i,b){if(memoryLock||memoryFinished||b.classList.contains('matched')||b.classList.contains('opened'))return;sfx('se-memory-flip.mp3');const v=memoryDeck[i];b.classList.add('flipping');setTimeout(()=>{b.classList.add('opened');b.innerHTML=`<img src="${thumb(v)}" alt=""><span>${esc(v.title)}</span>`;b.classList.remove('flipping')},90);if(memoryFirst===null){memoryFirst={i,b,v};return}memoryMoves++;const first=memoryFirst;memoryFirst=null;if(first.v.id===v.id){sfx('se-memory-match.mp3');first.b.classList.add('matched');b.classList.add('matched');memoryPairs++;$('memoryGameStatus').textContent=`手数：${memoryMoves} ／ ペア：${memoryPairs}/${memoryTarget}`;if(memoryPairs===memoryTarget){sfx('se-memory-clear.mp3');memoryFinished=true;let rewardCoins=memoryMoves<=16?1000:memoryMoves<=25?300:200;if(memoryMoves>=40)window.biwachapSetGameAchievementFlag?.('memory40');if(memoryMoves<=15)window.biwachapSetGameAchievementFlag?.('memory20');if(memoryMoves===16)window.biwachapSetGameAchievementFlag?.('memory16');$('memoryGameStatus').textContent=`完全クリア！ ${memoryMoves}手で全ペア達成。${rewardCoins}コイン獲得！`+(memoryMoves===16?' ゴッドハンド！':'');reward(rewardCoins,'動画カード神経衰弱');}return}sfx('se-memory-miss.mp3');memoryLock=true;setTimeout(()=>{[first.b,b].forEach(el=>{el.classList.remove('opened');el.textContent=''});memoryLock=false;$('memoryGameStatus').textContent=`手数：${memoryMoves} ／ ペア：${memoryPairs}/${memoryTarget}`},850)}
+ function flipMemory(i,b){if(memoryLock||memoryFinished||b.classList.contains('matched')||b.classList.contains('opened'))return;sfx('se-memory-flip.mp3');const v=memoryDeck[i];b.classList.add('flipping');setTimeout(()=>{b.classList.add('opened');b.innerHTML=`<img src="${thumb(v)}" alt=""><span>${esc(v.title)}</span>`;b.classList.remove('flipping')},90);if(memoryFirst===null){memoryFirst={i,b,v};return}memoryMoves++;const first=memoryFirst;memoryFirst=null;if(first.v.id===v.id){sfx('se-memory-match.mp3');first.b.classList.add('matched');b.classList.add('matched');memoryPairs++;$('memoryGameStatus').textContent=`手数：${memoryMoves} ／ ペア：${memoryPairs}/${memoryTarget}`;if(memoryPairs===memoryTarget){sfx('se-memory-clear.mp3');memoryFinished=true;let rewardCoins=memoryMoves<=16?1000:memoryMoves<=25?300:200;if(memoryMoves>=40)window.biwachapSetGameAchievementFlag?.('memory40');if(memoryMoves<=15)window.biwachapSetGameAchievementFlag?.('memory20');$('memoryGameStatus').textContent=`完全クリア！ ${memoryMoves}手で全ペア達成。${rewardCoins}コイン獲得！`;reward(rewardCoins,'動画カード神経衰弱');}return}sfx('se-memory-miss.mp3');memoryLock=true;setTimeout(()=>{[first.b,b].forEach(el=>{el.classList.remove('opened');el.textContent=''});memoryLock=false;$('memoryGameStatus').textContent=`手数：${memoryMoves} ／ ペア：${memoryPairs}/${memoryTarget}`},850)}
  $('startMemoryGameBtn').addEventListener('click',newMemoryGame);
  // Cooking game: catch falling eggs in a movable tub, then cook the collected amount.
  let cookRunning=false,cookStart=0,cookLast=0,cookRAF=0,cookEggs=[],cookCaught=0,cookSpawned=0,cookNextSpawn=0,cookX=.5,cookDragging=false,cookFinal=false;
