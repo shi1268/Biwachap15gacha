@@ -64,7 +64,12 @@ h1{font-size:clamp(1.8rem,5.5vw,3.7rem);line-height:1.12;margin:12px 0;color:var
 .gacha-btn:disabled{opacity:.55;cursor:wait;filter:grayscale(.3);transform:none}
 .gacha-btn .big{display:block;font-size:1.3rem}
 .gacha-btn .small{display:block;font-size:.78rem;font-weight:750;margin-top:4px;opacity:.78}
-.secondary-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:17px}
+.secondary-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:17px}
+.share-actions-group{display:flex;align-items:center;justify-content:flex-start;gap:9px;flex:0 0 auto}
+.machine-notes{flex:1 1 300px;text-align:right;color:var(--muted);font-size:.78rem;line-height:1.55}
+.mini-game-zone{margin-top:16px;padding:13px 14px 15px;border:1px solid #7184b86b;border-radius:17px;background:linear-gradient(145deg,rgba(47,66,112,.72),rgba(25,42,83,.82));box-shadow:inset 0 1px 0 #ffffff0b,0 5px 18px #0002}
+.mini-game-zone .mini-game-heading{margin:0 0 11px;color:#d5ff68}
+@media(max-width:620px){.secondary-actions{align-items:stretch}.share-actions-group{width:100%;justify-content:flex-start;flex-wrap:wrap}.machine-notes{text-align:left;flex-basis:100%;font-size:.76rem}.mini-game-zone{padding:11px 9px 13px}}
 .small-btn{border:1px solid #9fb2e7a1;background:#101a3abf;color:var(--white);padding:9px 13px;border-radius:10px;font-weight:750;font-size:.84rem}
 .small-btn:hover{border-color:var(--lime);color:var(--lime)}
 .notice{font-size:.82rem;color:var(--muted);line-height:1.6;text-align:center;margin:17px 0 0}
@@ -208,7 +213,7 @@ footer p{margin:4px 0}
 .cutin-card-face{position:absolute;inset:0;border:4px double #fff4b8;border-radius:18px;background:linear-gradient(145deg,#fff4b8 0%,#ffe66d 8%,#5b103f 22%,#23105d 48%,#07505d 72%,#6a3205 100%);box-shadow:inset 0 0 30px #fff,0 0 20px #fff,0 0 50px #ffe66d;transform:rotateY(90deg) scale(.65);opacity:0;overflow:hidden;}
 .cutin-card-face:before{content:"✦  LEGEND RARE  ✦";position:absolute;inset:8%;display:grid;place-items:center;border:1px solid #fff4b8;border-radius:10px;color:#fff4b8;font:700 clamp(.7rem,2.5vw,1.1rem) Georgia,"Times New Roman",serif;letter-spacing:.08em;text-shadow:0 0 14px #fff,0 0 28px #ffe66d;background:linear-gradient(135deg,#ffffff08,#ffe66d22,#43f4ff10);}
 .cutin-overlay.stage-two .cutin-card-visual{animation:cutinCardHover 2.8s ease-in-out infinite .9s;}
-.cutin-overlay.stage-two .cutin-card-visual:before{animation:cutinLightBurst 2.2s ease-out both;}
+.cutin-overlay.stage-two .cutin-card-visual:before{animation:cutinLightBurst 2.75s ease-out both;}
 .cutin-overlay.stage-two .cutin-card-face{animation:cutinCardTurn .9s cubic-bezier(.18,.72,.22,1) both;}
 @keyframes cutinBackdrop{from{opacity:0;filter:brightness(3)}to{opacity:1;filter:brightness(1)}}
 @keyframes cutinFlash{0%{opacity:.95}100%{opacity:0}}
@@ -343,7 +348,27 @@ footer p{margin:4px 0}
 #homePuzzleModal .home-scroll{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;white-space:normal;font-family:'Yuji Syuku','HGP行書体','游教科書体','游明朝','Yu Mincho',serif;font-size:clamp(.62rem,2vw,1.15rem);width:1.5em;line-height:1.12;color:#111;background:linear-gradient(90deg,#5b321b,#a36a37 20%,#d4a66a 50%,#8b552b 80%,#4a2918);border:3px solid #4b2919;box-shadow:inset 0 0 0 2px #d6b17c,0 2px 7px #0009;padding:3px 2px;height:58.5%;box-sizing:border-box;text-shadow:0 1px 1px #3b1d0b}
 @media(max-width:560px){#homePuzzleModal .home-scroll{font-size:clamp(.55rem,2.7vw,.9rem);width:1.5em;height:58.5%;padding:2px 1px;border-width:2px}#homePuzzleModal .home-floor-row{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}#homePuzzleModal .home-bath{font-size:.75rem}#homePuzzleModal .home-edge-spacer{width:25px}#homePuzzleModal .home-board-frame{padding:5px;border-width:3px}#homePuzzleModal .home-puzzle-grid{gap:3px}#homePuzzleModal .home-puzzle-tile-button{border-radius:5px}}
 
-.game-button-row{display:flex;flex-wrap:nowrap;gap:8px;align-items:center;white-space:nowrap}.game-button-row .small-btn{flex:0 0 auto}@media(max-width:760px){.game-button-row{max-width:100%;overflow-x:auto;padding-bottom:4px}}
+.game-button-row{display:flex;flex-direction:column;gap:8px;align-items:center;white-space:normal}.game-button-line{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.game-button-row .small-btn{flex:0 0 auto}
+
+/* 追加機能 */
+.video-duration{display:inline-flex;align-items:center;gap:5px;margin:0 0 10px;padding:4px 9px;border:1px solid #8fa5d766;border-radius:7px;background:#0b1530;color:#dbe8ff;font-size:.76rem;font-weight:800;letter-spacing:.02em}
+.video-duration.is-unknown{color:#9aa8c6;border-style:dashed}
+.feature-shortcuts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0 16px}.machine-label{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mini-game-heading{width:100%;margin:12px 0 0;color:#c6ff38;text-align:center}.mission-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 8px}.mission-head h3{margin:0}.quiz-streak{text-align:center;font-weight:1000;font-size:1.15rem;color:#dfff8b;margin:12px 0}.quiz-streak.level-1{color:#ffdc70;text-shadow:0 0 10px #ffb000}.quiz-streak.level-2{color:#ff86ef;text-shadow:0 0 12px #ff30d0,0 0 24px #ff30d0}.quiz-streak.level-3{color:#fff;text-shadow:0 0 8px #fff,0 0 18px #c6ff38,0 0 30px #c6ff38;animation:streakPulse .8s infinite alternate}@keyframes streakPulse{to{transform:scale(1.06);filter:brightness(1.4)}}.quiz-question-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin-top:8px;min-height:44px}.quiz-question-row .feature-question{margin:0;text-align:left}.quiz-question-row .quiz-feedback{grid-column:2;grid-row:1;text-align:center;font-size:1.12rem;font-weight:1000;margin:0;min-width:5.5em;white-space:nowrap}.quiz-question-row #nextMaskQuestion{grid-column:3;grid-row:1;justify-self:end;white-space:nowrap}.quiz-question-row #nextMaskQuestion:only-child{grid-column:3}.quiz-feedback{display:none}.quiz-question-row .quiz-feedback:not(:empty){display:block}.quiz-options button.correct-answer{background:#b3263e;border-color:#ff687f;color:#fff}.quiz-options button.wrong-answer{background:#1763b5;border-color:#65b7ff;color:#fff}
+@media(max-width:560px){.quiz-question-row{grid-template-columns:minmax(0,1fr) auto;row-gap:5px}.quiz-question-row .feature-question{grid-column:1;grid-row:1;font-size:1rem}.quiz-question-row #nextMaskQuestion{grid-column:2;grid-row:1;padding:7px 9px;font-size:.75rem}.quiz-question-row .quiz-feedback{grid-column:1 / -1;grid-row:2;justify-self:center}}.quiz-options button.correct-answer{background:#b3263e;border-color:#ff687f;color:#fff}.quiz-options button.wrong-answer{background:#1763b5;border-color:#65b7ff;color:#fff}
+.feature-shortcuts button{border-color:#c6ff3880;color:#eaffb5}
+.mosaic-frame{position:relative;width:min(100%,560px);aspect-ratio:16/9;margin:12px auto;border-radius:10px;overflow:hidden;background:#050812;border:1px solid #7184b8}
+.mosaic-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.mosaic-cover{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mosaic-caption{text-align:center;color:#dfff8b;font-weight:800;margin:8px 0}
+.feature-modal{position:fixed;inset:0;z-index:110;display:none;place-items:center;padding:14px;background:#030716ed}.feature-modal.show{display:grid}
+.feature-dialog{position:relative;width:min(900px,100%);max-height:90vh;overflow:auto;padding:20px;border:1px solid #c6ff3888;border-radius:18px;background:linear-gradient(145deg,#172754,#080e24);box-shadow:0 0 40px #c6ff3825;color:#f4f7ff}
+.feature-head{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:-20px;padding:4px 0 12px;background:#172754;z-index:2}.feature-head h2{margin:0;color:#c6ff38;font-size:1.2rem}
+.feature-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 16px}.feature-tabs button.active{background:#c6ff3822;border-color:#c6ff38;color:#eaffb5}
+.feature-content{line-height:1.65}.feature-content .mask-quiz-intro{margin:6px 0}.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.feature-tile{padding:13px;border:1px solid #7184b866;border-radius:12px;background:#0b1530;min-width:0}.feature-tile strong{display:block;color:#dfff8b;margin-bottom:5px}.feature-tile small{color:#aab7d7}.feature-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.feature-content button,.feature-content select{background:#101e43;color:#f4f7ff;border:1px solid #7184b8;border-radius:8px;padding:9px 12px;cursor:pointer}.feature-content .profile-highlight-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:10px}.feature-content .profile-highlight-row .feature-tile{min-width:0}.feature-content .profile-main-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.feature-content .profile-secondary-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.feature-content .profile-secondary-stats .equipped-title-tile{grid-column:span 2}.feature-content .equipped-title-display{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;white-space:nowrap;overflow:visible;text-overflow:clip;line-height:1.25;padding:10px 8px;margin:5px 0 0;border:1px solid #7184b8;border-radius:8px;background:#101e43;color:#fff;text-align:center;font-weight:800;cursor:pointer;font-size:clamp(9px,1.8vw,16px)}@media(max-width:560px){.feature-content .profile-main-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.feature-content .profile-secondary-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.feature-content .profile-secondary-stats .equipped-title-tile{grid-column:span 2}.feature-content .profile-highlight-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.feature-content .profile-highlight-row .feature-tile{padding:8px 6px;font-size:.82rem}.feature-content .profile-highlight-row .feature-tile strong{font-size:.78rem}.feature-content .equipped-title-display{font-size:clamp(7px,2.2vw,12px);padding:8px 2px}}.mission-tile-claimable{cursor:pointer;position:relative}.mission-tile-claimable:focus{outline:2px solid #c6ff38;outline-offset:2px}.mission-tile-claimed{opacity:.65}.title-choice-overlay{display:none;position:fixed;inset:0;z-index:140;background:#020611d9;place-items:center;padding:18px}.title-choice-overlay.open{display:grid}.title-choice-window{width:min(520px,100%);max-height:min(75vh,620px);overflow:auto;border:1px solid #c6ff38;border-radius:16px;background:linear-gradient(145deg,#14234a,#080f24);box-shadow:0 0 28px #c6ff3855;padding:16px}.title-choice-window h3{margin:0 0 10px;color:#dfff8b;text-align:center}.title-choice-list button{display:block;width:100%;text-align:center;margin:5px 0;white-space:normal;overflow-wrap:anywhere}.title-choice-list button.selected{border-color:#c6ff38;background:#26375f;color:#dfff8b}.mission-tile-ready{border:2px solid #c6ff38!important;background:linear-gradient(135deg,#263b26,#0b1530)!important;box-shadow:0 0 16px #c6ff3866;animation:missionReadyPulse 1.5s ease-in-out infinite alternate}@keyframes missionReadyPulse{to{box-shadow:0 0 23px #c6ff38a0;filter:brightness(1.13)}}.mission-claim-ready{border-color:#c6ff38!important;background:#38551c!important;color:#f4ffd9!important;box-shadow:0 0 12px #c6ff3877}.feature-modal.quiz-active #featureHeading{margin-bottom:8px}.feature-modal.quiz-active #featureContent{padding-top:4px}.feature-modal.quiz-active .mask-quiz-intro{margin-top:3px;margin-bottom:3px}.feature-content button:disabled{opacity:.4;cursor:not-allowed}.feature-video{display:flex;align-items:center;gap:10px;padding:8px;border-bottom:1px solid #7184b833}.feature-video img{width:92px;aspect-ratio:16/9;object-fit:cover;border-radius:7px}.feature-video a{color:#eaffb5;overflow-wrap:anywhere}.profile-video-title{color:#fff;overflow-wrap:anywhere;font-weight:650}.feature-progress{height:9px;background:#26375f;border-radius:20px;overflow:hidden;margin:7px 0}.feature-progress span{display:block;height:100%;background:linear-gradient(90deg,#8dff00,#43f4ff)}.feature-question{font-size:1.2rem;font-weight:900;margin:12px 0}.feature-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.feature-options button{text-align:left;min-height:48px}.feature-muted{color:#aab7d7;font-size:.86rem}
+@media(max-width:600px){.feature-dialog{padding:14px}.feature-options{grid-template-columns:1fr}.feature-head{top:-14px}.feature-video img{width:76px}}
+
+
+.mission-reward-fx{position:absolute;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle,rgba(198,255,56,.20),rgba(2,6,17,.72) 68%);opacity:0;transition:opacity .22s ease}.mission-reward-fx.show{opacity:1}.mission-reward-burst{min-width:min(82vw,390px);padding:26px 20px;text-align:center;border:2px solid #dfff8b;border-radius:22px;background:linear-gradient(145deg,#263b26,#101e43 70%);box-shadow:0 0 25px #c6ff38,0 0 65px #c6ff3888;transform:scale(.55) rotate(-5deg);opacity:0}.mission-reward-fx.show .mission-reward-burst{animation:missionRewardPop .75s cubic-bezier(.16,1.4,.35,1) forwards}.mission-reward-label{font-weight:1000;letter-spacing:.08em;color:#dfff8b;font-size:clamp(1rem,4vw,1.35rem);text-shadow:0 0 12px #c6ff38}.mission-reward-coins{margin:14px 0 4px;color:#fff;font-size:clamp(2.2rem,10vw,3.6rem);font-weight:1000;text-shadow:0 0 12px #ffe66d,0 0 28px #ffbd35}.mission-reward-caption{color:#dfff8b;font-weight:900;letter-spacing:.25em}@keyframes missionRewardPop{0%{transform:scale(.45) rotate(-7deg);opacity:0}65%{transform:scale(1.12) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}@media(prefers-reduced-motion:reduce){.mission-reward-fx,.mission-reward-burst{animation:none!important;transition:none!important;transform:none!important;opacity:1}}
 </style>
 </head>
 <body>
@@ -375,7 +400,7 @@ footer p{margin:4px 0}
   </section>
   <section class="machine" aria-label="ガチャマシン">
     <div class="machine-top">
-      <div class="machine-label">🧠 BIWACHAP GACHA MACHINE 🧠</div>
+      <div class="machine-label">🧠 BIWACHAP GACHA MACHINE 🧠 <button class="small-btn" type="button" data-feature-open="mission">📅 ミッション</button> <button class="small-btn" type="button" data-feature-open="profile">👤 琵琶ちゃぱー(琵琶ちゃぱー?)プロフィール</button></div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="counter" id="totalCounter">登録動画：-- 本</div><div class="counter" id="remainingCounter">残り動画：-- 本</div><div class="coin-counter" id="coinCounter">🪙 0 コイン</div><button class="small-btn" id="collectionBtn" type="button">📚 動画カード図鑑</button><button class="small-btn" id="titlesBtn" type="button">🏆 獲得した称号</button><button class="small-btn" id="resetGachaBtn" type="button">↻ ガチャをリセット</button></div>
     </div>
     <div class="buttons">
@@ -387,11 +412,13 @@ footer p{margin:4px 0}
       </button>
     </div>
     <div class="secondary-actions">
-      <div class="game-button-row"><button class="small-btn" id="openBeamGameBtn" type="button">🎮 SBT-毒電波避けゲーム-</button><button class="small-btn" id="openYearGameBtn" type="button">🐺 琵琶ちゃぷ動画投稿年人狼</button><button class="small-btn" id="openMemoryGameBtn" type="button">🃏 動画カード神経衰弱</button><button class="small-btn" id="openCookGameBtn" type="button">🍚 炊き込みゲーム</button><button class="small-btn" id="openHomePuzzleBtn" type="button">🏠 実家再現スライドパズル</button></div>
-      <button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button>
-      <button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button>
+      <div class="share-actions-group"><button class="small-btn" id="shareResultBtn" disabled>📣 結果画像をXで共有</button><button class="small-btn" id="shareImageBtn" disabled>🖼️ 結果画像を保存</button></div>
+      <div class="machine-notes">※重複なしで抽選します。引いた動画はリセットするまで再登場しません。<br>お気に入り・未視聴リストはこのブラウザ内に保存されます。</div>
     </div>
-    <p class="notice">※重複なしで抽選します。引いた動画はリセットするまで再登場しません。<br>お気に入り・未視聴リストはこのブラウザ内に保存されます。</p>
+    <div class="mini-game-zone">
+      <h3 class="mini-game-heading">🎮 ミニゲーム 🎮</h3>
+      <div class="game-button-row"><div class="game-button-line"><button class="small-btn" id="openBeamGameBtn" type="button">🎮 SBT-毒電波避けゲーム-</button><button class="small-btn" id="openYearGameBtn" type="button">🐺 琵琶ちゃぷ動画投稿年人狼</button><button class="small-btn" id="openMemoryGameBtn" type="button">🃏 動画カード神経衰弱</button><button class="small-btn" id="openCookGameBtn" type="button">🍚 炊き込みゲーム</button></div><div class="game-button-line"><button class="small-btn" id="openHomePuzzleBtn" type="button">🏠 実家再現スライドパズル</button><button class="small-btn" type="button" data-feature-open="quiz">🧩 覆面サムネクイズ</button></div></div>
+    </div>
   </section>
 
   <section id="resultSection" aria-live="polite">
@@ -401,6 +428,9 @@ footer p{margin:4px 0}
     </div>
   </section>
 
+
+
+<section class="feature-modal" id="featureModal" aria-hidden="true"><div class="feature-dialog" role="dialog" aria-modal="true" aria-labelledby="featureHeading"><div class="feature-head"><h2 id="featureHeading">✨ 琵琶ちゃぱー(琵琶ちゃぱー?)プロフィール</h2><button class="small-btn" id="closeFeaturesBtn" type="button">閉じる ✕</button></div><div class="feature-tabs" id="featureTabs"></div><div class="feature-content" id="featureContent"></div></div></section>
 
   <section class="two-panels">
     <div class="panel">
@@ -624,7 +654,7 @@ footer p{margin:4px 0}
     overlay.classList.remove("stage-one"); overlay.classList.add("stage-two");
     const lrSoundSequence = playLRSESequence();
     main.classList.remove("animate"); main.textContent = "LEGEND RARE"; void main.offsetWidth; main.classList.add("animate");
-    await Promise.all([wait(2200), lrSoundSequence]);
+    await Promise.all([wait(2750), lrSoundSequence]);
     overlay.classList.remove("show","stage-one","stage-two"); overlay.setAttribute("aria-hidden", "true");
     lanes.innerHTML = ""; main.textContent = ""; cutinPending.delete(video.id);
   }
@@ -667,7 +697,7 @@ footer p{margin:4px 0}
   function getUnviewed() { return readStorage(STORAGE.unviewed, []); }
   function isFavorite(id) { return getFavorites().some(v => v.id === id); }
   function isUnviewed(id) { return getUnviewed().some(v => v.id === id); }
-  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = id === "pullSE" ? 1.25 : 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
+  function playSE(id) { const a=$(id); if(!a) return; try { a.volume = Number($("seVolume")?.value ?? 0.2); a.playbackRate = id === "pullSE" ? 1.125 : 1; a.currentTime=0; a.play().catch(()=>{}); } catch(_){} }
   async function playLRSESequence() {
     const first = $("seLR"), second = $("seLRFlip");
     if (!first) return;
@@ -676,8 +706,8 @@ footer p{margin:4px 0}
         await new Promise(resolve => { const done=()=>resolve(); first.addEventListener("loadedmetadata", done, {once:true}); first.addEventListener("error", done, {once:true}); setTimeout(done, 1000); });
       }
       first.volume = Number($("seVolume")?.value ?? 0.2);
-      // LR演出の発光アニメーション（2.2秒）に音声全体を合わせる。
-      first.playbackRate = Number.isFinite(first.duration) && first.duration > 0 ? Math.max(0.25, Math.min(4, first.duration / 2.2)) : 1;
+      // LR演出を従来の1.25倍（2.75秒）に延長し、音声も同じ長さに合わせる。
+      first.playbackRate = Number.isFinite(first.duration) && first.duration > 0 ? Math.max(0.25, Math.min(4, first.duration / 2.75)) : 1;
       first.currentTime = 0;
       await first.play();
       await new Promise(resolve => { first.addEventListener("ended", resolve, {once:true}); first.addEventListener("error", resolve, {once:true}); });
@@ -714,6 +744,7 @@ footer p{margin:4px 0}
         ${rarity ? `<div class="rarity-label">${escapeHtml(RARITY_TEXT[rarity] || rarity)}</div>` : ""}
         ${video.rarityUpgradeFrom ? `<div class="rarity-upgrade-notice">📚 図鑑更新！ ${escapeHtml(video.rarityUpgradeFrom)} → ${escapeHtml(rarity)}</div>` : ""}
         <p class="video-title">${escapeHtml(video.title)}</p>
+        ${video.duration ? `<div class="video-duration">⏱ 動画時間：${escapeHtml(video.duration)}</div>` : `<div class="video-duration is-unknown">⏱ 動画時間：未登録</div>`}
         <div class="card-actions">
           <a class="watch" data-video-id="${escapeHtml(video.id)}" href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">▶ 動画サイトで見る（+1,500コイン）</a>
           <button class="favorite ${fav ? "is-fav" : ""}" type="button" aria-pressed="${fav}">${fav ? "♥ これ好き" : "♡ これ好き"}</button>
@@ -817,9 +848,11 @@ footer p{margin:4px 0}
   }
   function toggleFavorite(video) {
     let favorites = getFavorites();
-    if (favorites.some(v => v.id === video.id)) { favorites = favorites.filter(v => v.id !== video.id); showToast("「これ好き」から外しました"); }
+    const wasFavorite = favorites.some(v => v.id === video.id);
+    if (wasFavorite) { favorites = favorites.filter(v => v.id !== video.id); showToast("「これ好き」から外しました"); }
     else { favorites.unshift({ title: video.title, url: video.url, id: video.id }); showToast("💚「これ好き」に登録しました！"); }
     writeStorage(STORAGE.favorites, favorites); renderFavorites(); refreshVisibleCards(); updateCardToggleState(video); evaluateAchievements();
+    if (!wasFavorite) window.biwachapTrackFavoriteMission?.();
   }
   function toggleUnviewed(video) {
     let list = getUnviewed();
@@ -1067,14 +1100,14 @@ footer p{margin:4px 0}
     const overlay = $("gachaOverlay");
     $("overlayTitle").textContent = count === 10 ? "10連!!" : "GACHA!!";
     $("overlaySub").textContent = count === 10 ? "10本の動画を一気に召喚中…" : "運命の一本を召喚中…";
-    const pullDuration = 2500;
+    const pullDuration = Math.round(2500 / 1.125);
     const progressBar = overlay.querySelector(".overlay-bar span");
     progressBar.style.transition="none";
     progressBar.style.width="0";
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden","false");
     requestAnimationFrame(()=>{
-      progressBar.style.transition="width 1.8s linear";
+      progressBar.style.transition="width 1.6s linear";
       progressBar.style.width="40%";
     });
     // 残り動画から重複なしで抽選。残りが10本未満なら残りすべてを引く。
@@ -1095,10 +1128,10 @@ footer p{margin:4px 0}
     pickedIds.forEach(id => lifetimeGachaIds.add(id));
     writeStorage(STORAGE.gachaTitlePulledIds, [...lifetimeGachaIds]);
     writeStorage(STORAGE.pullCount, Number(readStorage(STORAGE.pullCount, 0)) + actualCount);
-    await wait(1800);
-    progressBar.style.transition="width .7s ease-out";
+    await wait(1600);
+    progressBar.style.transition="width .622s ease-out";
     progressBar.style.width="100%";
-    await wait(700);
+    await wait(622);
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden","true");
     progressBar.style.width="0";
@@ -1438,6 +1471,7 @@ footer p{margin:4px 0}
     }));
     const cutinOutcome = await cutinOutcomePromise;
     poolInitialized = true;
+    window.biwachapGetAllVideos = () => videos.map(v => ({...v}));
     if (!videos.length) {
       $("poolStatus").textContent = "CSVを読み込んでください";
       $("loadMessage").textContent = "動画データを自動読み込みできませんでした。GitHub PagesなどのWebサーバー上で開いているか確認してください。";
@@ -1624,6 +1658,90 @@ footer p{margin:4px 0}
  modal.querySelector('[data-close-modal]')?.addEventListener('click',()=>{modal.classList.remove('show');modal.setAttribute('aria-hidden','true')});
  modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('show');modal.setAttribute('aria-hidden','true')}});
  initializeGame();
+})();
+</script>
+
+
+<script>
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id), KEY='biwachapExtraFeatures_v1';
+ const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){return {}}};
+ const save=x=>localStorage.setItem(KEY,JSON.stringify(x));
+ const today=()=>new Date().toLocaleDateString('sv-SE');
+ const week=()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.toLocaleDateString('sv-SE')};
+ let state=read(),active='profile',videos=[],quizVideo=null,electionPair=null;
+ const tabs=[['profile','👤 琵琶ちゃぱー(琵琶ちゃぱー?)プロフィール'],['mission','📅 ミッション'],['quiz','🧩 覆面サムネクイズ']];
+ const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const thumb=v=>v.platform==='niconico'?`https://nicovideo.cdn.nimg.jp/thumbnails/${String(v.id).replace(/^[a-z]+/i,'')}/${String(v.id).replace(/^[a-z]+/i,'')}`:`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
+ const get=(key,def)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??def}catch(_){return def}};
+ const earned=()=>get('biwachapGachaAchievements_v1',[]);
+ const allVideos=()=>{const a=window.biwachapGetAllVideos?.();if(Array.isArray(a)&&a.length)return a;const map=new Map();document.querySelectorAll('.video-card').forEach(c=>{const a=c.querySelector('.watch');if(!a)return;const id=a.dataset.videoId;if(!id)return;map.set(id,{id,title:c.querySelector('.video-title')?.textContent||'動画',url:a.href,genre:c.querySelector('.genre-tag')?.textContent||'その他',platform:a.href.includes('nicovideo')?'niconico':'youtube'});});return [...map.values()]};
+ const ensure=()=>{state=read();if(!state.stamps)state.stamps=[];if(!state.votes)state.votes={};if(!state.missions)state.missions={};if(state.dailyDate!==today()){state.dailyDate=today();state.daily={pull:0,fav:0,recommend:0};}if(state.weekDate!==week()){state.weekDate=week();state.weekly={pull:0,fav:0,recommend:0};}if(!state.daily)state.daily={pull:0,fav:0,recommend:0};if(!state.weekly)state.weekly={pull:0,fav:0,recommend:0};if(!state.packOpened)state.packOpened=0;if(!state.quizCorrect)state.quizCorrect=0;if(!state.equipped)state.equipped='';save(state)};
+ const renderTabs=()=>{$('featureTabs').innerHTML='';};
+ const progress=(n,max)=>`<div class="feature-progress"><span style="width:${Math.min(100,100*n/max)}%"></span></div>`;
+ const videoRow=v=>`<div class="feature-video"><img src="${thumb(v)}" alt="" loading="lazy"><div class="profile-video-title">${esc(v.title)}</div></div>`;
+ function availableTitles(){const ids=earned();const names={'pull-30':'駆け出し琵琶ちゃぱー','pull-100':'期待の新星琵琶ちゃぱー','pull-200':'頼れる中堅琵琶ちゃぱー','pull-300':'もはやベテラン琵琶ちゃぱー','pull-400':'これぞエキスパート琵琶ちゃぱー'};const out=Object.entries(names).filter(([id])=>ids.includes(id)).map(([,name])=>name);document.querySelectorAll('#titlesList .title-entry:not(.locked)').forEach(row=>{const n=row.querySelector('strong')?.textContent?.replace(/^🏆\s*/,'').trim();if(n&&!out.includes(n))out.push(n)});return out}
+ function profile(){const pulls=Number(get('biwachapGachaPullCount_v1',0))||0,collection=get('biwachapGachaCollection_v1',{}),fav=get('biwachapGachaFavorites_v1',[]),unview=get('biwachapGachaUnviewed_v1',[]),coins=Number(get('biwachapGachaCoins_v1',0))||0;const counts={N:0,R:0,SR:0,UR:0,LR:0};Object.values(collection).forEach(x=>{if(counts[x.rarity]!=null)counts[x.rarity]++});const equipped=state.equipped||'未装備';return `<div class="feature-grid profile-main-stats"><div class="feature-tile"><strong>🎰 累計ガチャ</strong>${pulls} 回</div><div class="feature-tile"><strong>📚 動画カード</strong>${Object.keys(collection).length} / ${videos.length} 枚</div><div class="feature-tile"><strong>💚 これ好き</strong>${fav.length} 本</div><div class="feature-tile"><strong>🔖 未視聴リスト</strong>${unview.length} 本</div></div><div class="feature-grid profile-secondary-stats"><div class="feature-tile"><strong>🪙 所持コイン</strong>${coins.toLocaleString()} 枚</div><div class="feature-tile equipped-title-tile"><strong>🏅 装備中の称号</strong><button type="button" class="equipped-title-display" id="equippedTitleButton" aria-expanded="false">${esc(equipped)}</button><div class="title-choice-overlay" id="titleChoiceOverlay"><div class="title-choice-window" role="dialog" aria-modal="true" aria-label="獲得済み称号一覧"><h3>🏆 獲得済み称号一覧</h3><div class="title-choice-list">${['',...[...new Set([...availableTitles(),...(state.quizSecretTitles||[])])]].map(t=>`<button type="button" data-equip-title="${esc(t)}" class="${(state.equipped||'')===t?'selected':''}">${esc(t||'称号未装備')}</button>`).join('')}</div><button type="button" id="closeTitleChoices" style="width:100%;margin-top:8px">閉じる</button></div></div></div><div class="feature-tile"><strong>🧠 覆面サムネクイズ最大連続正解数</strong>${Number(state.quizMaxStreak||0)} 回</div></div><h3>レアリティ別コレクション</h3><div class="feature-grid">${Object.entries(counts).map(([k,n])=>`<div class="feature-tile"><strong>${k}</strong>${n} 枚</div>`).join('')}</div><h3>お気に入り動画 TOP 5</h3>${fav.slice(0,5).map(f=>videoRow(videos.find(v=>v.id===f.id)||f)).join('')||'<p class="feature-muted">まだ登録がありません。</p>'}<div class="feature-actions"><button id="saveProfileImage">🖼️ プロフィール画像を保存</button><button id="shareProfileX">𝕏 プロフィールをXでポスト</button></div><p class="feature-muted">データはこのブラウザ内に保存されます。別端末・別ブラウザとは共有されません。</p>`}
+ function pack(){return `<p>通常ガチャとは別枠の特別パック。ジャンルを選んで、まだ引いていない動画をランダムに1本開封します。</p><div class="feature-actions"><select id="packGenre"><option value="all">全ジャンル</option><option value="challenge">企画</option><option value="game">ゲーム</option><option value="talk">お話</option></select><button id="openSecretPack">🎁 シークレットパックを開封</button></div><p>開封回数：${state.packOpened} 回</p><div id="packResult"></div><p class="feature-muted">開封履歴はこのブラウザに保存されます。動画の通常ガチャ抽選状態には影響しません。</p>`}
+ function stamp(){const done=new Set(state.stamps);const groups=[['challenge','🎉 企画動画'],['game','🎮 ゲーム動画'],['talk','💬 お話動画']];return `<p>動画サイトで実際に視聴したら「視聴済みにする」を押してスタンプを集めよう。</p>${groups.map(([g,label])=>{const list=videos.filter(v=>v.genreType===g||String(v.genre).includes(label.slice(2)));const n=list.filter(v=>done.has(v.id)).length;return `<div class="feature-tile"><strong>${label}</strong>${n} / ${list.length} 本 ${progress(n,Math.max(1,list.length))}</div>`}).join('')}<h3>動画スタンプ一覧</h3><div class="feature-actions"><input id="stampSearch" placeholder="動画タイトルで検索" style="flex:1;min-width:160px"></div><div id="stampList">${videos.map(v=>`<div class="feature-video"><img src="${thumb(v)}" alt=""><div style="flex:1"><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><div class="feature-muted">${done.has(v.id)?'✅ スタンプ獲得済み':'未獲得'}</div></div><button data-stamp="${esc(v.id)}" ${done.has(v.id)?'disabled':''}>${done.has(v.id)?'獲得済み':'視聴済みにする'}</button></div>`).join('')}</div><p class="feature-muted">検索欄で動画タイトルを絞り込めます。</p>`}
+ function mission(){if(state.dailyDate!==today()){state.dailyDate=today();state.daily={pull:0,fav:0,recommend:0};}if(state.weekDate!==week()){state.weekDate=week();state.weekly={pull:0,fav:0,recommend:0};}save(state);const daily=[['pull','ガチャを1回引く',1],['fav','動画を1本「これ好き」に登録',1],['recommend','「今日のおすすめ動画」を視聴',1]],weekly=[['pull','ガチャを10回引く',10],['fav','動画を5本「これ好き」に登録',5],['recommend','「今日のおすすめ動画」を7回視聴',7]];const block=(kind,name,arr,obj)=>{const period=kind==='daily'?today():week(),claimKey=kind==='daily'?'dailyMissionClaims':'weeklyMissionClaims',claims=state[claimKey]||{};return `<div class="mission-head"><h3>${name}</h3></div><div class="feature-grid">${arr.map(([k,label,max])=>{const n=Math.min(max,Number(obj[k]||0)),done=n>=max,claimed=claims[period]?.includes(k);return `<div class="feature-tile ${done&&!claimed?'mission-tile-ready mission-tile-claimable':''} ${claimed?'mission-tile-claimed':''}" ${done&&!claimed?`role="button" tabindex="0" data-claim-mission="${kind}" data-mission-key="${k}"`:''}><strong>${done?'✅':'🎯'} ${label}</strong>${n} / ${max}${progress(n,max)}${done?`<small>${claimed?'報酬受取済み':'達成！ タップして報酬を受け取る'}</small>`:''}<small>報酬：${kind==='daily'?500:1500}コイン</small></div>`}).join('')}</div>`};return `<p>達成したミッションをクリック／タップすると、そのミッションの報酬を受け取れます。デイリーは毎日、ウィークリーは毎週月曜に更新。</p>${block('daily','🌞 デイリーミッション',daily,state.daily)}${block('weekly','✨ ウィークリーミッション',weekly,state.weekly)}<p class="feature-muted">報酬はミッションごとに受け取れます。受取状況はデイリー・ウィークリーの更新時にリセットされます。</p>`}
+ function quiz(){return `<p class="mask-quiz-intro">黒いマスクの穴から見えるサムネイルを手がかりに、動画タイトルを当てよう！サムネイル全体の約10%だけが見えるよ。</p><p class="feature-muted">※サムネイル画像が表示されない場合は「別の問題を表示」ボタンから問題を変更してください。</p><div id="quizArea"></div>`}
+ function election(){const ranked=Object.entries(state.votes).sort((a,b)=>b[1]-a[1]).slice(0,20);return `<p>ランダムに選ばれた2本の動画から好きな方へ投票。投票数は自分のブラウザ内で集計されます。</p><div class="feature-actions"><button id="newElection">次の対戦カード</button></div><div id="electionArea"></div><h3>あなたの動画総選挙 TOP 20</h3>${ranked.map(([id,n],i)=>{const v=videos.find(x=>x.id===id);return v?`<div class="feature-video"><b>${i+1}位</b><img src="${thumb(v)}" alt=""><div><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><div class="feature-muted">${n} 票</div></div></div>`:''}).join('')||'<p class="feature-muted">まだ投票がありません。</p>'}`}
+ async function saveProfileImage(){const pulls=Number(get('biwachapGachaPullCount_v1',0))||0,collection=get('biwachapGachaCollection_v1',{}),fav=get('biwachapGachaFavorites_v1',[]),unview=get('biwachapGachaUnviewed_v1',[]),coins=Number(get('biwachapGachaCoins_v1',0))||0;const c=document.createElement('canvas');c.width=1200;c.height=1500;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,1200,1500);g.addColorStop(0,'#101a3a');g.addColorStop(1,'#172754');x.fillStyle=g;x.fillRect(0,0,1200,1500);x.textAlign='center';x.fillStyle='#c6ff38';x.font='900 58px sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';x.fillText('BIWACHAP PROFILE',600,110);x.fillStyle='#fff';x.font='bold 34px sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';x.fillText(state.equipped||'称号未装備',600,190);const stats=[['🎰 累計ガチャ',pulls+' 回'],['📚 動画カード',Object.keys(collection).length+' / '+videos.length+' 枚'],['💚 これ好き',fav.length+' 本'],['🔖 未視聴',unview.length+' 本'],['🪙 所持コイン',coins.toLocaleString()+' 枚'],['🧠 覆面サムネクイズ最大連続正解',Number(state.quizMaxStreak||0)+' 回']];stats.forEach((a,i)=>{const col=i%2,row=Math.floor(i/2),xx=100+col*520,yy=300+row*180;x.fillStyle='#0b1530';x.fillRect(xx,yy,480,130);x.strokeStyle='#7184b8';x.strokeRect(xx,yy,480,130);x.fillStyle='#dfff8b';x.font='bold 28px sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';x.fillText(a[0],xx+240,yy+48);x.fillStyle='#fff';x.font='bold 38px sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';x.fillText(a[1],xx+240,yy+100)});x.fillStyle='#dfff8b';x.font='bold 34px sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"';x.fillText('お気に入り TOP 5',600,930);fav.slice(0,5).forEach((v,i)=>{x.fillStyle='#fff';x.font='26px sans-serif';x.textAlign='left';x.fillText(`${i+1}. ${v.title}`,120,1000+i*68,960)});const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='biwachap-profile.png';a.click();showToast('プロフィール画像を保存しました！')}
+ function shareProfileX(){const pulls=Number(get('biwachapGachaPullCount_v1',0))||0,collection=get('biwachapGachaCollection_v1',{}),fav=get('biwachapGachaFavorites_v1',[]),coins=Number(get('biwachapGachaCoins_v1',0))||0;const text=`琵琶ちゃぱー(琵琶ちゃぱー?)プロフィール\n称号：${state.equipped||'未装備'}\nガチャ：${pulls}回／カード：${Object.keys(collection).length}枚\nこれ好き：${fav.length}本／コイン：${coins}枚\n#琵琶ちゃぷ`;window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank','noopener,noreferrer')}
+ function render(){ensure();videos=allVideos();renderTabs();$('featureHeading').textContent=(tabs.find(x=>x[0]===active)||tabs[0])[1];$('featureModal').classList.toggle('quiz-active',active==='quiz');const content=$('featureContent');const views={profile,mission,quiz};try{const view=views[active]||profile;content.innerHTML=view();bind();}catch(err){console.error('追加機能の表示エラー:',err);content.innerHTML='<p class="feature-muted">この機能の表示中にエラーが発生しました。ページを再読み込みしてください。</p>';}}
+ function bind(){const $c=$('featureContent');$c.querySelector('#openSecretPack')?.addEventListener('click',()=>{const g=$c.querySelector('#packGenre').value;const pool=videos.filter(v=>(g==='all'||v.genreType===g)&&!get('biwachapGachaPulledIds_v1',[]).includes(v.id));const v=pool[Math.floor(Math.random()*pool.length)];if(!v){$('packResult').textContent='対象動画がありません。通常ガチャをリセットするか、ジャンルを変更してください。';return}state.packOpened++;save(state);$('packResult').innerHTML=`<div class="feature-tile"><strong>🎉 シークレットパック開封！</strong>${videoRow(v)}</div>`;});
+ $c.querySelectorAll('[data-stamp]').forEach(b=>b.onclick=()=>{const id=b.dataset.stamp;if(state.stamps.includes(id))return;state.stamps.push(id);b.disabled=true;b.textContent='獲得済み';b.previousElementSibling.querySelector('.feature-muted').textContent='✅ スタンプ獲得済み';state.daily.stamp=(state.daily.stamp||0)+1;state.weekly.stamp=(state.weekly.stamp||0)+1;save(state)});
+ $c.querySelector('#stampSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();$c.querySelectorAll('#stampList .feature-video').forEach(row=>row.hidden=!row.textContent.toLowerCase().includes(q))});
+ function showMissionReward(amount,kind){const old=document.getElementById('missionRewardFx');if(old)old.remove();const layer=document.createElement('div');layer.id='missionRewardFx';layer.className='mission-reward-fx';layer.innerHTML=`<div class="mission-reward-burst"><div class="mission-reward-label">${kind==='daily'?'DAILY MISSION CLEAR!':'WEEKLY MISSION CLEAR!'}</div><div class="mission-reward-coins">🪙 +${amount.toLocaleString()}</div><div class="mission-reward-caption">COINS GET!</div></div>`;const host=document.querySelector('#featureModal .feature-dialog');(host||document.body).appendChild(layer);requestAnimationFrame(()=>layer.classList.add('show'));setTimeout(()=>{layer.classList.remove('show');setTimeout(()=>layer.remove(),450)},2100);showToast(`✨ ミッション報酬 ${amount.toLocaleString()}コイン獲得！`)}
+ const claimMission=(kind,key)=>{
+  const period=kind==='daily'?today():week();
+  const claimKey=kind==='daily'?'dailyMissionClaims':'weeklyMissionClaims';
+  const obj=state[kind]||{};
+  const goals=kind==='daily'?{pull:1,fav:1,recommend:1}:{pull:10,fav:5,recommend:7};
+  const reward=kind==='daily'?500:1500;
+  if(!goals[key]||Number(obj[key]||0)<goals[key])return;
+  state[claimKey]=state[claimKey]||{};
+  state[claimKey][period]=state[claimKey][period]||[];
+  if(state[claimKey][period].includes(key))return showToast('このミッションの報酬は受取済みです。');
+  // 先に受取済み状態を保存し、表示を更新して二重受取を防ぐ。
+  state[claimKey][period].push(key);
+  save(state);
+  window.biwachapPlayGameSE?.('se-mission-clear.mp3');
+  // コイン管理は別スクリプトの公開APIを通して行う（内部関数には直接触れない）。
+  if(typeof window.biwachapAwardCoins==='function'){
+    window.biwachapAwardCoins(reward,kind==='daily'?'デイリーミッション達成報酬':'ウィークリーミッション達成報酬');
+  }else{
+    console.error('コイン報酬関数 biwachapAwardCoins が見つかりません');
+    showToast('コインの加算に失敗しました。ページを再読み込みしてください。');
+  }
+  render();
+  showMissionReward(reward,kind);
+ };
+ $c.querySelectorAll('[data-claim-mission]').forEach(tile=>{const act=()=>claimMission(tile.dataset.claimMission,tile.dataset.missionKey);tile.addEventListener('click',act);tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}})});
+ $c.querySelector('#equippedTitleButton')?.addEventListener('click',()=>{$c.querySelector('#titleChoiceOverlay')?.classList.add('open')});
+ $c.querySelector('#closeTitleChoices')?.addEventListener('click',()=>{$c.querySelector('#titleChoiceOverlay')?.classList.remove('open')});
+ $c.querySelector('#titleChoiceOverlay')?.addEventListener('click',e=>{if(e.target.id==='titleChoiceOverlay')e.currentTarget.classList.remove('open')});
+ $c.querySelectorAll('[data-equip-title]').forEach(b=>b.addEventListener('click',()=>{state.equipped=b.dataset.equipTitle;save(state);render()}));
+ $c.querySelector('#saveProfileImage')?.addEventListener('click',saveProfileImage);$c.querySelector('#shareProfileX')?.addEventListener('click',shareProfileX);
+ const startQuiz=()=>{const pool=videos.filter(v=>['challenge','game','talk'].includes(v.genreType));if(!pool.length){$('quizArea').textContent='動画データを読み込めませんでした。';return}const last=quizVideo?.id;let candidates=pool.filter(v=>v.id!==last);if(!candidates.length)candidates=pool;const v=candidates[Math.floor(Math.random()*candidates.length)],genre=v.genreType;quizVideo=v;const same=shuffle(pool.filter(x=>x.id!==v.id&&x.genreType===genre)).slice(0,3);if(same.length<3){$('quizArea').textContent='同じジャンルの選択肢が不足しています。';return}const choices=shuffle([v,...same]);const holes=[];for(let i=0;i<10;i++)holes.push({x:5+Math.random()*90,y:5+Math.random()*90,r:4.1});const circles=holes.map(h=>`<circle cx="${h.x.toFixed(1)}" cy="${h.y.toFixed(1)}" r="${h.r}" fill="black"/>`).join('');const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 56.25" preserveAspectRatio="none"><defs><mask id="m"><rect width="100" height="56.25" fill="white"/>${circles}</mask></defs><rect width="100" height="56.25" fill="#02040a" mask="url(#m)"/></svg>`;const cover='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);const streak=Number(state.quizStreak||0),level=streak>=30?3:streak>=20?2:streak>=10?1:0;$('quizArea').innerHTML=`<div class="feature-tile"><div class="mosaic-frame"><img src="${thumb(v)}" alt="一部だけ見えるサムネイル"><img class="mosaic-cover" id="quizMask" src="${cover}" alt="黒いマスク"></div><div class="quiz-streak level-${level}" id="quizStreakLive">連続正解：${streak}回目</div><div class="quiz-question-row"><div class="feature-question">この動画のタイトルは？</div><div id="quizFeedback" class="quiz-feedback"></div><button class="small-btn" id="nextMaskQuestion">別の問題を表示</button></div><div class="feature-options quiz-options">${choices.map(x=>`<button data-answer="${esc(x.id)}">${esc(x.title)}</button>`).join('')}</div></div>`;$('nextMaskQuestion').onclick=startQuiz;$('quizArea').querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{if($('quizFeedback').textContent)return;const ok=b.dataset.answer===v.id;const all=$('quizArea').querySelectorAll('[data-answer]');$('quizMask')?.remove();all.forEach(x=>{x.disabled=true;if(x.dataset.answer===v.id)x.classList.add('correct-answer');if(x===b&&!ok)x.classList.add('wrong-answer')});const sound=new Audio(ok?'se-mask_ok.mp3':'se-mask_ng.mp3');sound.play().catch(()=>{});if(ok){state.quizStreak=(Number(state.quizStreak)||0)+1;state.quizCorrect=(Number(state.quizCorrect)||0)+1;state.quizMaxStreak=Math.max(Number(state.quizMaxStreak)||0,state.quizStreak);const st=state.quizStreak,milestones=[10,20,30,40,50],passed=milestones.filter(n=>st>=n&&!((state.quizMilestones||[]).includes(n)));if(!state.quizMilestones)state.quizMilestones=[];passed.forEach(n=>{state.quizMilestones.push(n);const title=`覆面サムネクイズ連続正解 ${n}`;if(!state.quizSecretTitles)state.quizSecretTitles=[];if(!state.quizSecretTitles.includes(title))state.quizSecretTitles.push(title);showToast(`🏆 秘密の称号「${title}」を獲得！`)});const reward=100+Math.min(5,Math.floor(st/10))*50;save(state);window.biwachapAwardCoins?.(reward,'覆面サムネクイズ正解');}else{state.quizStreak=0;save(state)}const now=Number(state.quizStreak)||0,lv=now>=30?3:now>=20?2:now>=10?1:0;$('quizStreakLive').textContent=`連続正解：${now}回目`;$('quizStreakLive').className=`quiz-streak level-${lv}`;$('quizFeedback').textContent=ok?'🎉 正解！':'😢 残念…！';$('quizFeedback').classList.add('quiz-feedback')})};if($c.querySelector('#quizArea'))startQuiz();
+ $c.querySelector('#newElection')?.addEventListener('click',()=>{if(videos.length<2)return;const pair=shuffle(videos.slice()).slice(0,2);electionPair=pair;$('electionArea').innerHTML=pair.map(v=>`<div class="feature-tile"><img src="${thumb(v)}" alt="" style="width:100%;aspect-ratio:16/9;object-fit:contain"><strong>${esc(v.title)}</strong><button data-vote="${esc(v.id)}">この動画に投票！</button></div>`).join('');$('electionArea').className='feature-grid';$('electionArea').querySelectorAll('[data-vote]').forEach(b=>b.onclick=()=>{const id=b.dataset.vote;state.votes[id]=(state.votes[id]||0)+1;save(state);$('electionArea').textContent='投票ありがとう！';});});
+ }
+ function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+ document.querySelectorAll('[data-feature-open]').forEach(b=>b.addEventListener('click',()=>{active=b.dataset.featureOpen;videos=allVideos();$('featureModal').classList.add('show');$('featureModal').setAttribute('aria-hidden','false');render()}));$('closeFeaturesBtn')?.addEventListener('click',()=>{$('featureModal').classList.remove('show');$('featureModal').setAttribute('aria-hidden','true')});$('featureModal')?.addEventListener('click',e=>{if(e.target.id==='featureModal'){$('featureModal').classList.remove('show');$('featureModal').setAttribute('aria-hidden','true')}});
+ // お気に入り登録の成功時だけ、ミッション進捗を加算する（解除時は加算しない）。
+ window.biwachapTrackFavoriteMission=()=>{
+   ensure();
+   state.daily.fav=(Number(state.daily.fav)||0)+1;
+   state.weekly.fav=(Number(state.weekly.fav)||0)+1;
+   save(state);
+   if($('featureModal')?.classList.contains('show')&&active==='mission')render();
+ };
+ // ミッションはガチャ・お気に入り操作を監視して進捗に反映。
+ document.addEventListener('click',e=>{const t=e.target;if(t.closest('#dailyRecommendation a.watch, #dailyRecommendation a.open-video')){ensure();state.daily.recommend=(state.daily.recommend||0)+1;state.weekly.recommend=(state.weekly.recommend||0)+1;save(state)}if(t.closest('#singleBtn,#tenBtn')){ensure();state.daily.pull=(state.daily.pull||0)+(t.closest('#tenBtn')?10:1);state.weekly.pull=(state.weekly.pull||0)+(t.closest('#tenBtn')?10:1);save(state)} });
+ const origTitleBtn=$('titlesBtn');origTitleBtn?.addEventListener('click',()=>{setTimeout(()=>{if(active==='title')render()},50)});
+ setInterval(()=>{if(!$('featureModal')?.classList.contains('show'))return;const n=allVideos().length;if(n!==videos.length){videos=allVideos();render()}},3000);
 })();
 </script>
 
